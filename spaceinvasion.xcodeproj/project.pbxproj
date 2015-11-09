@@ -8,14 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		E24A36A91BEEA96E008042E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36A81BEEA96E008042E0 /* AppDelegate.swift */; };
-		E24A36AB1BEEA96E008042E0 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E24A36AA1BEEA96E008042E0 /* GameScene.sks */; };
-		E24A36AD1BEEA96E008042E0 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36AC1BEEA96E008042E0 /* GameScene.swift */; };
+		E24A36AD1BEEA96E008042E0 /* TitleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36AC1BEEA96E008042E0 /* TitleScene.swift */; };
 		E24A36AF1BEEA96E008042E0 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36AE1BEEA96E008042E0 /* GameViewController.swift */; };
 		E24A36B11BEEA96E008042E0 /* Game.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E24A36B01BEEA96E008042E0 /* Game.xcassets */; };
 		E24A36B41BEEA96E008042E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E24A36B21BEEA96E008042E0 /* Main.storyboard */; };
 		E24A36B61BEEA96E008042E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E24A36B51BEEA96E008042E0 /* Assets.xcassets */; };
 		E24A36C11BEEA96E008042E0 /* spaceinvasionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36C01BEEA96E008042E0 /* spaceinvasionTests.swift */; };
 		E24A36CC1BEEA96E008042E0 /* spaceinvasionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36CB1BEEA96E008042E0 /* spaceinvasionUITests.swift */; };
+		E24A36DA1BEFAD9B008042E0 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36D91BEFAD9B008042E0 /* GameScene.swift */; };
+		E24A36DF1BEFD0B3008042E0 /* ShipSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36DE1BEFD0B3008042E0 /* ShipSpriteNode.swift */; };
+		E24A36E21BEFE86B008042E0 /* CGPoint+Vectors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36E11BEFE86B008042E0 /* CGPoint+Vectors.swift */; };
+		E24A36E61BEFF7C3008042E0 /* ShipMissileSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36E51BEFF7C3008042E0 /* ShipMissileSpriteNode.swift */; };
+		E24A36E81BF037D9008042E0 /* InvaderSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36E71BF037D9008042E0 /* InvaderSpriteNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,8 +42,7 @@
 /* Begin PBXFileReference section */
 		E24A36A51BEEA96E008042E0 /* spaceinvasion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = spaceinvasion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E24A36A81BEEA96E008042E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E24A36AA1BEEA96E008042E0 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		E24A36AC1BEEA96E008042E0 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		E24A36AC1BEEA96E008042E0 /* TitleScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleScene.swift; sourceTree = "<group>"; };
 		E24A36AE1BEEA96E008042E0 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		E24A36B01BEEA96E008042E0 /* Game.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Game.xcassets; sourceTree = "<group>"; };
 		E24A36B31BEEA96E008042E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -51,6 +54,11 @@
 		E24A36C71BEEA96E008042E0 /* spaceinvasionUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = spaceinvasionUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E24A36CB1BEEA96E008042E0 /* spaceinvasionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = spaceinvasionUITests.swift; sourceTree = "<group>"; };
 		E24A36CD1BEEA96E008042E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E24A36D91BEFAD9B008042E0 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		E24A36DE1BEFD0B3008042E0 /* ShipSpriteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShipSpriteNode.swift; path = Sprites/ShipSpriteNode.swift; sourceTree = "<group>"; };
+		E24A36E11BEFE86B008042E0 /* CGPoint+Vectors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGPoint+Vectors.swift"; path = "Utilities/CGPoint+Vectors.swift"; sourceTree = "<group>"; };
+		E24A36E51BEFF7C3008042E0 /* ShipMissileSpriteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShipMissileSpriteNode.swift; path = Sprites/ShipMissileSpriteNode.swift; sourceTree = "<group>"; };
+		E24A36E71BF037D9008042E0 /* InvaderSpriteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvaderSpriteNode.swift; path = Sprites/InvaderSpriteNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,12 +109,14 @@
 		E24A36A71BEEA96E008042E0 /* spaceinvasion */ = {
 			isa = PBXGroup;
 			children = (
+				E24A36E01BEFE82C008042E0 /* Utilities */,
+				E24A36DD1BEFD049008042E0 /* Sprites */,
 				E24A36A81BEEA96E008042E0 /* AppDelegate.swift */,
-				E24A36AA1BEEA96E008042E0 /* GameScene.sks */,
-				E24A36AC1BEEA96E008042E0 /* GameScene.swift */,
 				E24A36AE1BEEA96E008042E0 /* GameViewController.swift */,
-				E24A36B01BEEA96E008042E0 /* Game.xcassets */,
+				E24A36AC1BEEA96E008042E0 /* TitleScene.swift */,
+				E24A36D91BEFAD9B008042E0 /* GameScene.swift */,
 				E24A36B21BEEA96E008042E0 /* Main.storyboard */,
+				E24A36B01BEEA96E008042E0 /* Game.xcassets */,
 				E24A36B51BEEA96E008042E0 /* Assets.xcassets */,
 				E24A36B71BEEA96E008042E0 /* Info.plist */,
 			);
@@ -129,6 +139,24 @@
 				E24A36CD1BEEA96E008042E0 /* Info.plist */,
 			);
 			path = spaceinvasionUITests;
+			sourceTree = "<group>";
+		};
+		E24A36DD1BEFD049008042E0 /* Sprites */ = {
+			isa = PBXGroup;
+			children = (
+				E24A36DE1BEFD0B3008042E0 /* ShipSpriteNode.swift */,
+				E24A36E51BEFF7C3008042E0 /* ShipMissileSpriteNode.swift */,
+				E24A36E71BF037D9008042E0 /* InvaderSpriteNode.swift */,
+			);
+			name = Sprites;
+			sourceTree = "<group>";
+		};
+		E24A36E01BEFE82C008042E0 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				E24A36E11BEFE86B008042E0 /* CGPoint+Vectors.swift */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,7 +264,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E24A36B41BEEA96E008042E0 /* Main.storyboard in Resources */,
-				E24A36AB1BEEA96E008042E0 /* GameScene.sks in Resources */,
 				E24A36B61BEEA96E008042E0 /* Assets.xcassets in Resources */,
 				E24A36B11BEEA96E008042E0 /* Game.xcassets in Resources */,
 			);
@@ -263,9 +290,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E24A36AD1BEEA96E008042E0 /* GameScene.swift in Sources */,
+				E24A36E81BF037D9008042E0 /* InvaderSpriteNode.swift in Sources */,
+				E24A36AD1BEEA96E008042E0 /* TitleScene.swift in Sources */,
+				E24A36E61BEFF7C3008042E0 /* ShipMissileSpriteNode.swift in Sources */,
 				E24A36AF1BEEA96E008042E0 /* GameViewController.swift in Sources */,
+				E24A36DA1BEFAD9B008042E0 /* GameScene.swift in Sources */,
+				E24A36E21BEFE86B008042E0 /* CGPoint+Vectors.swift in Sources */,
 				E24A36A91BEEA96E008042E0 /* AppDelegate.swift in Sources */,
+				E24A36DF1BEFD0B3008042E0 /* ShipSpriteNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,6 +518,7 @@
 				E24A36D21BEEA96E008042E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E24A36D31BEEA96E008042E0 /* Build configuration list for PBXNativeTarget "spaceinvasionTests" */ = {
 			isa = XCConfigurationList;
@@ -494,6 +527,7 @@
 				E24A36D51BEEA96E008042E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E24A36D61BEEA96E008042E0 /* Build configuration list for PBXNativeTarget "spaceinvasionUITests" */ = {
 			isa = XCConfigurationList;
@@ -502,6 +536,7 @@
 				E24A36D81BEEA96E008042E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
