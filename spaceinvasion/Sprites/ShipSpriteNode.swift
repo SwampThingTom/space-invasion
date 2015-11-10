@@ -12,6 +12,17 @@ enum MoveDirection: CGFloat {
     case Left = -1
     case None = 0
     case Right = 1
+    
+    func reverse() -> MoveDirection {
+        switch (self) {
+        case Left:
+            return Right
+        case Right:
+            return Left
+        case None:
+            return None
+        }
+    }
 }
 
 class ShipSpriteNode: SKSpriteNode {

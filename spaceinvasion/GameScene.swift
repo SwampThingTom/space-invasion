@@ -15,10 +15,15 @@ class GameScene: SKScene {
     let shipHorizontalMargin: CGFloat = 108
     let shipY: CGFloat = 100
     let playableAreaMaxY: CGFloat = 705
+    let invadersHorizontalMargin: CGFloat = 72
+    let invadersMinY: CGFloat = 135
+    let invadersMaxY: CGFloat = 605
     
     var ship: ShipSpriteNode?
     var shipMissile: ShipMissileSpriteNode?
+    var invaders: Invaders?
     
+    var level = 1
     var lastUpdateTime: CGFloat = 0
     
     // MARK: View lifecycle
@@ -36,6 +41,13 @@ class GameScene: SKScene {
         addChild(ship!)
         
         shipMissile = ShipMissileSpriteNode(maxY: playableAreaMaxY)
+        
+        invaders = Invaders(scene: self,
+            minX: invadersHorizontalMargin,
+            maxX: background.size.width - invadersHorizontalMargin,
+            minY: invadersMinY,
+            maxY: invadersMaxY)
+        invaders?.setupInvasionForLevel(level)
         
         let fireButtonGestureRecognizer = UITapGestureRecognizer(target: self, action: "fireButtonPressed")
         fireButtonGestureRecognizer.allowedPressTypes = [NSNumber(integer: UIPressType.Select.rawValue)]
@@ -107,5 +119,6 @@ class GameScene: SKScene {
         lastUpdateTime = CGFloat(currentTime)
         ship?.update(deltaTime)
         shipMissile?.update(deltaTime)
+        invaders?.update(deltaTime)
     }
 }

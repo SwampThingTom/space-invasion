@@ -25,7 +25,6 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
 import CoreGraphics
 
 func + (left: CGPoint, right: CGPoint) -> CGPoint {

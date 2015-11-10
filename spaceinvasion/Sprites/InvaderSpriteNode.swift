@@ -56,7 +56,7 @@ class InvaderSpriteNode: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(moveVector: CGPoint) {
+    func move(moveVector: CGPoint) {
         position += moveVector
         // TODO: Update animation frame
     }

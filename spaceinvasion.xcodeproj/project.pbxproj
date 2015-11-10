@@ -20,6 +20,8 @@
 		E24A36E21BEFE86B008042E0 /* CGPoint+Vectors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36E11BEFE86B008042E0 /* CGPoint+Vectors.swift */; };
 		E24A36E61BEFF7C3008042E0 /* ShipMissileSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36E51BEFF7C3008042E0 /* ShipMissileSpriteNode.swift */; };
 		E24A36E81BF037D9008042E0 /* InvaderSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36E71BF037D9008042E0 /* InvaderSpriteNode.swift */; };
+		E24A36EA1BF043F3008042E0 /* Invaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36E91BF043F3008042E0 /* Invaders.swift */; };
+		E24A36EC1BF05D21008042E0 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36EB1BF05D21008042E0 /* Random.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,8 @@
 		E24A36E11BEFE86B008042E0 /* CGPoint+Vectors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGPoint+Vectors.swift"; path = "Utilities/CGPoint+Vectors.swift"; sourceTree = "<group>"; };
 		E24A36E51BEFF7C3008042E0 /* ShipMissileSpriteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShipMissileSpriteNode.swift; path = Sprites/ShipMissileSpriteNode.swift; sourceTree = "<group>"; };
 		E24A36E71BF037D9008042E0 /* InvaderSpriteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvaderSpriteNode.swift; path = Sprites/InvaderSpriteNode.swift; sourceTree = "<group>"; };
+		E24A36E91BF043F3008042E0 /* Invaders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Invaders.swift; path = Sprites/Invaders.swift; sourceTree = "<group>"; };
+		E24A36EB1BF05D21008042E0 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Random.swift; path = Utilities/Random.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +151,7 @@
 				E24A36DE1BEFD0B3008042E0 /* ShipSpriteNode.swift */,
 				E24A36E51BEFF7C3008042E0 /* ShipMissileSpriteNode.swift */,
 				E24A36E71BF037D9008042E0 /* InvaderSpriteNode.swift */,
+				E24A36E91BF043F3008042E0 /* Invaders.swift */,
 			);
 			name = Sprites;
 			sourceTree = "<group>";
@@ -155,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				E24A36E11BEFE86B008042E0 /* CGPoint+Vectors.swift */,
+				E24A36EB1BF05D21008042E0 /* Random.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -292,9 +298,11 @@
 			files = (
 				E24A36E81BF037D9008042E0 /* InvaderSpriteNode.swift in Sources */,
 				E24A36AD1BEEA96E008042E0 /* TitleScene.swift in Sources */,
+				E24A36EC1BF05D21008042E0 /* Random.swift in Sources */,
 				E24A36E61BEFF7C3008042E0 /* ShipMissileSpriteNode.swift in Sources */,
 				E24A36AF1BEEA96E008042E0 /* GameViewController.swift in Sources */,
 				E24A36DA1BEFAD9B008042E0 /* GameScene.swift in Sources */,
+				E24A36EA1BF043F3008042E0 /* Invaders.swift in Sources */,
 				E24A36E21BEFE86B008042E0 /* CGPoint+Vectors.swift in Sources */,
 				E24A36A91BEEA96E008042E0 /* AppDelegate.swift in Sources */,
 				E24A36DF1BEFD0B3008042E0 /* ShipSpriteNode.swift in Sources */,

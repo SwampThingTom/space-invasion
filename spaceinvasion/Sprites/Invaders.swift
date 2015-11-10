@@ -1,0 +1,149 @@
+//
+//  Invaders.swift
+//  spaceinvasion
+//
+//  Created by Thomas Aylesworth on 11/8/15.
+//  Copyright © 2015 Thomas H Aylesworth. All rights reserved.
+//
+
+import SpriteKit
+
+class Invaders: NSObject {
+    
+    private let gameScene: GameScene
+    private let minX: CGFloat
+    private let maxX: CGFloat
+    private let minY: CGFloat
+    private let maxY: CGFloat
+    
+    private let invaderWidth: CGFloat = 36
+    private let invaderHeight: CGFloat = 24
+    private let invaderXPad: CGFloat = 12
+    private let invaderYPad: CGFloat = 24
+
+    private let invadersPerRow = 15
+    private let invaderRankForRow = [
+        InvaderRank.General,
+        InvaderRank.Captain,
+        InvaderRank.Captain,
+        InvaderRank.Pawn,
+        InvaderRank.Pawn]
+    
+    private let chanceOfDroppingBomb: CGFloat = 0.07
+    private let chanceOfFastBomb: CGFloat = 0.15
+    
+    private let maxLevel = 7
+    private var level = 1
+    
+    private var invaderSprites: [InvaderSpriteNode]
+    private var leftMostColumn = 0
+    private var rightMostColumn = 0
+    
+    private let speed = CGPoint(x: 6, y: 0)
+    private let descendSpeed = CGPoint(x: 0, y: -21)
+    
+    private let frameUpdateTimePerInvader: CGFloat = 1.0 / 60.0;
+    private var lastFrameTime: CGFloat = 0
+    private var timeSinceLastFrame: CGFloat = 0
+    
+    private var position = CGPointZero
+    private var direction = MoveDirection.Right
+    
+    init(scene: GameScene, minX: CGFloat, maxX: CGFloat, minY: CGFloat, maxY: CGFloat) {
+        self.gameScene = scene
+        self.minX = minX
+        self.maxX = maxX
+        self.minY = minY
+        self.maxY = maxY
+        invaderSprites = [InvaderSpriteNode]()
+    }
+    
+    func setupInvasionForLevel(level: Int) {
+        leftMostColumn = 0
+        rightMostColumn = invadersPerRow - 1
+        
+        let startRow = min(level - 1, maxLevel)
+        let positionOffset = descendSpeed * CGFloat(startRow * 2)
+        position = CGPoint(x: minX, y: maxY) - positionOffset
+        
+        let spriteSize = CGPoint(x: invaderWidth + invaderXPad, y: -(invaderHeight + invaderYPad))
+        invaderSprites.removeAll()
+        for row in 0 ..< invaderRankForRow.count {
+            for column in 0 ..< invadersPerRow {
+                let invaderSprite = InvaderSpriteNode(rank: invaderRankForRow[row], row: row, column: column)
+                invaderSprite.position = position + CGPoint(x: column, y: row) * spriteSize
+                invaderSprites.append(invaderSprite)
+                gameScene.addChild(invaderSprite)
+            }
+        }
+        
+        lastFrameTime = 0
+        timeSinceLastFrame = 0
+    }
+    
+    func update(timeDelta: CGFloat) {
+        if (!isNextFrameTime(timeDelta)) {
+            return;
+        }
+        
+        let moveVector = self.moveVector(timeDelta);
+        position += moveVector
+        
+        for invader in invaderSprites {
+            invader.move(moveVector);
+            if invaderDropsBomb(invader) {
+                // TODO: Implement dropping bomb
+                //invaderBombs.Fire(invader.Position + MissileOffset, (RandomNumber.NextDouble() < ChanceOfFastBomb));
+            }
+        }
+        
+        // TODO: Implement playing move sound
+        //PlayInvaderMoveSound()
+    }
+    
+    private func isNextFrameTime(timeDelta: CGFloat) -> Bool {
+        timeSinceLastFrame += timeDelta
+        let nextFrameTime = lastFrameTime + frameUpdateTimePerInvader * CGFloat(invaderSprites.count)
+        let currentTime = lastFrameTime + timeSinceLastFrame
+        if currentTime < nextFrameTime {
+            return false
+        }
+        
+        // using nextFrameTime as the reference ensures our clock doesn't drift
+        lastFrameTime = nextFrameTime
+        timeSinceLastFrame = currentTime - lastFrameTime
+        return true
+    }
+    
+    private func moveVector(timeDelta: CGFloat) -> CGPoint {
+        var move = speed * direction.rawValue
+        let newPosition = position + move
+        if leftColumnXForPosition(newPosition) < minX || rightColumnXForPosition(newPosition) > maxX {
+            move = descendSpeed
+            direction = direction.reverse()
+        }
+        return move
+    }
+    
+    private func leftColumnXForPosition(position: CGPoint) -> CGFloat {
+        return position.x + CGFloat(leftMostColumn) * (invaderWidth + invaderXPad)
+    }
+    
+    private func rightColumnXForPosition(position: CGPoint) -> CGFloat {
+        return position.x + CGFloat(rightMostColumn) * (invaderWidth + invaderXPad)
+    }
+    
+    private func invaderDropsBomb(invader: InvaderSpriteNode) -> Bool {
+        if !invaderAtBottom(invader) {
+            return false
+        }
+        return random() <= chanceOfDroppingBomb
+    }
+    
+    private func invaderAtBottom(invader: InvaderSpriteNode) -> Bool {
+        let bottomRow = invaderSprites
+            .filter { $0.column == invader.column }
+            .reduce(0) { (maxRow, sprite) in max(maxRow, sprite.row) }
+        return invader.row == bottomRow
+    }
+}
