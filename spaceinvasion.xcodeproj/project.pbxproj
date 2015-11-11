@@ -22,6 +22,15 @@
 		E24A36E81BF037D9008042E0 /* InvaderSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36E71BF037D9008042E0 /* InvaderSpriteNode.swift */; };
 		E24A36EA1BF043F3008042E0 /* Invaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36E91BF043F3008042E0 /* Invaders.swift */; };
 		E24A36EC1BF05D21008042E0 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36EB1BF05D21008042E0 /* Random.swift */; };
+		E28D181F1BF2E9BC00C656C0 /* anthem.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D18191BF2E9BC00C656C0 /* anthem.wav */; };
+		E28D18201BF2E9BC00C656C0 /* inv_move_4.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D181A1BF2E9BC00C656C0 /* inv_move_4.wav */; };
+		E28D18211BF2E9BC00C656C0 /* ship_explode.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D181B1BF2E9BC00C656C0 /* ship_explode.wav */; };
+		E28D18221BF2E9BC00C656C0 /* ship_fire.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D181C1BF2E9BC00C656C0 /* ship_fire.wav */; };
+		E28D18231BF2E9BC00C656C0 /* ufo.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D181D1BF2E9BC00C656C0 /* ufo.wav */; };
+		E28D18241BF2E9BC00C656C0 /* ufo_explode.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D181E1BF2E9BC00C656C0 /* ufo_explode.wav */; };
+		E28D18281BF2E9F900C656C0 /* inv_move_1.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D18251BF2E9F900C656C0 /* inv_move_1.wav */; };
+		E28D18291BF2E9F900C656C0 /* inv_move_2.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D18261BF2E9F900C656C0 /* inv_move_2.wav */; };
+		E28D182A1BF2E9F900C656C0 /* inv_move_3.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D18271BF2E9F900C656C0 /* inv_move_3.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +72,15 @@
 		E24A36E71BF037D9008042E0 /* InvaderSpriteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvaderSpriteNode.swift; path = Sprites/InvaderSpriteNode.swift; sourceTree = "<group>"; };
 		E24A36E91BF043F3008042E0 /* Invaders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Invaders.swift; path = Sprites/Invaders.swift; sourceTree = "<group>"; };
 		E24A36EB1BF05D21008042E0 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Random.swift; path = Utilities/Random.swift; sourceTree = "<group>"; };
+		E28D18191BF2E9BC00C656C0 /* anthem.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = anthem.wav; sourceTree = "<group>"; };
+		E28D181A1BF2E9BC00C656C0 /* inv_move_4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = inv_move_4.wav; sourceTree = "<group>"; };
+		E28D181B1BF2E9BC00C656C0 /* ship_explode.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ship_explode.wav; sourceTree = "<group>"; };
+		E28D181C1BF2E9BC00C656C0 /* ship_fire.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ship_fire.wav; sourceTree = "<group>"; };
+		E28D181D1BF2E9BC00C656C0 /* ufo.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ufo.wav; sourceTree = "<group>"; };
+		E28D181E1BF2E9BC00C656C0 /* ufo_explode.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ufo_explode.wav; sourceTree = "<group>"; };
+		E28D18251BF2E9F900C656C0 /* inv_move_1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = inv_move_1.wav; sourceTree = "<group>"; };
+		E28D18261BF2E9F900C656C0 /* inv_move_2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = inv_move_2.wav; sourceTree = "<group>"; };
+		E28D18271BF2E9F900C656C0 /* inv_move_3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = inv_move_3.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +131,7 @@
 		E24A36A71BEEA96E008042E0 /* spaceinvasion */ = {
 			isa = PBXGroup;
 			children = (
+				E28D18181BF2E9BC00C656C0 /* Audio */,
 				E24A36E01BEFE82C008042E0 /* Utilities */,
 				E24A36DD1BEFD049008042E0 /* Sprites */,
 				E24A36A81BEEA96E008042E0 /* AppDelegate.swift */,
@@ -163,6 +182,22 @@
 				E24A36EB1BF05D21008042E0 /* Random.swift */,
 			);
 			name = Utilities;
+			sourceTree = "<group>";
+		};
+		E28D18181BF2E9BC00C656C0 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				E28D18191BF2E9BC00C656C0 /* anthem.wav */,
+				E28D18251BF2E9F900C656C0 /* inv_move_1.wav */,
+				E28D18261BF2E9F900C656C0 /* inv_move_2.wav */,
+				E28D18271BF2E9F900C656C0 /* inv_move_3.wav */,
+				E28D181A1BF2E9BC00C656C0 /* inv_move_4.wav */,
+				E28D181B1BF2E9BC00C656C0 /* ship_explode.wav */,
+				E28D181C1BF2E9BC00C656C0 /* ship_fire.wav */,
+				E28D181D1BF2E9BC00C656C0 /* ufo.wav */,
+				E28D181E1BF2E9BC00C656C0 /* ufo_explode.wav */,
+			);
+			path = Audio;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,9 +304,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E28D18211BF2E9BC00C656C0 /* ship_explode.wav in Resources */,
+				E28D18221BF2E9BC00C656C0 /* ship_fire.wav in Resources */,
 				E24A36B41BEEA96E008042E0 /* Main.storyboard in Resources */,
+				E28D18291BF2E9F900C656C0 /* inv_move_2.wav in Resources */,
 				E24A36B61BEEA96E008042E0 /* Assets.xcassets in Resources */,
 				E24A36B11BEEA96E008042E0 /* Game.xcassets in Resources */,
+				E28D18231BF2E9BC00C656C0 /* ufo.wav in Resources */,
+				E28D182A1BF2E9F900C656C0 /* inv_move_3.wav in Resources */,
+				E28D181F1BF2E9BC00C656C0 /* anthem.wav in Resources */,
+				E28D18241BF2E9BC00C656C0 /* ufo_explode.wav in Resources */,
+				E28D18201BF2E9BC00C656C0 /* inv_move_4.wav in Resources */,
+				E28D18281BF2E9F900C656C0 /* inv_move_1.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

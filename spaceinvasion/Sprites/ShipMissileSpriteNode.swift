@@ -10,6 +10,7 @@ import SpriteKit
 
 class ShipMissileSpriteNode: SKSpriteNode {
     
+    private let missileFiredSound = SKAction.playSoundFileNamed("ship_fire", waitForCompletion: false)
     private let maxY: CGFloat
     private let moveSpeed: CGFloat = 6 * 60
     
@@ -28,6 +29,7 @@ class ShipMissileSpriteNode: SKSpriteNode {
     func fire(position: CGPoint) {
         self.position = position
         active = true
+        runAction(missileFiredSound)
     }
     
     func update(deltaTime: CGFloat) {

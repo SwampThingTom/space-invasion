@@ -21,6 +21,12 @@ class Invaders: NSObject {
     private let invaderXPad: CGFloat = 12
     private let invaderYPad: CGFloat = 24
 
+    private let invaderMoveSound = [SKAction.playSoundFileNamed("inv_move_1", waitForCompletion: false),
+            SKAction.playSoundFileNamed("inv_move_2", waitForCompletion: false),
+            SKAction.playSoundFileNamed("inv_move_3", waitForCompletion: false),
+            SKAction.playSoundFileNamed("inv_move_4", waitForCompletion: false)]
+    private var moveSoundIndex = 0
+
     private let invadersPerRow = 15
     private let invaderRankForRow = [
         InvaderRank.General,
@@ -38,6 +44,8 @@ class Invaders: NSObject {
     private var invaderSprites: [InvaderSpriteNode]
     private var leftMostColumn = 0
     private var rightMostColumn = 0
+    private var topMostRow = 0
+    private var bottomMostRow = 0
     
     private let speed = CGPoint(x: 6, y: 0)
     private let descendSpeed = CGPoint(x: 0, y: -21)
@@ -61,6 +69,8 @@ class Invaders: NSObject {
     func setupInvasionForLevel(level: Int) {
         leftMostColumn = 0
         rightMostColumn = invadersPerRow - 1
+        topMostRow = 0
+        bottomMostRow = invaderRankForRow.count
         
         let startRow = min(level - 1, maxLevel)
         let positionOffset = descendSpeed * CGFloat(startRow * 2)
@@ -79,6 +89,7 @@ class Invaders: NSObject {
         
         lastFrameTime = 0
         timeSinceLastFrame = 0
+        moveSoundIndex = 0
     }
     
     func update(timeDelta: CGFloat) {
@@ -90,15 +101,19 @@ class Invaders: NSObject {
         position += moveVector
         
         for invader in invaderSprites {
-            invader.move(moveVector);
+            invader.move(moveVector)
             if invaderDropsBomb(invader) {
                 // TODO: Implement dropping bomb
-                //invaderBombs.Fire(invader.Position + MissileOffset, (RandomNumber.NextDouble() < ChanceOfFastBomb));
+                //invaderBombs.Fire(invader.Position + MissileOffset, (RandomNumber.NextDouble() < ChanceOfFastBomb))
             }
         }
         
-        // TODO: Implement playing move sound
-        //PlayInvaderMoveSound()
+        playInvaderMoveSound()
+    }
+
+    var haveInvaded: Bool {
+        let bottomY = position.y - CGFloat(bottomMostRow) * (invaderHeight + invaderYPad)
+        return bottomY < minY
     }
     
     private func isNextFrameTime(timeDelta: CGFloat) -> Bool {
@@ -145,5 +160,11 @@ class Invaders: NSObject {
             .filter { $0.column == invader.column }
             .reduce(0) { (maxRow, sprite) in max(maxRow, sprite.row) }
         return invader.row == bottomRow
+    }
+    
+    private func playInvaderMoveSound() {
+        gameScene.runAction(invaderMoveSound[moveSoundIndex])
+        moveSoundIndex++
+        moveSoundIndex %= invaderMoveSound.count
     }
 }

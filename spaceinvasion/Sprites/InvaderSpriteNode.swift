@@ -10,18 +10,7 @@ import SpriteKit
 
 enum InvaderRank {
     case Pawn, Captain, General
-    
-    func imageName() -> String {
-        switch self {
-        case Pawn:
-            return "Invader_1_1"
-        case Captain:
-            return "Invader_2_1"
-        case General:
-            return "Invader_3_1"
-        }
-    }
-    
+
     func scoreValue() -> Int {
         switch self {
         case Pawn:
@@ -39,6 +28,9 @@ class InvaderSpriteNode: SKSpriteNode {
     let rank: InvaderRank
     let row: Int
     let column: Int
+
+    private let textures: [SKTexture]
+    private var textureIndex = 0
     
     var score: Int {
         return rank.scoreValue()
@@ -48,8 +40,8 @@ class InvaderSpriteNode: SKSpriteNode {
         self.rank = rank
         self.row = row
         self.column = column
-        let texture = SKTexture(imageNamed: rank.imageName())
-        super.init(texture: texture, color: SKColor.whiteColor(), size: texture.size())
+        textures = InvaderTextures.texturesForRank(rank)
+        super.init(texture: textures[0], color: SKColor.whiteColor(), size: textures[0].size())
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -58,6 +50,28 @@ class InvaderSpriteNode: SKSpriteNode {
     
     func move(moveVector: CGPoint) {
         position += moveVector
-        // TODO: Update animation frame
+        animate()
+    }
+
+    private func animate() {
+        textureIndex = (textureIndex + 1) % 2
+        texture = textures[textureIndex]
+    }
+
+    private struct InvaderTextures {
+        static func texturesForRank(rank: InvaderRank) -> [SKTexture] {
+            switch rank {
+            case .Pawn:
+                return pawnTextures
+            case .Captain:
+                return captainTextures
+            case .General:
+                return generalTextures
+            }
+        }
+
+        private static let pawnTextures = [SKTexture(imageNamed: "Invader_1_1"), SKTexture(imageNamed: "Invader_1_2")]
+        private static let captainTextures = [SKTexture(imageNamed: "Invader_2_1"), SKTexture(imageNamed: "Invader_2_2")]
+        private static let generalTextures = [SKTexture(imageNamed: "Invader_3_1"), SKTexture(imageNamed: "Invader_3_2")]
     }
 }
