@@ -42,12 +42,13 @@ class GameScene: SKScene {
         
         shipMissile = ShipMissileSpriteNode(maxY: playableAreaMaxY)
         
-        invaders = Invaders(scene: self,
+        invaders = Invaders(
             minX: invadersHorizontalMargin,
             maxX: background.size.width - invadersHorizontalMargin,
             minY: invadersMinY,
             maxY: invadersMaxY)
-        invaders?.setupInvasionForLevel(level)
+        invaders!.setupInvasionForLevel(level)
+        addChild(invaders!)
         
         let fireButtonGestureRecognizer = UITapGestureRecognizer(target: self, action: "fireButtonPressed")
         fireButtonGestureRecognizer.allowedPressTypes = [NSNumber(integer: UIPressType.Select.rawValue)]

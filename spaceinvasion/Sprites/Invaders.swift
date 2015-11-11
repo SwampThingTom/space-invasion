@@ -8,9 +8,8 @@
 
 import SpriteKit
 
-class Invaders: NSObject {
+class Invaders: SKNode {
     
-    private let gameScene: GameScene
     private let minX: CGFloat
     private let maxX: CGFloat
     private let minY: CGFloat
@@ -47,23 +46,25 @@ class Invaders: NSObject {
     private var topMostRow = 0
     private var bottomMostRow = 0
     
-    private let speed = CGPoint(x: 6, y: 0)
+    private let horizontalspeed = CGPoint(x: 6, y: 0)
     private let descendSpeed = CGPoint(x: 0, y: -21)
+    private var direction = MoveDirection.Right
     
     private let frameUpdateTimePerInvader: CGFloat = 1.0 / 60.0;
     private var lastFrameTime: CGFloat = 0
     private var timeSinceLastFrame: CGFloat = 0
     
-    private var position = CGPointZero
-    private var direction = MoveDirection.Right
-    
-    init(scene: GameScene, minX: CGFloat, maxX: CGFloat, minY: CGFloat, maxY: CGFloat) {
-        self.gameScene = scene
+    init(minX: CGFloat, maxX: CGFloat, minY: CGFloat, maxY: CGFloat) {
         self.minX = minX
         self.maxX = maxX
         self.minY = minY
         self.maxY = maxY
         invaderSprites = [InvaderSpriteNode]()
+        super.init()
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func setupInvasionForLevel(level: Int) {
@@ -81,9 +82,9 @@ class Invaders: NSObject {
         for row in 0 ..< invaderRankForRow.count {
             for column in 0 ..< invadersPerRow {
                 let invaderSprite = InvaderSpriteNode(rank: invaderRankForRow[row], row: row, column: column)
-                invaderSprite.position = position + CGPoint(x: column, y: row) * spriteSize
+                invaderSprite.position = CGPoint(x: column, y: row) * spriteSize
                 invaderSprites.append(invaderSprite)
-                gameScene.addChild(invaderSprite)
+                addChild(invaderSprite)
             }
         }
         
@@ -92,12 +93,12 @@ class Invaders: NSObject {
         moveSoundIndex = 0
     }
     
-    func update(timeDelta: CGFloat) {
-        if (!isNextFrameTime(timeDelta)) {
+    func update(deltaTime: CGFloat) {
+        if (!isNextFrameTime(deltaTime)) {
             return;
         }
         
-        let moveVector = self.moveVector(timeDelta);
+        let moveVector = self.moveVector(deltaTime);
         position += moveVector
         
         for invader in invaderSprites {
@@ -110,7 +111,7 @@ class Invaders: NSObject {
         
         playInvaderMoveSound()
     }
-
+    
     var haveInvaded: Bool {
         let bottomY = position.y - CGFloat(bottomMostRow) * (invaderHeight + invaderYPad)
         return bottomY < minY
@@ -131,7 +132,7 @@ class Invaders: NSObject {
     }
     
     private func moveVector(timeDelta: CGFloat) -> CGPoint {
-        var move = speed * direction.rawValue
+        var move = horizontalspeed * direction.rawValue
         let newPosition = position + move
         if leftColumnXForPosition(newPosition) < minX || rightColumnXForPosition(newPosition) > maxX {
             move = descendSpeed
@@ -163,7 +164,7 @@ class Invaders: NSObject {
     }
     
     private func playInvaderMoveSound() {
-        gameScene.runAction(invaderMoveSound[moveSoundIndex])
+        runAction(invaderMoveSound[moveSoundIndex])
         moveSoundIndex++
         moveSoundIndex %= invaderMoveSound.count
     }
