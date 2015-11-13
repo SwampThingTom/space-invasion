@@ -47,13 +47,8 @@ class InvaderSpriteNode: SKSpriteNode {
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func move(moveVector: CGPoint) {
-        position += moveVector
-        animate()
-    }
 
-    private func animate() {
+    func animate() {
         textureIndex = (textureIndex + 1) % 2
         texture = textures[textureIndex]
     }

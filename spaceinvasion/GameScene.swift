@@ -54,6 +54,20 @@ class GameScene: SKScene {
         fireButtonGestureRecognizer.allowedPressTypes = [NSNumber(integer: UIPressType.Select.rawValue)]
         view.addGestureRecognizer(fireButtonGestureRecognizer)
         
+        if Settings.debug {
+            debugAddRect(CGRect(
+                x: invadersHorizontalMargin,
+                y: invadersMinY,
+                width: background.size.width - 2 * invadersHorizontalMargin,
+                height: invadersMaxY - invadersMinY))
+            
+            debugAddRect(CGRect(
+                x: shipHorizontalMargin,
+                y: shipY - ship!.size.height / 2,
+                width: background.size.width - 2 * shipHorizontalMargin,
+                height: ship!.size.height))
+        }
+        
         // TODO: Start playing music
     }
     
@@ -121,5 +135,17 @@ class GameScene: SKScene {
         ship?.update(deltaTime)
         shipMissile?.update(deltaTime)
         invaders?.update(deltaTime)
+    }
+    
+    // MARK: Debug
+    
+    private func debugAddRect(rect: CGRect) {
+        let shape = SKShapeNode()
+        let path = CGPathCreateMutable()
+        CGPathAddRect(path, nil, rect)
+        shape.path = path
+        shape.strokeColor = SKColor.redColor()
+        shape.lineWidth = 4.0
+        addChild(shape)
     }
 }

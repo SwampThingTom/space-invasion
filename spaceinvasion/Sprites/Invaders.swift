@@ -102,7 +102,8 @@ class Invaders: SKNode {
         position += moveVector
         
         for invader in invaderSprites {
-            invader.move(moveVector)
+            // TODO: It would be more efficient to set the texture for each sprite and then change the textures heere
+            invader.animate()
             if invaderDropsBomb(invader) {
                 // TODO: Implement dropping bomb
                 //invaderBombs.Fire(invader.Position + MissileOffset, (RandomNumber.NextDouble() < ChanceOfFastBomb))
