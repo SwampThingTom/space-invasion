@@ -18,14 +18,9 @@ class GameViewController: UIViewController {
         scene.scaleMode = .AspectFit
 
         let skView = self.view as! SKView
+        skView.ignoresSiblingOrder = true
         skView.showsFPS = true
         skView.showsNodeCount = true
-        skView.ignoresSiblingOrder = true
         skView.presentScene(scene)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
     }
 }

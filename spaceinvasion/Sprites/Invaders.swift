@@ -20,11 +20,12 @@ class Invaders: SKNode {
     private let invaderXPad: CGFloat = 12
     private let invaderYPad: CGFloat = 24
 
-    private let invaderMoveSound = [SKAction.playSoundFileNamed("inv_move_1", waitForCompletion: false),
-            SKAction.playSoundFileNamed("inv_move_2", waitForCompletion: false),
-            SKAction.playSoundFileNamed("inv_move_3", waitForCompletion: false),
-            SKAction.playSoundFileNamed("inv_move_4", waitForCompletion: false)]
     private var moveSoundIndex = 0
+    private let invaderMoveSound = [
+        SKAction.playSoundFileNamed("inv_move_1", waitForCompletion: false),
+        SKAction.playSoundFileNamed("inv_move_2", waitForCompletion: false),
+        SKAction.playSoundFileNamed("inv_move_3", waitForCompletion: false),
+        SKAction.playSoundFileNamed("inv_move_4", waitForCompletion: false)]
 
     private let invadersPerRow = 15
     private let invaderRankForRow = [
@@ -41,11 +42,6 @@ class Invaders: SKNode {
     private var level = 1
     
     private var invaderSprites: [InvaderSpriteNode]
-    private var leftMostColumn = 0
-    private var rightMostColumn = 0
-    private var topMostRow = 0
-    private var bottomMostRow = 0
-    
     private let horizontalspeed = CGPoint(x: 6, y: 0)
     private let descendSpeed = CGPoint(x: 0, y: -21)
     private var direction = MoveDirection.Right
@@ -68,11 +64,6 @@ class Invaders: SKNode {
     }
     
     func setupInvasionForLevel(level: Int) {
-        leftMostColumn = 0
-        rightMostColumn = invadersPerRow - 1
-        topMostRow = 0
-        bottomMostRow = invaderRankForRow.count
-        
         let startRow = min(level - 1, maxLevel)
         let positionOffset = descendSpeed * CGFloat(startRow * 2)
         position = CGPoint(x: minX, y: maxY) - positionOffset
@@ -114,8 +105,17 @@ class Invaders: SKNode {
     }
     
     var haveInvaded: Bool {
-        let bottomY = position.y - CGFloat(bottomMostRow) * (invaderHeight + invaderYPad)
+        let bottomY = position.y - CGFloat(bottomRow) * (invaderHeight + invaderYPad)
         return bottomY < minY
+    }
+    
+    var destroyed: Bool {
+        return invaderSprites.count == 0
+    }
+    
+    func invaderWasHit(invader: InvaderSpriteNode!) {
+        invaderSprites.removeAtIndex(invaderSprites.indexOf(invader)!)
+        invader.removeFromParent()
     }
     
     private func isNextFrameTime(timeDelta: CGFloat) -> Bool {
@@ -142,14 +142,6 @@ class Invaders: SKNode {
         return move
     }
     
-    private func leftColumnXForPosition(position: CGPoint) -> CGFloat {
-        return position.x + CGFloat(leftMostColumn) * (invaderWidth + invaderXPad)
-    }
-    
-    private func rightColumnXForPosition(position: CGPoint) -> CGFloat {
-        return position.x + CGFloat(rightMostColumn) * (invaderWidth + invaderXPad)
-    }
-    
     private func invaderDropsBomb(invader: InvaderSpriteNode) -> Bool {
         if !invaderAtBottom(invader) {
             return false
@@ -162,6 +154,39 @@ class Invaders: SKNode {
             .filter { $0.column == invader.column }
             .reduce(0) { (maxRow, sprite) in max(maxRow, sprite.row) }
         return invader.row == bottomRow
+    }
+    
+    private var leftColumn: Int {
+        return invaderSprites.reduce(invadersPerRow, combine: {
+            (minColumn, sprite) in min(minColumn, sprite.column)
+        })
+        
+    }
+    
+    private var rightColumn: Int {
+        return invaderSprites.reduce(0, combine: {
+            (maxColumn, sprite) in max(maxColumn, sprite.column)
+        })
+    }
+    
+    private var topRow: Int {
+        return invaderSprites.reduce(invaderRankForRow.count, combine: {
+            (minRow, sprite) in min(minRow, sprite.row)
+        })
+    }
+    
+    private var bottomRow: Int {
+        return invaderSprites.reduce(0, combine: {
+            (maxRow, sprite) in max(maxRow, sprite.row)
+        })
+    }
+    
+    private func leftColumnXForPosition(position: CGPoint) -> CGFloat {
+        return position.x + CGFloat(leftColumn) * (invaderWidth + invaderXPad)
+    }
+    
+    private func rightColumnXForPosition(position: CGPoint) -> CGFloat {
+        return position.x + CGFloat(rightColumn) * (invaderWidth + invaderXPad)
     }
     
     private func playInvaderMoveSound() {

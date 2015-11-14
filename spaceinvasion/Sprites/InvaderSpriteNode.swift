@@ -42,6 +42,11 @@ class InvaderSpriteNode: SKSpriteNode {
         self.column = column
         textures = InvaderTextures.texturesForRank(rank)
         super.init(texture: textures[0], color: SKColor.whiteColor(), size: textures[0].size())
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: texture!.size())
+        self.physicsBody?.dynamic = true
+        self.physicsBody?.categoryBitMask = PhysicsCategory.Invader.rawValue
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.None.rawValue
+        self.physicsBody?.collisionBitMask = PhysicsCategory.None.rawValue
     }
     
     required init(coder aDecoder: NSCoder) {
