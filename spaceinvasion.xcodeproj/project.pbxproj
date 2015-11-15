@@ -32,6 +32,9 @@
 		E28D18281BF2E9F900C656C0 /* inv_move_1.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D18251BF2E9F900C656C0 /* inv_move_1.wav */; };
 		E28D18291BF2E9F900C656C0 /* inv_move_2.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D18261BF2E9F900C656C0 /* inv_move_2.wav */; };
 		E28D182A1BF2E9F900C656C0 /* inv_move_3.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D18271BF2E9F900C656C0 /* inv_move_3.wav */; };
+		E2A521391BF7F4D100B7B914 /* GameLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A521381BF7F4D100B7B914 /* GameLabel.swift */; };
+		E2A5213C1BF81E0F00B7B914 /* end_game.wav in Resources */ = {isa = PBXBuildFile; fileRef = E2A5213A1BF81E0F00B7B914 /* end_game.wav */; };
+		E2A5213D1BF81E0F00B7B914 /* inv_explode.wav in Resources */ = {isa = PBXBuildFile; fileRef = E2A5213B1BF81E0F00B7B914 /* inv_explode.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +86,9 @@
 		E28D18251BF2E9F900C656C0 /* inv_move_1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = inv_move_1.wav; sourceTree = "<group>"; };
 		E28D18261BF2E9F900C656C0 /* inv_move_2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = inv_move_2.wav; sourceTree = "<group>"; };
 		E28D18271BF2E9F900C656C0 /* inv_move_3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = inv_move_3.wav; sourceTree = "<group>"; };
+		E2A521381BF7F4D100B7B914 /* GameLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLabel.swift; sourceTree = "<group>"; };
+		E2A5213A1BF81E0F00B7B914 /* end_game.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = end_game.wav; sourceTree = "<group>"; };
+		E2A5213B1BF81E0F00B7B914 /* inv_explode.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = inv_explode.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +180,7 @@
 				E24A36E51BEFF7C3008042E0 /* ShipMissileSpriteNode.swift */,
 				E24A36E71BF037D9008042E0 /* InvaderSpriteNode.swift */,
 				E24A36E91BF043F3008042E0 /* Invaders.swift */,
+				E2A521381BF7F4D100B7B914 /* GameLabel.swift */,
 			);
 			name = Sprites;
 			sourceTree = "<group>";
@@ -191,6 +198,8 @@
 			isa = PBXGroup;
 			children = (
 				E28D18191BF2E9BC00C656C0 /* anthem.wav */,
+				E2A5213A1BF81E0F00B7B914 /* end_game.wav */,
+				E2A5213B1BF81E0F00B7B914 /* inv_explode.wav */,
 				E28D18251BF2E9F900C656C0 /* inv_move_1.wav */,
 				E28D18261BF2E9F900C656C0 /* inv_move_2.wav */,
 				E28D18271BF2E9F900C656C0 /* inv_move_3.wav */,
@@ -313,9 +322,11 @@
 				E28D18291BF2E9F900C656C0 /* inv_move_2.wav in Resources */,
 				E24A36B61BEEA96E008042E0 /* Assets.xcassets in Resources */,
 				E24A36B11BEEA96E008042E0 /* Game.xcassets in Resources */,
+				E2A5213D1BF81E0F00B7B914 /* inv_explode.wav in Resources */,
 				E28D18231BF2E9BC00C656C0 /* ufo.wav in Resources */,
 				E28D182A1BF2E9F900C656C0 /* inv_move_3.wav in Resources */,
 				E28D181F1BF2E9BC00C656C0 /* anthem.wav in Resources */,
+				E2A5213C1BF81E0F00B7B914 /* end_game.wav in Resources */,
 				E28D18241BF2E9BC00C656C0 /* ufo_explode.wav in Resources */,
 				E28D18201BF2E9BC00C656C0 /* inv_move_4.wav in Resources */,
 				E28D18281BF2E9F900C656C0 /* inv_move_1.wav in Resources */,
@@ -350,6 +361,7 @@
 				E24A36AF1BEEA96E008042E0 /* GameViewController.swift in Sources */,
 				E24A36DA1BEFAD9B008042E0 /* GameScene.swift in Sources */,
 				E24A36EA1BF043F3008042E0 /* Invaders.swift in Sources */,
+				E2A521391BF7F4D100B7B914 /* GameLabel.swift in Sources */,
 				E24A36E21BEFE86B008042E0 /* CGPoint+Vectors.swift in Sources */,
 				E24A36A91BEEA96E008042E0 /* AppDelegate.swift in Sources */,
 				E229F3C51BF576EE007011A2 /* Settings.swift in Sources */,

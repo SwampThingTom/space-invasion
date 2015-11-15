@@ -9,5 +9,5 @@
 import Foundation
 
 class Settings {
-    static let debug = true
+    static let debug = false
 }

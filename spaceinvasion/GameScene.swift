@@ -25,12 +25,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private let invadersHorizontalMargin: CGFloat = 72
     private let invadersMinY: CGFloat = 135
     private let invadersMaxY: CGFloat = 605
+    let scoreTextLabelX: CGFloat = 72
     
     private var background: SKSpriteNode?
+    private var scoreTextLabel: GameLabel?
+    private var scoreLabel: GameLabel?
+    private var highScoreTextLabel: GameLabel?
+    private var highScoreLabel: GameLabel?
     private var ship: ShipSpriteNode?
     private var shipMissile: ShipMissileSpriteNode?
     private var invaders: Invaders?
     
+    private var score = 0
     private var level = 1
     private var lastUpdateTime: CGFloat = 0
     
@@ -39,6 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMoveToView(view: SKView) {
         addPhysics()
         addBackground()
+        addLabels()
         addShip()
         addInvaders()
         addControlsToView(view)
@@ -65,6 +72,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         background!.position = CGPoint(x: size.width/2, y: size.height/2)
         background!.zPosition = -1
         addChild(background!)
+    }
+    
+    private func addLabels() {
+        scoreTextLabel = GameLabel(text: "Score")
+        scoreTextLabel?.horizontalAlignmentMode = .Left
+        let textLine1Y = size.height - (scoreTextLabel?.frame.height)!
+        scoreTextLabel?.position = CGPoint(x: scoreTextLabelX, y: textLine1Y)
+        addChild(scoreTextLabel!)
+        
+        scoreLabel = GameLabel(text: "0000")
+        let scoreLabelX = (scoreTextLabel?.frame.minX)! + (scoreTextLabel?.frame.width)! / 2
+        let textLine2Y = textLine1Y - (scoreTextLabel?.frame.height)! * 1.5
+        scoreLabel?.position = CGPoint(x: scoreLabelX, y: textLine2Y)
+        addChild(scoreLabel!)
+        
+        highScoreTextLabel = GameLabel(text: "High Score")
+        let highScoreLabelX = size.width / 2
+        highScoreTextLabel?.position = CGPoint(x: highScoreLabelX, y: textLine1Y)
+        addChild(highScoreTextLabel!)
+        
+        highScoreLabel = GameLabel(text: "0000")
+        highScoreLabel?.position = CGPoint(x: highScoreLabelX, y: textLine2Y)
+        addChild(highScoreLabel!)
     }
     
     private func addShip() {
@@ -157,7 +187,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: Game loop
     
     override func update(currentTime: CFTimeInterval) {
-        let deltaTime: CGFloat = lastUpdateTime > 0 ? CGFloat(currentTime) - lastUpdateTime : 0.0
+        let deltaTime: CGFloat = lastUpdateTime > 0 ? CGFloat(currentTime) - lastUpdateTime : 0
         lastUpdateTime = CGFloat(currentTime)
         ship?.update(deltaTime)
         shipMissile?.update(deltaTime)
@@ -179,6 +209,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func invaderWasHit(invader: InvaderSpriteNode!, byMissile missile: ShipMissileSpriteNode!) {
         invaders?.invaderWasHit(invader)
         missile.remove()
+        addToScore(invader.score)
+    }
+    
+    private func addToScore(score: Int) {
+        self.score += score
+        scoreLabel?.text = String(format: "%04d", self.score)
     }
 
     // MARK: Debug

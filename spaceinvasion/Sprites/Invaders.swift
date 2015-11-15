@@ -22,10 +22,11 @@ class Invaders: SKNode {
 
     private var moveSoundIndex = 0
     private let invaderMoveSound = [
-        SKAction.playSoundFileNamed("inv_move_1", waitForCompletion: false),
-        SKAction.playSoundFileNamed("inv_move_2", waitForCompletion: false),
-        SKAction.playSoundFileNamed("inv_move_3", waitForCompletion: false),
-        SKAction.playSoundFileNamed("inv_move_4", waitForCompletion: false)]
+        SKAction.playSoundFileNamed("inv_move_1", waitForCompletion: true),
+        SKAction.playSoundFileNamed("inv_move_2", waitForCompletion: true),
+        SKAction.playSoundFileNamed("inv_move_3", waitForCompletion: true),
+        SKAction.playSoundFileNamed("inv_move_4", waitForCompletion: true)]
+    private let invaderHitSound = SKAction.playSoundFileNamed("inv_explode", waitForCompletion: false)
 
     private let invadersPerRow = 15
     private let invaderRankForRow = [
@@ -68,11 +69,17 @@ class Invaders: SKNode {
         let positionOffset = descendSpeed * CGFloat(startRow * 2)
         position = CGPoint(x: minX, y: maxY) - positionOffset
         
-        let spriteSize = CGPoint(x: invaderWidth + invaderXPad, y: -(invaderHeight + invaderYPad))
+        let spriteSize = CGPoint(
+            x: invaderWidth + invaderXPad,
+            y: -(invaderHeight + invaderYPad))
+        
         invaderSprites.removeAll()
         for row in 0 ..< invaderRankForRow.count {
             for column in 0 ..< invadersPerRow {
-                let invaderSprite = InvaderSpriteNode(rank: invaderRankForRow[row], row: row, column: column)
+                let invaderSprite = InvaderSpriteNode(
+                    rank: invaderRankForRow[row],
+                    row: row,
+                    column: column)
                 invaderSprite.position = CGPoint(x: column, y: row) * spriteSize
                 invaderSprites.append(invaderSprite)
                 addChild(invaderSprite)
@@ -93,7 +100,7 @@ class Invaders: SKNode {
         position += moveVector
         
         for invader in invaderSprites {
-            // TODO: It would be more efficient to set the texture for each sprite and then change the textures heere
+            // TODO: It would be more efficient to set the texture for each sprite and then change the textures here
             invader.animate()
             if invaderDropsBomb(invader) {
                 // TODO: Implement dropping bomb
@@ -114,8 +121,19 @@ class Invaders: SKNode {
     }
     
     func invaderWasHit(invader: InvaderSpriteNode!) {
+        runAction(invaderHitSound)
         invaderSprites.removeAtIndex(invaderSprites.indexOf(invader)!)
         invader.removeFromParent()
+        showInvaderExplosion(invader.position)
+    }
+    
+    func showInvaderExplosion(position: CGPoint) {
+        let invaderExplosion = SKSpriteNode(imageNamed: "InvaderBoom")
+        invaderExplosion.position = position
+        addChild(invaderExplosion)
+        invaderExplosion.runAction(SKAction.sequence([
+            SKAction.waitForDuration(0.5),
+            SKAction.removeFromParent()]))
     }
     
     private func isNextFrameTime(timeDelta: CGFloat) -> Bool {
