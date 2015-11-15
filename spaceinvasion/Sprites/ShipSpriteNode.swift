@@ -27,24 +27,26 @@ enum MoveDirection: CGFloat {
 
 class ShipSpriteNode: SKSpriteNode {
     
-    private let minX: CGFloat
-    private let maxX: CGFloat
     private let moveSpeed: CGFloat = 3.2 * 60
     
     var moveDirection = MoveDirection.None
     
-    init(minX: CGFloat, maxX: CGFloat) {
-        self.minX = minX
-        self.maxX = maxX
+    convenience init() {
         let texture = SKTexture(imageNamed: "Ship")
-        super.init(texture: texture, color: SKColor.whiteColor(), size: texture.size())
+        self.init(texture: texture, color: SKColor.whiteColor(), size: texture.size())
     }
     
-    required init(coder aDecoder: NSCoder) {
+    override required init(texture: SKTexture?, color: UIColor, size: CGSize) {
+        super.init(texture: texture, color: color, size: size)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     func update(deltaTime: CGFloat) {
+        let minX = ScreenConstants.values.shipMinX
+        let maxX = ScreenConstants.values.shipMaxX
         let moveDelta: CGFloat = moveDirection.rawValue * moveSpeed * deltaTime
         position.x = max(min(position.x + moveDelta, maxX), minX)
     }

@@ -8,51 +8,38 @@
 
 import SpriteKit
 
-enum PhysicsCategory: UInt32 {
-    case None = 0x00
-    case Ship = 0x01
-    case ShipMissile = 0x02
-    case Invader = 0x04
-    case InvaderMissile = 0x08
+protocol GameControlListening {
+    
+    func moveLeft()
+    func moveRight()
+    func stopMoving()
+    func fire()
 }
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene: SKScene, ScoreKeeping {
     
-    // TODO: Move to a plist file
-    private let shipHorizontalMargin: CGFloat = 108
-    private let shipY: CGFloat = 100
-    private let playableAreaMaxY: CGFloat = 705
-    private let invadersHorizontalMargin: CGFloat = 72
-    private let invadersMinY: CGFloat = 135
-    private let invadersMaxY: CGFloat = 605
-    let scoreTextLabelX: CGFloat = 72
-    
-    private var background: SKSpriteNode?
     private var scoreTextLabel: GameLabel?
     private var scoreLabel: GameLabel?
     private var highScoreTextLabel: GameLabel?
     private var highScoreLabel: GameLabel?
-    private var ship: ShipSpriteNode?
-    private var shipMissile: ShipMissileSpriteNode?
-    private var invaders: Invaders?
+    private var playArea: PlayArea?
+    
+    private var controlListener: GameControlListening?
     
     private var score = 0
-    private var level = 1
+    private var lives = 3
     private var lastUpdateTime: CGFloat = 0
     
-    // MARK: View lifecycle
+    // MARK: - View lifecycle
     
     override func didMoveToView(view: SKView) {
-        addPhysics()
-        addBackground()
+        backgroundColor = SKColor.blackColor()
+        addPlayArea()
         addLabels()
-        addShip()
-        addInvaders()
-        addControlsToView(view)
+        addPhysics()
+        addControlsToView()
         
-        if Settings.debug {
-            addDebugViews()
-        }
+        // TODO: Add life indicators
         
         // TODO: Start playing music
     }
@@ -61,24 +48,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // TODO: Stop playing music
     }
     
-    private func addPhysics() {
-        self.physicsWorld.gravity = CGVectorMake(0, 0)
-        self.physicsWorld.contactDelegate = self
-    }
-    
-    private func addBackground() {
-        backgroundColor = SKColor.blackColor()
-        background = SKSpriteNode(imageNamed: "Background")
-        background!.position = CGPoint(x: size.width/2, y: size.height/2)
-        background!.zPosition = -1
-        addChild(background!)
+    private func addPlayArea() {
+        playArea = PlayArea()
+        let x = (size.width - ScreenConstants.values.playableWidth) / 2
+        let y = (size.height - ScreenConstants.values.playableHeight) / 2
+        playArea?.position = CGPoint(x: x, y: y)
+        playArea?.scoreKeeper = self
+        controlListener = playArea
+        addChild(playArea!)
     }
     
     private func addLabels() {
         scoreTextLabel = GameLabel(text: "Score")
         scoreTextLabel?.horizontalAlignmentMode = .Left
+        let textLabelX = ScreenConstants.values.invadersMinX
         let textLine1Y = size.height - (scoreTextLabel?.frame.height)!
-        scoreTextLabel?.position = CGPoint(x: scoreTextLabelX, y: textLine1Y)
+        scoreTextLabel?.position = CGPoint(x: textLabelX, y: textLine1Y)
         addChild(scoreTextLabel!)
         
         scoreLabel = GameLabel(text: "0000")
@@ -97,46 +82,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(highScoreLabel!)
     }
     
-    private func addShip() {
-        ship = ShipSpriteNode(
-            minX: shipHorizontalMargin,
-            maxX: background!.size.width - shipHorizontalMargin)
-        ship!.position = CGPoint(x: shipHorizontalMargin, y: shipY)
-        addChild(ship!)
-        shipMissile = ShipMissileSpriteNode(maxY: playableAreaMaxY)
+    private func addPhysics() {
+        self.physicsWorld.gravity = CGVectorMake(0, 0)
+        self.physicsWorld.contactDelegate = playArea!
     }
     
-    private func addInvaders() {
-        invaders = Invaders(
-            minX: invadersHorizontalMargin,
-            maxX: background!.size.width - invadersHorizontalMargin,
-            minY: invadersMinY,
-            maxY: invadersMaxY)
-        invaders!.setupInvasionForLevel(level)
-        addChild(invaders!)
+    private func addControlsToView() {
+        addGestureRecognizerForButton(.Select, action: "fireButtonPressed")
+        addGestureRecognizerForButton(.Menu, action: "menuButtonPressed")
+        addGestureRecognizerForButton(.PlayPause, action: "pauseButtonPressed")
     }
     
-    private func addControlsToView(view: SKView) {
-        let fireButtonGestureRecognizer = UITapGestureRecognizer(target: self, action: "fireButtonPressed")
-        fireButtonGestureRecognizer.allowedPressTypes = [NSNumber(integer: UIPressType.Select.rawValue)]
-        view.addGestureRecognizer(fireButtonGestureRecognizer)
-    }
-    
-    private func addDebugViews() {
-        debugAddRect(CGRect(
-            x: invadersHorizontalMargin,
-            y: invadersMinY,
-            width: background!.size.width - 2 * invadersHorizontalMargin,
-            height: invadersMaxY - invadersMinY))
-        
-        debugAddRect(CGRect(
-            x: shipHorizontalMargin,
-            y: shipY - ship!.size.height / 2,
-            width: background!.size.width - 2 * shipHorizontalMargin,
-            height: ship!.size.height))
-    }
-    
-    // MARK: Input handling
+    // MARK: - Input handling
     
     var touchStartLocation = CGPointZero
     
@@ -157,75 +114,97 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let touchLocation = touch.locationInNode(self)
         
         if touchLocation.x < touchStartLocation.x - touchEpsilon {
-            ship?.moveDirection = .Left
+            controlListener?.moveLeft()
         }
         else if touchLocation.x > touchStartLocation.x + touchEpsilon {
-            ship?.moveDirection = .Right
+            controlListener?.moveRight()
         }
         else {
-            ship?.moveDirection = .None
+            controlListener?.stopMoving()
         }
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        ship?.moveDirection = .None
+        controlListener?.stopMoving()
     }
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        ship?.moveDirection = .None
+        controlListener?.stopMoving()
     }
     
     func fireButtonPressed() {
-        if shipMissile!.active {
-            return
-        }
-        
-        shipMissile!.fire(ship!.position)
-        addChild(shipMissile!)
+        controlListener?.fire()
     }
     
-    // MARK: Game loop
+    func menuButtonPressed() {
+        // TODO: Prompt user before immediately going back
+        returnToMainMenu()
+    }
+    
+    func pauseButtonPressed() {
+        guard let view = self.view as SKView! else {
+            return
+        }
+        view.paused = !view.paused
+        if !view.paused {
+            lastUpdateTime = 0
+        }
+        else {
+            // TODO: Show "Paused" overlay
+        }
+    }
+    
+    // MARK: - Game loop
     
     override func update(currentTime: CFTimeInterval) {
-        let deltaTime: CGFloat = lastUpdateTime > 0 ? CGFloat(currentTime) - lastUpdateTime : 0
+        var deltaTime: CGFloat = CGFloat(currentTime) - lastUpdateTime
+        if deltaTime > 0.5 {
+            deltaTime = 1 / 60
+        }
         lastUpdateTime = CGFloat(currentTime)
-        ship?.update(deltaTime)
-        shipMissile?.update(deltaTime)
-        invaders?.update(deltaTime)
-    }
-
-    // MARK: Physics contact delegate
-
-    func didBeginContact(contact: SKPhysicsContact) {
-        guard let invader = contact.bodyA.node as! InvaderSpriteNode! else {
-            return
-        }
-        guard let missile = contact.bodyB.node as! ShipMissileSpriteNode! else {
-            return
-        }
-        invaderWasHit(invader, byMissile: missile)
-    }
-
-    private func invaderWasHit(invader: InvaderSpriteNode!, byMissile missile: ShipMissileSpriteNode!) {
-        invaders?.invaderWasHit(invader)
-        missile.remove()
-        addToScore(invader.score)
+        playArea!.update(deltaTime)
     }
     
-    private func addToScore(score: Int) {
+    override func didFinishUpdate() {
+        if playArea!.invaded {
+            gameOver()
+        }
+    }
+    
+    func gameOver() {
+        // TODO: Show "Game Over" overlay
+        returnToMainMenu()
+    }
+    
+    // MARK: - Score keeping
+    
+    func addToScore(score: Int) {
         self.score += score
         scoreLabel?.text = String(format: "%04d", self.score)
     }
-
-    // MARK: Debug
     
-    private func debugAddRect(rect: CGRect) {
-        let shape = SKShapeNode()
-        let path = CGPathCreateMutable()
-        CGPathAddRect(path, nil, rect)
-        shape.path = path
-        shape.strokeColor = SKColor.redColor()
-        shape.lineWidth = 4.0
-        addChild(shape)
+    func invadersDestroyed() {
+        // TODO: Probably need some sort of pause in here ...
+        playArea?.setupNextInvasionLevel()
+    }
+    
+    func shipDestroyed() {
+        lives--
+        if (lives == 0) {
+            gameOver()
+            return
+        }
+        
+        // TODO: Update life indicators
+        
+        // TODO: Bring ship back to life
+    }
+    
+    // Mark: - Scene transitions
+    
+    private func returnToMainMenu() {
+        let titleScene = TitleScene(size: self.size)
+        let reveal = SKTransition.crossFadeWithDuration(1.5)
+        view?.presentScene(titleScene, transition: reveal)
     }
 }

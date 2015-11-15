@@ -31,7 +31,23 @@ func + (left: CGPoint, right: CGPoint) -> CGPoint {
     return CGPoint(x: left.x + right.x, y: left.y + right.y)
 }
 
+func + (left: CGPoint, right: CGSize) -> CGPoint {
+    return CGPoint(x: left.x + right.width, y: left.y + right.height)
+}
+
+func + (left: CGSize, right: CGPoint) -> CGPoint {
+    return CGPoint(x: right.x + left.width, y: right.y + left.height)
+}
+
+func + (left: CGSize, right: CGSize) -> CGSize {
+    return CGSize(width: left.width + right.width, height: left.height + right.height)
+}
+
 func += (inout left: CGPoint, right: CGPoint) {
+    left = left + right
+}
+
+func += (inout left: CGPoint, right: CGSize) {
     left = left + right
 }
 
@@ -39,12 +55,40 @@ func - (left: CGPoint, right: CGPoint) -> CGPoint {
     return CGPoint(x: left.x - right.x, y: left.y - right.y)
 }
 
+func - (left: CGPoint, right: CGSize) -> CGPoint {
+    return CGPoint(x: left.x - right.width, y: left.y - right.height)
+}
+
+func - (left: CGSize, right: CGPoint) -> CGPoint {
+    return CGPoint(x: right.x - left.width, y: right.y - left.height)
+}
+
+func - (left: CGSize, right: CGSize) -> CGSize {
+    return CGSize(width: left.width - right.width, height: left.height - right.height)
+}
+
 func -= (inout left: CGPoint, right: CGPoint) {
+    left = left - right
+}
+
+func -= (inout left: CGPoint, right: CGSize) {
     left = left - right
 }
 
 func * (left: CGPoint, right: CGPoint) -> CGPoint {
     return CGPoint(x: left.x * right.x, y: left.y * right.y)
+}
+
+func * (left: CGPoint, right: CGSize) -> CGPoint {
+    return CGPoint(x: left.x * right.width, y: left.y * right.height)
+}
+
+func * (left: CGSize, right: CGPoint) -> CGPoint {
+    return CGPoint(x: right.x * left.width, y: right.y * left.height)
+}
+
+func * (left: CGSize, right: CGSize) -> CGSize {
+    return CGSize(width: left.width * right.width, height: left.height * right.height)
 }
 
 func *= (inout left: CGPoint, right: CGPoint) {

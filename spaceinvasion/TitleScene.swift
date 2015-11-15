@@ -10,6 +10,15 @@ import SpriteKit
 
 class TitleScene: SKScene {
     
+    override init(size: CGSize) {
+        super.init(size: size)
+        scaleMode = .AspectFit
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func didMoveToView(view: SKView) {
         backgroundColor = SKColor.purpleColor()
         
@@ -18,6 +27,9 @@ class TitleScene: SKScene {
         background.zPosition = -1
         addChild(background)
         
+        addGestureRecognizerForButton(.Select, action: "selectButtonPressed")
+        addGestureRecognizerForButton(.Menu, action: "menuButtonPressed")
+        
         // TODO: Start playing music
     }
     
@@ -25,10 +37,14 @@ class TitleScene: SKScene {
         // TODO: Stop playing music
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    func selectButtonPressed() {
         let gameScene = GameScene(size: self.size)
         gameScene.scaleMode = scaleMode
         let reveal = SKTransition.crossFadeWithDuration(1.5)
         view?.presentScene(gameScene, transition: reveal)
+    }
+    
+    func menuButtonPressed() {
+        // TODO: Implement game options menu
     }
 }
