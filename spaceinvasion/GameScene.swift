@@ -23,12 +23,15 @@ class GameScene: SKScene, ScoreKeeping {
     private var highScoreTextLabel: GameLabel?
     private var highScoreLabel: GameLabel?
     private var playArea: PlayArea?
+    private var pausedOverlay: SKSpriteNode?
     
     private var controlListener: GameControlListening?
     
     private var score = 0
     private var lives = 3
+    
     private var lastUpdateTime: CGFloat = 0
+    private var gamePaused = false
     
     // MARK: - View lifecycle
     
@@ -38,6 +41,7 @@ class GameScene: SKScene, ScoreKeeping {
         addLabels()
         addPhysics()
         addControlsToView()
+        createOverlays()
         
         // TODO: Add life indicators
         
@@ -62,13 +66,13 @@ class GameScene: SKScene, ScoreKeeping {
         scoreTextLabel = GameLabel(text: "Score")
         scoreTextLabel?.horizontalAlignmentMode = .Left
         let textLabelX = ScreenConstants.values.invadersMinX
-        let textLine1Y = size.height - (scoreTextLabel?.frame.height)!
+        let textLine1Y = size.height - scoreTextLabel!.frame.height
         scoreTextLabel?.position = CGPoint(x: textLabelX, y: textLine1Y)
         addChild(scoreTextLabel!)
         
         scoreLabel = GameLabel(text: "0000")
-        let scoreLabelX = (scoreTextLabel?.frame.minX)! + (scoreTextLabel?.frame.width)! / 2
-        let textLine2Y = textLine1Y - (scoreTextLabel?.frame.height)! * 1.5
+        let scoreLabelX = (scoreTextLabel?.frame.minX)! + scoreTextLabel!.frame.width / 2
+        let textLine2Y = textLine1Y - scoreTextLabel!.frame.height * 1.5
         scoreLabel?.position = CGPoint(x: scoreLabelX, y: textLine2Y)
         addChild(scoreLabel!)
         
@@ -91,6 +95,13 @@ class GameScene: SKScene, ScoreKeeping {
         addGestureRecognizerForButton(.Select, action: "fireButtonPressed")
         addGestureRecognizerForButton(.Menu, action: "menuButtonPressed")
         addGestureRecognizerForButton(.PlayPause, action: "pauseButtonPressed")
+    }
+    
+    private func createOverlays() {
+        let pausedOverlayTexture = SKTexture(imageNamed: "GamePaused")
+        pausedOverlay = SKSpriteNode(texture: pausedOverlayTexture)
+        pausedOverlay?.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        pausedOverlay?.zPosition = 10
     }
     
     // MARK: - Input handling
@@ -142,21 +153,23 @@ class GameScene: SKScene, ScoreKeeping {
     }
     
     func pauseButtonPressed() {
-        guard let view = self.view as SKView! else {
-            return
-        }
-        view.paused = !view.paused
-        if !view.paused {
-            lastUpdateTime = 0
+        gamePaused = !gamePaused
+        if gamePaused {
+            addChild(pausedOverlay!)
         }
         else {
-            // TODO: Show "Paused" overlay
+            lastUpdateTime = 0
+            pausedOverlay!.removeFromParent()
         }
     }
     
     // MARK: - Game loop
     
     override func update(currentTime: CFTimeInterval) {
+        if gamePaused {
+            return
+        }
+        
         var deltaTime: CGFloat = CGFloat(currentTime) - lastUpdateTime
         if deltaTime > 0.5 {
             deltaTime = 1 / 60
