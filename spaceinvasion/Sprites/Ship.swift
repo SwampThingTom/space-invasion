@@ -1,5 +1,5 @@
 //
-//  ShipSpriteNode.swift
+//  Ship.swift
 //  SpaceInvasion
 //
 //  Created by Thomas Aylesworth on 11/8/15.
@@ -25,7 +25,7 @@ enum MoveDirection: CGFloat {
     }
 }
 
-class ShipSpriteNode: SKSpriteNode {
+class Ship: SKSpriteNode {
     
     private let moveSpeed: CGFloat = 3.2 * 60
     

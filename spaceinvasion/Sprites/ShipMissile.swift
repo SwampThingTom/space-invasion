@@ -1,5 +1,5 @@
 //
-//  ShipMissileSpriteNode.swift
+//  ShipMissile.swift
 //  SpaceInvasion
 //
 //  Created by Thomas Aylesworth on 11/8/15.
@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class ShipMissileSpriteNode: SKSpriteNode {
+class ShipMissile: SKSpriteNode {
     
     private let missileFiredSound = SKAction.playSoundFileNamed("ship_fire", waitForCompletion: false)
     private let moveSpeed: CGFloat = 6 * 60

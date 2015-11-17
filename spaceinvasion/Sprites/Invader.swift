@@ -1,5 +1,5 @@
 //
-//  InvaderSpriteNode.swift
+//  Invader.swift
 //  SpaceInvasion
 //
 //  Created by Thomas Aylesworth on 11/8/15.
@@ -23,7 +23,7 @@ enum InvaderRank {
     }
 }
 
-class InvaderSpriteNode: SKSpriteNode {
+class Invader: SKSpriteNode {
 
     let rank: InvaderRank
     let row: Int

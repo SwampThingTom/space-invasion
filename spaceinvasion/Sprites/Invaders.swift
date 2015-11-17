@@ -37,7 +37,7 @@ class Invaders: SKNode {
     private let maxLevel = 7
     private var level = 0
     
-    private var invaderSprites: [InvaderSpriteNode]
+    private var invaderSprites: [Invader]
     private let horizontalspeed = CGPoint(x: 8, y: 0)
     private let descendSpeed = CGPoint(x: 0, y: -24)
     private var direction = MoveDirection.Right
@@ -48,7 +48,7 @@ class Invaders: SKNode {
     
     override init() {
         invaderCellSize = invaderSize + invaderPaddingSize
-        invaderSprites = [InvaderSpriteNode]()
+        invaderSprites = [Invader]()
         super.init()
     }
 
@@ -116,7 +116,7 @@ class Invaders: SKNode {
         return invaderSprites.count == 0
     }
     
-    func invaderWasHit(invader: InvaderSpriteNode!) {
+    func invaderWasHit(invader: Invader!) {
         runAction(invaderHitSound)
         invaderSprites.removeAtIndex(invaderSprites.indexOf(invader)!)
         invader.removeFromParent()
@@ -161,14 +161,14 @@ class Invaders: SKNode {
         return move
     }
     
-    private func invaderDropsBomb(invader: InvaderSpriteNode) -> Bool {
+    private func invaderDropsBomb(invader: Invader) -> Bool {
         if !invaderAtBottom(invader) {
             return false
         }
         return random() <= chanceOfDroppingBomb
     }
     
-    private func invaderAtBottom(invader: InvaderSpriteNode) -> Bool {
+    private func invaderAtBottom(invader: Invader) -> Bool {
         let bottomRow = invaderSprites
             .filter { $0.column == invader.column }
             .reduce(0) { (maxRow, sprite) in max(maxRow, sprite.row) }

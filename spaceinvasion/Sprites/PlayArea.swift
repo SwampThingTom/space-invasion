@@ -31,8 +31,8 @@ class PlayArea : SKNode, SKPhysicsContactDelegate, GameControlListening {
     }
     
     private var background: SKSpriteNode?
-    private var ship: ShipSpriteNode?
-    private var shipMissile: ShipMissileSpriteNode?
+    private var ship: Ship?
+    private var shipMissile: ShipMissile?
     private var invaders: Invaders?
     
     override init() {
@@ -60,10 +60,10 @@ class PlayArea : SKNode, SKPhysicsContactDelegate, GameControlListening {
     }
     
     private func addShip() {
-        ship = ShipSpriteNode()
+        ship = Ship()
         ship!.position = CGPoint(x: ScreenConstants.values.shipMinX, y: ScreenConstants.values.shipY)
         addChild(ship!)
-        shipMissile = ShipMissileSpriteNode()
+        shipMissile = ShipMissile()
     }
     
     private func addInvaders() {
@@ -126,16 +126,16 @@ class PlayArea : SKNode, SKPhysicsContactDelegate, GameControlListening {
     // MARK: - Physics contact delegate
     
     func didBeginContact(contact: SKPhysicsContact) {
-        guard let invader = contact.bodyA.node as! InvaderSpriteNode! else {
+        guard let invader = contact.bodyA.node as! Invader! else {
             return
         }
-        guard let missile = contact.bodyB.node as! ShipMissileSpriteNode! else {
+        guard let missile = contact.bodyB.node as! ShipMissile! else {
             return
         }
         invaderWasHit(invader, byMissile: missile)
     }
     
-    private func invaderWasHit(invader: InvaderSpriteNode!, byMissile missile: ShipMissileSpriteNode!) {
+    private func invaderWasHit(invader: Invader!, byMissile missile: ShipMissile!) {
         invaders!.invaderWasHit(invader)
         missile.remove()
         scoreKeeper?.addToScore(invader.score)
