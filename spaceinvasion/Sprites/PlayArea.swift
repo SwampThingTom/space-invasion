@@ -30,6 +30,7 @@ class PlayArea : SKNode, SKPhysicsContactDelegate, GameControlListening {
         return invaders!.haveInvaded
     }
     
+    // TODO: Consider creating these in init so we don't have to deal with optionals
     private var background: SKSpriteNode?
     private var ship: Ship?
     private var shipMissile: ShipMissile?

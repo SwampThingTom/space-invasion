@@ -18,6 +18,7 @@ protocol GameControlListening {
 
 class GameScene: SKScene, ScoreKeeping {
     
+    // TODO: Consider creating these in init so we don't have to deal with optionals
     private var scoreTextLabel: GameLabel?
     private var scoreLabel: GameLabel?
     private var highScoreTextLabel: GameLabel?
@@ -44,12 +45,6 @@ class GameScene: SKScene, ScoreKeeping {
         createOverlays()
         
         // TODO: Add life indicators
-        
-        // TODO: Start playing music
-    }
-    
-    override func willMoveFromView(view: SKView) {
-        // TODO: Stop playing music
     }
     
     private func addPlayArea() {

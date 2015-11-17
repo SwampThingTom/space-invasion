@@ -92,28 +92,8 @@ class Invaders: SKNode {
     }
     
     func update(deltaTime: CGFloat) {
-        // Remove inactive bombs before updating bomb positions.
-        invaderBombs = invaderBombs.filter { $0.parent != nil }
-        for bomb in invaderBombs {
-            bomb.update(deltaTime)
-        }
-        
-        // Invaders move together at specific times, getting faster as there are fewer of them.
-        if (!isNextFrameTime(deltaTime)) {
-            return
-        }
-        
-        position += self.moveVector()
-        
-        for invader in invaderSprites {
-            // TODO: It would be more efficient to set the texture for each sprite and then change the textures here
-            invader.animate()
-            if invaderDropsBomb(invader) {
-                dropBomb(invader)
-            }
-        }
-        
-        playInvaderMoveSound()
+        updateBombs(deltaTime)
+        updateInvaders(deltaTime)
     }
     
     var haveInvaded: Bool {
@@ -141,7 +121,34 @@ class Invaders: SKNode {
             SKAction.removeFromParent()]))
     }
     
-    private func isNextFrameTime(timeDelta: CGFloat) -> Bool {
+    private func updateBombs(deltaTime: CGFloat) {
+        // Remove inactive bombs before updating bomb positions.
+        invaderBombs = invaderBombs.filter { $0.parent != nil }
+        for bomb in invaderBombs {
+            bomb.update(deltaTime)
+        }
+    }
+    
+    private func updateInvaders(deltaTime: CGFloat) {
+        // Invaders move together at specific times, getting faster as there are fewer of them.
+        if (!isNextMoveTime(deltaTime)) {
+            return
+        }
+        
+        position += self.moveVector()
+        
+        for invader in invaderSprites {
+            // TODO: It would be more efficient to set the texture for each sprite and then change the textures here
+            invader.animate()
+            if invaderDropsBomb(invader) {
+                dropBomb(invader)
+            }
+        }
+        
+        playInvaderMoveSound()
+    }
+    
+    private func isNextMoveTime(timeDelta: CGFloat) -> Bool {
         timeSinceLastFrame += timeDelta
         let nextFrameTime = lastFrameTime + frameUpdateTimePerInvader * CGFloat(invaderSprites.count)
         let currentTime = lastFrameTime + timeSinceLastFrame
