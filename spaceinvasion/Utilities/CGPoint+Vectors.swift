@@ -1,6 +1,6 @@
 //
 //  CGPoint+Vectors.swift
-//  spaceinvasion
+//  SpaceInvasion
 //
 //  Adapted from raywenderlich.com.
 //

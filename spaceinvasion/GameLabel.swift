@@ -1,6 +1,6 @@
 //
 //  GameLabel.swift
-//  spaceinvasion
+//  SpaceInvasion
 //
 //  Created by Thomas Aylesworth on 11/14/15.
 //  Copyright © 2015 Thomas H Aylesworth. All rights reserved.

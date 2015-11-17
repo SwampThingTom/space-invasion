@@ -1,6 +1,6 @@
 //
 //  Settings.swift
-//  spaceinvasion
+//  SpaceInvasion
 //
 //  Created by Thomas Aylesworth on 11/12/15.
 //  Copyright © 2015 Thomas H Aylesworth. All rights reserved.

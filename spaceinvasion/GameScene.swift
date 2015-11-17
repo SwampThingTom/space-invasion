@@ -1,6 +1,6 @@
 //
 //  GameScene.swift
-//  spaceinvasion
+//  SpaceInvasion
 //
 //  Created by Thomas Aylesworth on 11/8/15.
 //  Copyright © 2015 Thomas H Aylesworth. All rights reserved.
@@ -71,7 +71,7 @@ class GameScene: SKScene, ScoreKeeping {
         addChild(scoreTextLabel!)
         
         scoreLabel = GameLabel(text: "0000")
-        let scoreLabelX = (scoreTextLabel?.frame.minX)! + scoreTextLabel!.frame.width / 2
+        let scoreLabelX = scoreTextLabel!.frame.minX + scoreTextLabel!.frame.width / 2
         let textLine2Y = textLine1Y - scoreTextLabel!.frame.height * 1.5
         scoreLabel?.position = CGPoint(x: scoreLabelX, y: textLine2Y)
         addChild(scoreLabel!)
