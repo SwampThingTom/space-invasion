@@ -39,6 +39,7 @@
 		E2C94FB41BF8D668000C94E8 /* PlayArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C94FB31BF8D668000C94E8 /* PlayArea.swift */; };
 		E2C94FB61BF8E9C2000C94E8 /* ScreenConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C94FB51BF8E9C2000C94E8 /* ScreenConstants.swift */; };
 		E2C94FB81BF8FBCB000C94E8 /* SKScene+Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C94FB71BF8FBCB000C94E8 /* SKScene+Controller.swift */; };
+		E2DCEF6F1BFAC55800C94D80 /* InvaderBomb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DCEF6E1BFAC55800C94D80 /* InvaderBomb.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		E2C94FB31BF8D668000C94E8 /* PlayArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayArea.swift; path = Sprites/PlayArea.swift; sourceTree = "<group>"; };
 		E2C94FB51BF8E9C2000C94E8 /* ScreenConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenConstants.swift; sourceTree = "<group>"; };
 		E2C94FB71BF8FBCB000C94E8 /* SKScene+Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SKScene+Controller.swift"; path = "Utilities/SKScene+Controller.swift"; sourceTree = "<group>"; };
+		E2DCEF6E1BFAC55800C94D80 /* InvaderBomb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvaderBomb.swift; path = Sprites/InvaderBomb.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 				E2A521381BF7F4D100B7B914 /* GameLabel.swift */,
 				E24A36E71BF037D9008042E0 /* Invader.swift */,
 				E24A36E91BF043F3008042E0 /* Invaders.swift */,
+				E2DCEF6E1BFAC55800C94D80 /* InvaderBomb.swift */,
 				E2987A611BF8393F007B8302 /* LifeIndicators.swift */,
 				E2C94FB31BF8D668000C94E8 /* PlayArea.swift */,
 				E24A36DE1BEFD0B3008042E0 /* Ship.swift */,
@@ -366,6 +369,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2DCEF6F1BFAC55800C94D80 /* InvaderBomb.swift in Sources */,
 				E24A36E81BF037D9008042E0 /* Invader.swift in Sources */,
 				E2C94FB61BF8E9C2000C94E8 /* ScreenConstants.swift in Sources */,
 				E2C94FB41BF8D668000C94E8 /* PlayArea.swift in Sources */,

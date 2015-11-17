@@ -126,13 +126,18 @@ class PlayArea : SKNode, SKPhysicsContactDelegate, GameControlListening {
     // MARK: - Physics contact delegate
     
     func didBeginContact(contact: SKPhysicsContact) {
-        guard let invader = contact.bodyA.node as! Invader! else {
-            return
+        if let invader = contact.bodyA.node as? Invader {
+            guard let missile = contact.bodyB.node as! ShipMissile! else {
+                return
+            }
+            invaderWasHit(invader, byMissile: missile)
         }
-        guard let missile = contact.bodyB.node as! ShipMissile! else {
-            return
+        else if let ship = contact.bodyA.node as? Ship {
+            guard let bomb = contact.bodyB.node as! InvaderBomb! else {
+                return
+            }
+            shipWasHit(ship, byBomb: bomb)
         }
-        invaderWasHit(invader, byMissile: missile)
     }
     
     private func invaderWasHit(invader: Invader!, byMissile missile: ShipMissile!) {
@@ -143,6 +148,12 @@ class PlayArea : SKNode, SKPhysicsContactDelegate, GameControlListening {
         if invaders!.destroyed {
             scoreKeeper?.invadersDestroyed()
         }
+    }
+    
+    private func shipWasHit(ship: Ship!, byBomb bomb: InvaderBomb!) {
+        // TODO: Show ship explosion, make noise, enter limbo
+        bomb.removeFromParent()
+        scoreKeeper?.shipDestroyed()
     }
     
     // MARK: - Debug

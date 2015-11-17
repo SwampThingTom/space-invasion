@@ -34,6 +34,11 @@ class Ship: SKSpriteNode {
     convenience init() {
         let texture = SKTexture(imageNamed: "Ship")
         self.init(texture: texture, color: SKColor.whiteColor(), size: texture.size())
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: texture.size())
+        self.physicsBody?.dynamic = true
+        self.physicsBody?.categoryBitMask = PhysicsCategory.Ship.rawValue
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.None.rawValue
+        self.physicsBody?.collisionBitMask = PhysicsCategory.None.rawValue
     }
     
     override required init(texture: SKTexture?, color: UIColor, size: CGSize) {

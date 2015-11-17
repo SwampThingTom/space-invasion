@@ -38,6 +38,7 @@ class Invaders: SKNode {
     private var level = 0
     
     private var invaderSprites: [Invader]
+    private var invaderBombs: [InvaderBomb]
     private let horizontalspeed = CGPoint(x: 8, y: 0)
     private let descendSpeed = CGPoint(x: 0, y: -24)
     private var direction = MoveDirection.Right
@@ -49,6 +50,7 @@ class Invaders: SKNode {
     override init() {
         invaderCellSize = invaderSize + invaderPaddingSize
         invaderSprites = [Invader]()
+        invaderBombs = [InvaderBomb]()
         super.init()
     }
 
@@ -70,10 +72,11 @@ class Invaders: SKNode {
         let y = ScreenConstants.values.invadersMaxY
         position = CGPoint(x: x, y: y) - rowOffset
         
+        invaderBombs.removeAll()
         invaderSprites.removeAll()
         for row in 0 ..< invaderRankForRow.count {
             for column in 0 ..< ScreenConstants.values.invadersPerRow {
-                let invaderSprite = InvaderSpriteNode(
+                let invaderSprite = Invader(
                     rank: invaderRankForRow[row],
                     row: row,
                     column: column)
@@ -89,6 +92,13 @@ class Invaders: SKNode {
     }
     
     func update(deltaTime: CGFloat) {
+        // Remove inactive bombs before updating bomb positions.
+        invaderBombs = invaderBombs.filter { $0.parent != nil }
+        for bomb in invaderBombs {
+            bomb.update(deltaTime)
+        }
+        
+        // Invaders move together at specific times, getting faster as there are fewer of them.
         if (!isNextFrameTime(deltaTime)) {
             return
         }
@@ -99,8 +109,7 @@ class Invaders: SKNode {
             // TODO: It would be more efficient to set the texture for each sprite and then change the textures here
             invader.animate()
             if invaderDropsBomb(invader) {
-                // TODO: Implement dropping bomb
-                //invaderBombs.Fire(invader.Position + MissileOffset, (RandomNumber.NextDouble() < ChanceOfFastBomb))
+                dropBomb(invader)
             }
         }
         
@@ -166,6 +175,16 @@ class Invaders: SKNode {
             return false
         }
         return random() <= chanceOfDroppingBomb
+    }
+    
+    private func dropBomb(invader: Invader) {
+        let bombType: InvaderBombType = random() < chanceOfFastBomb ? .Fast : .Slow
+        let bomb = InvaderBomb(type: bombType)
+        bomb.position = position + invader.position - CGPoint(x: 0, y: invaderSize.height)
+        invaderBombs.append(bomb)
+        
+        // Adding to parent so that it moves independently of the Invaders
+        parent?.addChild(bomb)
     }
     
     private func invaderAtBottom(invader: Invader) -> Bool {

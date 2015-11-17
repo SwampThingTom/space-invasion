@@ -49,7 +49,7 @@ struct ScreenConstants {
             let shipMargin: CGFloat = 90
             shipMinX = shipMargin
             shipMaxX = playableWidth - shipMargin
-            shipY = 110
+            shipY = invadersMinY - 28
             
             shipMissileMaxY = 705
         }
