@@ -31,8 +31,11 @@ class GameScene: SKScene, ScoreKeeping {
     private var score = 0
     private var lives = 3
     
-    private var lastUpdateTime: CGFloat = 0
+    private var lastUpdateTime: CFTimeInterval = 0
     private var gamePaused = false
+    
+    private var limboEndTime: CFTimeInterval = 0
+    private var inLimbo = false
     
     // MARK: - View lifecycle
     
@@ -165,11 +168,18 @@ class GameScene: SKScene, ScoreKeeping {
             return
         }
         
-        var deltaTime: CGFloat = CGFloat(currentTime) - lastUpdateTime
+        if inLimbo && currentTime < limboEndTime {
+            if currentTime < limboEndTime {
+                return
+            }
+            exitLimbo()
+        }
+        
+        var deltaTime: CGFloat = CGFloat(currentTime - lastUpdateTime)
         if deltaTime > 0.5 {
             deltaTime = 1 / 60
         }
-        lastUpdateTime = CGFloat(currentTime)
+        lastUpdateTime = currentTime
         playArea!.update(deltaTime)
     }
     
@@ -197,18 +207,28 @@ class GameScene: SKScene, ScoreKeeping {
     }
     
     func shipDestroyed() {
-        lives--
-        if (lives == 0) {
+        if (--lives == 0) {
             gameOver()
             return
         }
         
         // TODO: Update life indicators
         
-        // TODO: Bring ship back to life
+        enterLimbo()
     }
     
-    // Mark: - Scene transitions
+    // MARK: - Limbo
+    
+    private func enterLimbo() {
+        inLimbo = true
+        limboEndTime = lastUpdateTime + 2
+    }
+    
+    private func exitLimbo() {
+        inLimbo = false
+    }
+    
+    // MARK: - Scene transitions
     
     private func returnToMainMenu() {
         let titleScene = TitleScene(size: self.size)

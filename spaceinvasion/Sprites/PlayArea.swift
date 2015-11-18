@@ -152,7 +152,8 @@ class PlayArea : SKNode, SKPhysicsContactDelegate, GameControlListening {
     }
     
     private func shipWasHit(ship: Ship!, byBomb bomb: InvaderBomb!) {
-        // TODO: Show ship explosion, make noise, enter limbo
+        // TODO: Show ship explosion, make noise
+        ship!.shipWasHit()
         bomb.removeFromParent()
         scoreKeeper?.shipDestroyed()
     }

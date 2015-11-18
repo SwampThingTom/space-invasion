@@ -112,7 +112,7 @@ class Invaders: SKNode {
         showInvaderExplosion(invader.position)
     }
     
-    func showInvaderExplosion(position: CGPoint) {
+    private func showInvaderExplosion(position: CGPoint) {
         let invaderExplosion = SKSpriteNode(imageNamed: "InvaderBoom")
         invaderExplosion.position = position
         addChild(invaderExplosion)

@@ -27,8 +27,9 @@ enum MoveDirection: CGFloat {
 
 class Ship: SKSpriteNode {
     
-    private let moveSpeed: CGFloat = 3.2 * 60
+    private let explosionSound = SKAction.playSoundFileNamed("ship_explode", waitForCompletion: false)
     
+    private let moveSpeed: CGFloat = 3.2 * 60
     var moveDirection = MoveDirection.None
     
     convenience init() {
@@ -54,5 +55,17 @@ class Ship: SKSpriteNode {
         let maxX = ScreenConstants.values.shipMaxX
         let moveDelta: CGFloat = moveDirection.rawValue * moveSpeed * deltaTime
         position.x = max(min(position.x + moveDelta, maxX), minX)
+    }
+    
+    func shipWasHit() {
+        runAction(explosionSound)
+        showShipExplosion()
+    }
+    
+    private func showShipExplosion() {
+        runAction(SKAction.sequence([
+            SKAction.setTexture(SKTexture(imageNamed: "ShipBoom")),
+            SKAction.waitForDuration(2),
+            SKAction.setTexture(SKTexture(imageNamed: "Ship"))]))
     }
 }
