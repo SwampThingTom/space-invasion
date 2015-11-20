@@ -36,6 +36,10 @@ class PlayArea : SKNode, SKPhysicsContactDelegate, GameControlListening {
     private var shipMissile: ShipMissile?
     private var invaders: Invaders?
     
+    // TODO: Implement shields
+    
+    // TODO: Implement UFOs
+    
     override init() {
         super.init()
         addBackground()
@@ -139,6 +143,7 @@ class PlayArea : SKNode, SKPhysicsContactDelegate, GameControlListening {
             }
             shipWasHit(ship, byBomb: bomb)
         }
+        // TODO: Handle missiles hitting bombs
     }
     
     private func invaderWasHit(invader: Invader!, byMissile missile: ShipMissile!) {
@@ -152,7 +157,6 @@ class PlayArea : SKNode, SKPhysicsContactDelegate, GameControlListening {
     }
     
     private func shipWasHit(ship: Ship!, byBomb bomb: InvaderBomb!) {
-        // TODO: Show ship explosion, make noise
         ship!.shipWasHit()
         bomb.removeFromParent()
         scoreKeeper?.shipDestroyed()

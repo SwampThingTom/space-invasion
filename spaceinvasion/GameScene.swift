@@ -25,6 +25,7 @@ class GameScene: SKScene, ScoreKeeping {
     private var highScoreLabel: GameLabel?
     private var playArea: PlayArea?
     private var pausedOverlay: SKSpriteNode?
+    private var gameOverOverlay: SKSpriteNode?
     
     private var controlListener: GameControlListening?
     
@@ -33,6 +34,7 @@ class GameScene: SKScene, ScoreKeeping {
     
     private var lastUpdateTime: CFTimeInterval = 0
     private var gamePaused = false
+    private var gameOver = false
     
     private var limboEndTime: CFTimeInterval = 0
     private var inLimbo = false
@@ -100,6 +102,11 @@ class GameScene: SKScene, ScoreKeeping {
         pausedOverlay = SKSpriteNode(texture: pausedOverlayTexture)
         pausedOverlay?.position = CGPoint(x: size.width / 2, y: size.height / 2)
         pausedOverlay?.zPosition = 10
+        
+        let gameOverOverlayTexture = SKTexture(imageNamed: "GameOver")
+        gameOverOverlay = SKSpriteNode(texture: gameOverOverlayTexture)
+        gameOverOverlay?.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        gameOverOverlay?.zPosition = 10
     }
     
     // MARK: - Input handling
@@ -164,7 +171,7 @@ class GameScene: SKScene, ScoreKeeping {
     // MARK: - Game loop
     
     override func update(currentTime: CFTimeInterval) {
-        if gamePaused {
+        if gamePaused || gameOver {
             return
         }
         
@@ -185,13 +192,18 @@ class GameScene: SKScene, ScoreKeeping {
     
     override func didFinishUpdate() {
         if playArea!.invaded {
-            gameOver()
+            gameIsOver()
         }
     }
     
-    func gameOver() {
-        // TODO: Show "Game Over" overlay
-        returnToMainMenu()
+    private func gameIsOver() {
+        gameOver = true
+        addChild(gameOverOverlay!)
+        runAction(SKAction.sequence([
+            SKAction.waitForDuration(2),
+            SKAction.runBlock() {
+                self.returnToMainMenu()
+            }]))
     }
     
     // MARK: - Score keeping
@@ -208,7 +220,7 @@ class GameScene: SKScene, ScoreKeeping {
     
     func shipDestroyed() {
         if (--lives == 0) {
-            gameOver()
+            gameIsOver()
             return
         }
         
