@@ -7,8 +7,11 @@
 //
 
 import SpriteKit
+import GameController
 
 class TitleScene: SKScene {
+    
+    private var controller: GCController?
     
     override init(size: CGSize) {
         super.init(size: size)
@@ -27,14 +30,35 @@ class TitleScene: SKScene {
         background.zPosition = -1
         addChild(background)
         
-        addGestureRecognizerForButton(.Select, action: "selectButtonPressed")
-        addGestureRecognizerForButton(.Menu, action: "menuButtonPressed")
+        #if (arch(i386) || arch(x86_64)) && os(tvOS)
+            addSimulatorController()
+        #else
+            addGameController()
+        #endif
         
         // TODO: Start playing music
     }
     
     override func willMoveFromView(view: SKView) {
         // TODO: Stop playing music
+    }
+    
+    private func addSimulatorController() {
+        addGestureRecognizerForButton(.Select, action: "selectButtonPressed")
+        addGestureRecognizerForButton(.Menu, action: "menuButtonPressed")
+    }
+    
+    private func addGameController() {
+        controller = GCController.controllers().first
+        controller?.controllerPausedHandler = { (GCController) -> Void in
+            self.menuButtonPressed()
+        }
+        let gamepad = controller?.gamepad
+        gamepad?.buttonA.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> Void in
+            if !pressed {
+                self.selectButtonPressed()
+            }
+        }
     }
     
     func selectButtonPressed() {

@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Thomas H Aylesworth. All rights reserved.
 //
 
-import UIKit
 import SpriteKit
+import GameController
 
-class GameViewController: UIViewController {
+class GameViewController: GCEventViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

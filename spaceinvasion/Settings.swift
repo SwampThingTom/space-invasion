@@ -6,8 +6,6 @@
 //  Copyright © 2015 Thomas H Aylesworth. All rights reserved.
 //
 
-import Foundation
-
 struct Settings {
     static let debug = false
 }

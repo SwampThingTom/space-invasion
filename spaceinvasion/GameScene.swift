@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import GameController
 
 protocol GameControlListening {
     
@@ -26,6 +27,8 @@ class GameScene: SKScene, ScoreKeeping {
     private var playArea: PlayArea?
     private var pausedOverlay: SKSpriteNode?
     private var gameOverOverlay: SKSpriteNode?
+    
+    private var gameController: GCController?
     private var controlListener: GameControlListening?
     
     private var highScore: Int = NSUserDefaults.standardUserDefaults().integerForKey("HighScore") {
@@ -97,9 +100,13 @@ class GameScene: SKScene, ScoreKeeping {
     }
     
     private func addControlsToView() {
+        #if (arch(i386) || arch(x86_64)) && os(tvOS)
         addGestureRecognizerForButton(.Select, action: "fireButtonPressed")
         addGestureRecognizerForButton(.Menu, action: "menuButtonPressed")
         addGestureRecognizerForButton(.PlayPause, action: "pauseButtonPressed")
+        #else
+        gameController = GCController.controllers().first
+        #endif
     }
     
     private func createOverlays() {
@@ -116,6 +123,7 @@ class GameScene: SKScene, ScoreKeeping {
     
     // MARK: - Input handling
     
+    #if (arch(i386) || arch(x86_64)) && os(tvOS)
     var touchStartLocation = CGPointZero
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -152,6 +160,7 @@ class GameScene: SKScene, ScoreKeeping {
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
         controlListener?.stopMoving()
     }
+    #endif
     
     func fireButtonPressed() {
         controlListener?.fire()
