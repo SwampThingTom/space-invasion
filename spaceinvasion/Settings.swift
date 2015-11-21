@@ -8,6 +8,6 @@
 
 import Foundation
 
-class Settings {
+struct Settings {
     static let debug = false
 }

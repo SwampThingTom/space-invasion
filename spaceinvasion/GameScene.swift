@@ -26,8 +26,13 @@ class GameScene: SKScene, ScoreKeeping {
     private var playArea: PlayArea?
     private var pausedOverlay: SKSpriteNode?
     private var gameOverOverlay: SKSpriteNode?
-    
     private var controlListener: GameControlListening?
+    
+    private var highScore: Int = NSUserDefaults.standardUserDefaults().integerForKey("HighScore") {
+        didSet {
+            NSUserDefaults.standardUserDefaults().setInteger(highScore, forKey: "HighScore")
+        }
+    }
     
     private var score = 0
     private var lives = 3
@@ -81,7 +86,7 @@ class GameScene: SKScene, ScoreKeeping {
         highScoreTextLabel?.position = CGPoint(x: highScoreLabelX, y: textLine1Y)
         addChild(highScoreTextLabel!)
         
-        highScoreLabel = GameLabel(text: "0000")
+        highScoreLabel = GameLabel(text: String(format: "%04d", self.highScore))
         highScoreLabel?.position = CGPoint(x: highScoreLabelX, y: textLine2Y)
         addChild(highScoreLabel!)
     }
@@ -176,9 +181,6 @@ class GameScene: SKScene, ScoreKeeping {
         }
         
         if inLimbo && currentTime < limboEndTime {
-            if currentTime < limboEndTime {
-                return
-            }
             exitLimbo()
         }
         
@@ -211,6 +213,10 @@ class GameScene: SKScene, ScoreKeeping {
     func addToScore(score: Int) {
         self.score += score
         scoreLabel?.text = String(format: "%04d", self.score)
+        if self.score > highScore {
+            highScore = self.score
+            highScoreLabel?.text = scoreLabel?.text
+        }
     }
     
     func invadersDestroyed() {
