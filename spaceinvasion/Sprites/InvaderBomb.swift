@@ -40,9 +40,11 @@ class InvaderBomb: SKSpriteNode {
         self.type = type
         self.physicsBody = SKPhysicsBody(rectangleOfSize: texture.size())
         self.physicsBody?.dynamic = true
+        self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.categoryBitMask = PhysicsCategory.InvaderMissile.rawValue
-        self.physicsBody?.contactTestBitMask = PhysicsCategory.Ship.rawValue
         self.physicsBody?.collisionBitMask = PhysicsCategory.None.rawValue
+        let contactBitMask = PhysicsCategory.Ship.rawValue | PhysicsCategory.ShipMissile.rawValue
+        self.physicsBody?.contactTestBitMask = contactBitMask
     }
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {

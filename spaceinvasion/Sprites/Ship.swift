@@ -28,19 +28,20 @@ enum MoveDirection: CGFloat {
 class Ship: SKSpriteNode {
     
     private let explosionSound = SKAction.playSoundFileNamed("ship_explode", waitForCompletion: false)
-    private var exploding = false
     
     private let moveSpeed: CGFloat = 3.2 * 60
     var moveDirection = MoveDirection.None
+    var active = true
     
     convenience init() {
         let texture = SKTexture(imageNamed: "Ship")
         self.init(texture: texture, color: SKColor.whiteColor(), size: texture.size())
         self.physicsBody = SKPhysicsBody(rectangleOfSize: texture.size())
         self.physicsBody?.dynamic = true
+        self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.categoryBitMask = PhysicsCategory.Ship.rawValue
-        self.physicsBody?.contactTestBitMask = PhysicsCategory.None.rawValue
         self.physicsBody?.collisionBitMask = PhysicsCategory.None.rawValue
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.InvaderMissile.rawValue
     }
     
     override required init(texture: SKTexture?, color: UIColor, size: CGSize) {
@@ -52,7 +53,7 @@ class Ship: SKSpriteNode {
     }
     
     func update(deltaTime: CGFloat) {
-        if exploding {
+        if !active {
             return
         }
         
@@ -68,11 +69,11 @@ class Ship: SKSpriteNode {
     }
     
     private func showShipExplosion() {
-        exploding = true
+        active = false
         runAction(SKAction.sequence([
             SKAction.setTexture(SKTexture(imageNamed: "ShipBoom")),
             SKAction.waitForDuration(2),
             SKAction.setTexture(SKTexture(imageNamed: "Ship")),
-            SKAction.runBlock() { self.exploding = false }]))
+            SKAction.runBlock() { self.active = true }]))
     }
 }

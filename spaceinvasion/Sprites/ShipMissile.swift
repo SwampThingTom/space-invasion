@@ -20,9 +20,11 @@ class ShipMissile: SKSpriteNode {
         self.init(texture: texture, color: SKColor.whiteColor(), size: texture.size())
         self.physicsBody = SKPhysicsBody(rectangleOfSize: texture.size())
         self.physicsBody?.dynamic = true
+        self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.categoryBitMask = PhysicsCategory.ShipMissile.rawValue
-        self.physicsBody?.contactTestBitMask = PhysicsCategory.Invader.rawValue
         self.physicsBody?.collisionBitMask = PhysicsCategory.None.rawValue
+        let contactBitMask = PhysicsCategory.Invader.rawValue | PhysicsCategory.InvaderMissile.rawValue
+        self.physicsBody?.contactTestBitMask = contactBitMask
     }
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {

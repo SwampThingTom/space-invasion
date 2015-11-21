@@ -120,6 +120,10 @@ class PlayArea : SKNode, SKPhysicsContactDelegate, GameControlListening {
     }
     
     func fire() {
+        if !ship!.active {
+            return
+        }
+        
         if shipMissile!.active {
             return
         }
@@ -132,18 +136,29 @@ class PlayArea : SKNode, SKPhysicsContactDelegate, GameControlListening {
     
     func didBeginContact(contact: SKPhysicsContact) {
         if let invader = contact.bodyA.node as? Invader {
-            guard let missile = contact.bodyB.node as! ShipMissile! else {
-                return
-            }
+            let missile = contact.bodyB.node as! ShipMissile!
             invaderWasHit(invader, byMissile: missile)
         }
         else if let ship = contact.bodyA.node as? Ship {
-            guard let bomb = contact.bodyB.node as! InvaderBomb! else {
-                return
-            }
+            let bomb = contact.bodyB.node as! InvaderBomb!
             shipWasHit(ship, byBomb: bomb)
         }
-        // TODO: Handle missiles hitting bombs
+        else if let missile = contact.bodyA.node as? ShipMissile {
+            if let invader = contact.bodyB.node as? Invader {
+                invaderWasHit(invader, byMissile: missile)
+            }
+            else if let bomb = contact.bodyB.node as? InvaderBomb {
+                bombWasHit(bomb, byMissile: missile)
+            }
+        }
+        else if let bomb = contact.bodyA.node as? InvaderBomb {
+            if let ship = contact.bodyB.node as? Ship {
+                shipWasHit(ship, byBomb: bomb)
+            }
+            else if let missile = contact.bodyB.node as? ShipMissile {
+                bombWasHit(bomb, byMissile: missile)
+            }
+        }
     }
     
     private func invaderWasHit(invader: Invader!, byMissile missile: ShipMissile!) {
@@ -160,6 +175,11 @@ class PlayArea : SKNode, SKPhysicsContactDelegate, GameControlListening {
         ship!.shipWasHit()
         bomb.removeFromParent()
         scoreKeeper?.shipDestroyed()
+    }
+    
+    private func bombWasHit(bomb: InvaderBomb!, byMissile missile: ShipMissile!) {
+        bomb.removeFromParent()
+        missile.remove()
     }
     
     // MARK: - Debug
