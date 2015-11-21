@@ -22,8 +22,9 @@ protocol ScoreKeeping {
     func invadersDestroyed()
 }
 
-class PlayArea : SKNode, SKPhysicsContactDelegate, GameControlListening {
-    
+class PlayArea : SKNode, SKPhysicsContactDelegate {
+        
+    var controller: GameControlling?
     var scoreKeeper: ScoreKeeping?
     
     var invaded: Bool {
@@ -100,26 +101,33 @@ class PlayArea : SKNode, SKPhysicsContactDelegate, GameControlListening {
     // MARK: - Game loop
     
     func update(deltaTime: CGFloat) {
+        updateControls()
         ship?.update(deltaTime)
         shipMissile?.update(deltaTime)
         invaders?.update(deltaTime)
     }
     
-    // MARK: - Game control listening
-    
-    func moveLeft() {
-        ship?.moveDirection = .Left
+    private func updateControls() {
+        guard let controller = controller as GameControlling! else {
+            return
+        }
+        ship?.moveDirection = moveDirectionForController(controller)
+        if controller.fireButtonIsPressed {
+            fire()
+        }
     }
     
-    func moveRight() {
-        ship?.moveDirection = .Right
+    private func moveDirectionForController(controller: GameControlling) -> MoveDirection {
+        if controller.leftButtonIsPressed {
+            return .Left
+        }
+        if controller.rightButtonIsPressed {
+            return .Right
+        }
+        return .None
     }
     
-    func stopMoving() {
-        ship?.moveDirection = .None
-    }
-    
-    func fire() {
+    private func fire() {
         if !ship!.active {
             return
         }

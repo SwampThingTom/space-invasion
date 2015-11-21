@@ -7,17 +7,10 @@
 //
 
 import SpriteKit
-import GameController
-
-protocol GameControlListening {
-    
-    func moveLeft()
-    func moveRight()
-    func stopMoving()
-    func fire()
-}
 
 class GameScene: SKScene, ScoreKeeping {
+    
+    var controller: GameControlling?
     
     // TODO: Consider creating these in init so we don't have to deal with optionals
     private var scoreTextLabel: GameLabel?
@@ -27,9 +20,6 @@ class GameScene: SKScene, ScoreKeeping {
     private var playArea: PlayArea?
     private var pausedOverlay: SKSpriteNode?
     private var gameOverOverlay: SKSpriteNode?
-    
-    private var gameController: GCController?
-    private var controlListener: GameControlListening?
     
     private var highScore: Int = NSUserDefaults.standardUserDefaults().integerForKey("HighScore") {
         didSet {
@@ -54,7 +44,7 @@ class GameScene: SKScene, ScoreKeeping {
         addPlayArea()
         addLabels()
         addPhysics()
-        addControlsToView()
+        addControls()
         createOverlays()
         
         // TODO: Add life indicators
@@ -65,8 +55,8 @@ class GameScene: SKScene, ScoreKeeping {
         let x = (size.width - ScreenConstants.values.playableWidth) / 2
         let y = (size.height - ScreenConstants.values.playableHeight) / 2
         playArea?.position = CGPoint(x: x, y: y)
+        playArea?.controller = controller
         playArea?.scoreKeeper = self
-        controlListener = playArea
         addChild(playArea!)
     }
     
@@ -99,14 +89,9 @@ class GameScene: SKScene, ScoreKeeping {
         self.physicsWorld.contactDelegate = playArea!
     }
     
-    private func addControlsToView() {
-        #if (arch(i386) || arch(x86_64)) && os(tvOS)
-        addGestureRecognizerForButton(.Select, action: "fireButtonPressed")
-        addGestureRecognizerForButton(.Menu, action: "menuButtonPressed")
-        addGestureRecognizerForButton(.PlayPause, action: "pauseButtonPressed")
-        #else
-        gameController = GCController.controllers().first
-        #endif
+    private func addControls() {
+        controller?.menuButtonPressedHandler = menuButtonPressed
+        controller?.playPauseButtonPressedHandler = pauseButtonPressed
     }
     
     private func createOverlays() {
@@ -121,50 +106,7 @@ class GameScene: SKScene, ScoreKeeping {
         gameOverOverlay?.zPosition = 10
     }
     
-    // MARK: - Input handling
-    
-    #if (arch(i386) || arch(x86_64)) && os(tvOS)
-    var touchStartLocation = CGPointZero
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        guard let touch = touches.first else {
-            return
-        }
-        
-        touchStartLocation = touch.locationInNode(self)
-    }
-    
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        guard let touch = touches.first else {
-            return
-        }
-        
-        let touchEpsilon: CGFloat = 60
-        let touchLocation = touch.locationInNode(self)
-        
-        if touchLocation.x < touchStartLocation.x - touchEpsilon {
-            controlListener?.moveLeft()
-        }
-        else if touchLocation.x > touchStartLocation.x + touchEpsilon {
-            controlListener?.moveRight()
-        }
-        else {
-            controlListener?.stopMoving()
-        }
-    }
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        controlListener?.stopMoving()
-    }
-    
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        controlListener?.stopMoving()
-    }
-    #endif
-    
-    func fireButtonPressed() {
-        controlListener?.fire()
-    }
+    // MARK: - Game controls
     
     func menuButtonPressed() {
         // TODO: Prompt user before immediately going back

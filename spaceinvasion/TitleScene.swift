@@ -7,11 +7,15 @@
 //
 
 import SpriteKit
-import GameController
 
-class TitleScene: SKScene {
+class TitleScene: SKScene, GameControllersDelegate {
     
-    private var controller: GCController?
+    private var controller: GameControlling? {
+        didSet {
+            controller?.menuButtonPressedHandler = menuButtonPressed
+            controller?.fireButtonPressedHandler = startButtonPressed
+        }
+    }
     
     override init(size: CGSize) {
         super.init(size: size)
@@ -23,18 +27,8 @@ class TitleScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        backgroundColor = SKColor.purpleColor()
-        
-        let background = SKSpriteNode(imageNamed: "Title")
-        background.position = CGPoint(x: size.width/2, y: size.height/2)
-        background.zPosition = -1
-        addChild(background)
-        
-        #if (arch(i386) || arch(x86_64)) && os(tvOS)
-            addSimulatorController()
-        #else
-            addGameController()
-        #endif
+        addBackground()
+        addGameController()
         
         // TODO: Start playing music
     }
@@ -43,32 +37,38 @@ class TitleScene: SKScene {
         // TODO: Stop playing music
     }
     
-    private func addSimulatorController() {
-        addGestureRecognizerForButton(.Select, action: "selectButtonPressed")
-        addGestureRecognizerForButton(.Menu, action: "menuButtonPressed")
+    private func addBackground() {
+        backgroundColor = SKColor.purpleColor()
+        let background = SKSpriteNode(imageNamed: "Title")
+        background.position = CGPoint(x: size.width/2, y: size.height/2)
+        background.zPosition = -1
+        addChild(background)
     }
     
     private func addGameController() {
-        controller = GCController.controllers().first
-        controller?.controllerPausedHandler = { (GCController) -> Void in
-            self.menuButtonPressed()
-        }
-        let gamepad = controller?.gamepad
-        gamepad?.buttonA.pressedChangedHandler = { (button: GCControllerButtonInput, value: Float, pressed: Bool) -> Void in
-            if !pressed {
-                self.selectButtonPressed()
-            }
+        let gameControllers = GameControllers.controllers()
+        gameControllers.delegate = self
+        controller = gameControllers.defaultController
+    }
+    
+    func connectedController(controller: GameControlling) {
+        if self.controller == nil {
+            self.controller = controller
         }
     }
     
-    func selectButtonPressed() {
+    func disconnectedController(controller: GameControlling) {
+    }
+    
+    private func startButtonPressed() {
         let gameScene = GameScene(size: self.size)
+        gameScene.controller = controller
         gameScene.scaleMode = scaleMode
         let reveal = SKTransition.crossFadeWithDuration(1.5)
         view?.presentScene(gameScene, transition: reveal)
     }
     
-    func menuButtonPressed() {
+    private func menuButtonPressed() {
         // TODO: Implement game options menu
     }
 }
