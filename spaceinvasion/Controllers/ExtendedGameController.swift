@@ -1,22 +1,22 @@
 //
-//  StandardGameController.swift
+//  ExtendedGameController.swift
 //  spaceinvasion
 //
-//  Created by Thomas Aylesworth on 11/21/15.
+//  Created by Thomas Aylesworth on 11/22/15.
 //  Copyright © 2015 Thomas H Aylesworth. All rights reserved.
 //
 
 import GameController
 
-/// `MicroGameController` provides `GameControlling` support for controllers that support the 
-/// standard gamepad profile.
+/// `ExtendedGameController` provides `GameControlling` support for controllers that support the
+/// extended gamepad profile.
 
-class StandardGameController : GameController {
+class ExtendedGameController : GameController {
     
-    private var gamepad: GCGamepad
+    private var gamepad: GCExtendedGamepad
     
     override init(controller: GCController) {
-        gamepad = controller.gamepad!
+        gamepad = controller.extendedGamepad!
         super.init(controller: controller)
         gamepad.buttonA.pressedChangedHandler = buttonAPressed
         gamepad.buttonX.pressedChangedHandler = buttonXPressed
@@ -25,11 +25,11 @@ class StandardGameController : GameController {
     // MARK: - GameControlling
     
     override var leftButtonIsPressed: Bool {
-        return gamepad.dpad.left.pressed
+        return gamepad.leftThumbstick.left != 0 || gamepad.dpad.left.pressed
     }
     
     override var rightButtonIsPressed: Bool {
-        return gamepad.dpad.right.pressed
+        return gamepad.leftThumbstick.right != 0 || gamepad.dpad.right.pressed
     }
     
     override var fireButtonIsPressed: Bool {

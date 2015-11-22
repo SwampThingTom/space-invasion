@@ -9,7 +9,6 @@
 import SpriteKit
 import GameController
 
-
 /// `UIKitGameController` is an adapter that converts `UIKit` gestures to game controls.
 ///
 /// To use, set the `view` property to the `UIView` that will manage the touch handling. That view must forward
