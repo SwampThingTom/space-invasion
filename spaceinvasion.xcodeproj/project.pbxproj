@@ -242,8 +242,8 @@
 		E2A2CC8A1C00AE7B008AA209 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E2A2CC8B1C00AEDD008AA209 /* GameControlling.swift */,
 				E2A2CC8D1C00B28B008AA209 /* GameControllers.swift */,
+				E2A2CC8B1C00AEDD008AA209 /* GameControlling.swift */,
 				E2A2CC951C020815008AA209 /* GameController.swift */,
 				E2A2CC911C00C7D4008AA209 /* MicroGameController.swift */,
 				E2A2CC931C0127D3008AA209 /* StandardGameController.swift */,

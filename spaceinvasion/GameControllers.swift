@@ -98,11 +98,14 @@ class GameControllers {
     }
     
     private func gameControllerForController(controller: GCController) -> GameControlling? {
-        if let _ = controller.microGamepad as GCMicroGamepad! {
-            return MicroGameController(controller: controller)
+        if controller.extendedGamepad != nil {
+            return ExtendedGameController(controller: controller)
         }
-        if let _ = controller.gamepad as GCGamepad! {
+        if controller.gamepad != nil {
             return StandardGameController(controller: controller)
+        }
+        if controller.microGamepad != nil {
+            return MicroGameController(controller: controller)
         }
         return nil
     }

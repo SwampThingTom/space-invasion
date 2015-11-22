@@ -25,11 +25,11 @@ class ExtendedGameController : GameController {
     // MARK: - GameControlling
     
     override var leftButtonIsPressed: Bool {
-        return gamepad.leftThumbstick.left != 0 || gamepad.dpad.left.pressed
+        return gamepad.leftThumbstick.left.pressed || gamepad.dpad.left.pressed
     }
     
     override var rightButtonIsPressed: Bool {
-        return gamepad.leftThumbstick.right != 0 || gamepad.dpad.right.pressed
+        return gamepad.leftThumbstick.right.pressed || gamepad.dpad.right.pressed
     }
     
     override var fireButtonIsPressed: Bool {
