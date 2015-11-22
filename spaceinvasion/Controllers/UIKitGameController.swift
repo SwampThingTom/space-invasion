@@ -7,20 +7,23 @@
 //
 
 import SpriteKit
+import GameController
 
-/**
-    `UIKitGameController` is an adapter that converts `UIKit` gestures to game controls.
- 
-    To use, set the `view` property to the `UIView` that will manage the touch handling. That view must forward
-    touch event callbacks to its `UIKitGameController` instance.
- */
+
+/// `UIKitGameController` is an adapter that converts `UIKit` gestures to game controls.
+///
+/// To use, set the `view` property to the `UIView` that will manage the touch handling. That view must forward
+/// touch event callbacks to its `UIKitGameController` instance.
+
 class UIKitGameController : GameControlling {
     
     // MARK: - GameControlling
     
+    var controller: GCController? = nil
+    
     var fireButtonPressedHandler: ButtonPressedHandler?
     var menuButtonPressedHandler: ButtonPressedHandler?
-    var playPauseButtonPressedHandler: ButtonPressedHandler?
+    var pauseButtonPressedHandler: ButtonPressedHandler?
     
     var leftButtonIsPressed = false
     var rightButtonIsPressed = false
@@ -29,9 +32,7 @@ class UIKitGameController : GameControlling {
     
     // MARK: - Touch handling
     
-    /**
-        The view that will be used for touch handling and gesture recognizers.
-     */
+    /// The view that will be used for touch handling and gesture recognizers.
     var view: UIView? {
         didSet {
             addGestureRecognizers()
@@ -88,11 +89,11 @@ class UIKitGameController : GameControlling {
     }
     
     private func selectButtonPressed() {
-        fireButtonPressedHandler?()
+        fireButtonPressedHandler?(self)
     }
     
     private func menuButtonPressed() {
-        menuButtonPressedHandler?()
+        menuButtonPressedHandler?(self)
     }
     
     private func addGestureRecognizerForButton(button: UIPressType, action: Selector) {

@@ -10,13 +10,6 @@ import SpriteKit
 
 class TitleScene: SKScene, GameControllersDelegate {
     
-    private var controller: GameControlling? {
-        didSet {
-            controller?.menuButtonPressedHandler = menuButtonPressed
-            controller?.fireButtonPressedHandler = startButtonPressed
-        }
-    }
-    
     override init(size: CGSize) {
         super.init(size: size)
         scaleMode = .AspectFit
@@ -28,7 +21,7 @@ class TitleScene: SKScene, GameControllersDelegate {
     
     override func didMoveToView(view: SKView) {
         addBackground()
-        addGameController()
+        GameControllers.controllers().delegate = self
         
         // TODO: Start playing music
     }
@@ -45,22 +38,9 @@ class TitleScene: SKScene, GameControllersDelegate {
         addChild(background)
     }
     
-    private func addGameController() {
-        let gameControllers = GameControllers.controllers()
-        gameControllers.delegate = self
-        controller = gameControllers.defaultController
-    }
+    // MARK: - GameControllerDelegate
     
-    func connectedController(controller: GameControlling) {
-        if self.controller == nil {
-            self.controller = controller
-        }
-    }
-    
-    func disconnectedController(controller: GameControlling) {
-    }
-    
-    private func startButtonPressed() {
+    func fireButtonPressed(controller: GameControlling) {
         let gameScene = GameScene(size: self.size)
         gameScene.controller = controller
         gameScene.scaleMode = scaleMode
@@ -68,7 +48,11 @@ class TitleScene: SKScene, GameControllersDelegate {
         view?.presentScene(gameScene, transition: reveal)
     }
     
-    private func menuButtonPressed() {
+    func menuButtonPressed(controller: GameControlling) {
         // TODO: Implement game options menu
+    }
+    
+    func pauseButtonPressed(controller: GameControlling) {
+        // do nothing
     }
 }

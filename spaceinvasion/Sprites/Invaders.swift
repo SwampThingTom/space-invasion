@@ -190,7 +190,7 @@ class Invaders: SKNode {
         bomb.position = position + invader.position - CGPoint(x: 0, y: invaderSize.height)
         invaderBombs.append(bomb)
         
-        // Adding to parent so that it moves independently of the Invaders
+        // adding to parent so that it moves independently of the Invaders
         parent?.addChild(bomb)
     }
     

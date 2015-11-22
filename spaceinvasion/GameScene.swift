@@ -91,7 +91,7 @@ class GameScene: SKScene, ScoreKeeping {
     
     private func addControls() {
         controller?.menuButtonPressedHandler = menuButtonPressed
-        controller?.playPauseButtonPressedHandler = pauseButtonPressed
+        controller?.pauseButtonPressedHandler = pauseButtonPressed
     }
     
     private func createOverlays() {
@@ -108,12 +108,12 @@ class GameScene: SKScene, ScoreKeeping {
     
     // MARK: - Game controls
     
-    func menuButtonPressed() {
+    func menuButtonPressed(controller: GameControlling) {
         // TODO: Prompt user before immediately going back
         returnToMainMenu()
     }
     
-    func pauseButtonPressed() {
+    func pauseButtonPressed(controller: GameControlling) {
         gamePaused = !gamePaused
         if gamePaused {
             addChild(pausedOverlay!)

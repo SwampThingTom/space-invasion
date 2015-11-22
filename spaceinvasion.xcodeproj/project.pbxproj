@@ -36,7 +36,8 @@
 		E2A2CC8C1C00AEDD008AA209 /* GameControlling.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A2CC8B1C00AEDD008AA209 /* GameControlling.swift */; };
 		E2A2CC8E1C00B28B008AA209 /* GameControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A2CC8D1C00B28B008AA209 /* GameControllers.swift */; };
 		E2A2CC901C00B362008AA209 /* UIKitGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A2CC8F1C00B362008AA209 /* UIKitGameController.swift */; };
-		E2A2CC921C00C7D4008AA209 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A2CC911C00C7D4008AA209 /* GameController.swift */; };
+		E2A2CC921C00C7D4008AA209 /* MicroGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A2CC911C00C7D4008AA209 /* MicroGameController.swift */; };
+		E2A2CC941C0127D3008AA209 /* StandardGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A2CC931C0127D3008AA209 /* StandardGameController.swift */; };
 		E2A521391BF7F4D100B7B914 /* GameLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A521381BF7F4D100B7B914 /* GameLabel.swift */; };
 		E2A5213C1BF81E0F00B7B914 /* end_game.wav in Resources */ = {isa = PBXBuildFile; fileRef = E2A5213A1BF81E0F00B7B914 /* end_game.wav */; };
 		E2A5213D1BF81E0F00B7B914 /* inv_explode.wav in Resources */ = {isa = PBXBuildFile; fileRef = E2A5213B1BF81E0F00B7B914 /* inv_explode.wav */; };
@@ -98,7 +99,8 @@
 		E2A2CC8B1C00AEDD008AA209 /* GameControlling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameControlling.swift; path = Controllers/GameControlling.swift; sourceTree = "<group>"; };
 		E2A2CC8D1C00B28B008AA209 /* GameControllers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllers.swift; sourceTree = "<group>"; };
 		E2A2CC8F1C00B362008AA209 /* UIKitGameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIKitGameController.swift; path = Controllers/UIKitGameController.swift; sourceTree = "<group>"; };
-		E2A2CC911C00C7D4008AA209 /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameController.swift; path = Controllers/GameController.swift; sourceTree = "<group>"; };
+		E2A2CC911C00C7D4008AA209 /* MicroGameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MicroGameController.swift; path = Controllers/MicroGameController.swift; sourceTree = "<group>"; };
+		E2A2CC931C0127D3008AA209 /* StandardGameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StandardGameController.swift; path = Controllers/StandardGameController.swift; sourceTree = "<group>"; };
 		E2A521381BF7F4D100B7B914 /* GameLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLabel.swift; sourceTree = "<group>"; };
 		E2A5213A1BF81E0F00B7B914 /* end_game.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = end_game.wav; sourceTree = "<group>"; };
 		E2A5213B1BF81E0F00B7B914 /* inv_explode.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = inv_explode.wav; sourceTree = "<group>"; };
@@ -238,7 +240,8 @@
 			children = (
 				E2A2CC8B1C00AEDD008AA209 /* GameControlling.swift */,
 				E2A2CC8D1C00B28B008AA209 /* GameControllers.swift */,
-				E2A2CC911C00C7D4008AA209 /* GameController.swift */,
+				E2A2CC911C00C7D4008AA209 /* MicroGameController.swift */,
+				E2A2CC931C0127D3008AA209 /* StandardGameController.swift */,
 				E2A2CC8F1C00B362008AA209 /* UIKitGameController.swift */,
 			);
 			name = Controllers;
@@ -389,6 +392,7 @@
 				E2DCEF6F1BFAC55800C94D80 /* InvaderBomb.swift in Sources */,
 				E24A36E81BF037D9008042E0 /* Invader.swift in Sources */,
 				E2C94FB61BF8E9C2000C94E8 /* ScreenConstants.swift in Sources */,
+				E2A2CC941C0127D3008AA209 /* StandardGameController.swift in Sources */,
 				E2C94FB41BF8D668000C94E8 /* PlayArea.swift in Sources */,
 				E24A36AD1BEEA96E008042E0 /* TitleScene.swift in Sources */,
 				E24A36EC1BF05D21008042E0 /* Random.swift in Sources */,
@@ -399,7 +403,7 @@
 				E24A36DA1BEFAD9B008042E0 /* GameScene.swift in Sources */,
 				E2987A621BF8393F007B8302 /* LifeIndicators.swift in Sources */,
 				E24A36EA1BF043F3008042E0 /* Invaders.swift in Sources */,
-				E2A2CC921C00C7D4008AA209 /* GameController.swift in Sources */,
+				E2A2CC921C00C7D4008AA209 /* MicroGameController.swift in Sources */,
 				E2A521391BF7F4D100B7B914 /* GameLabel.swift in Sources */,
 				E24A36E21BEFE86B008042E0 /* CGPoint+Vectors.swift in Sources */,
 				E24A36A91BEEA96E008042E0 /* AppDelegate.swift in Sources */,

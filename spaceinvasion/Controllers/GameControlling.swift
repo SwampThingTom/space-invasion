@@ -6,9 +6,18 @@
 //  Copyright © 2015 Thomas H Aylesworth. All rights reserved.
 //
 
-typealias ButtonPressedHandler = () -> Void
+import GameController
+
+typealias ButtonPressedHandler = (GameControlling) -> Void
+
+/// The `GameControlling` protocol defines the interface used to monitor the controls
+/// used for the Space Invasion game.
 
 protocol GameControlling {
+    
+    /// The backing `GCController` used by this object, or nil if the controls are
+    /// backed by an interface that is not a game controller.
+    var controller: GCController? { get }
     
     var leftButtonIsPressed: Bool { get }
     var rightButtonIsPressed: Bool { get }
@@ -17,5 +26,5 @@ protocol GameControlling {
     
     var fireButtonPressedHandler: ButtonPressedHandler? { get set }
     var menuButtonPressedHandler: ButtonPressedHandler? { get set }
-    var playPauseButtonPressedHandler: ButtonPressedHandler? { get set }
+    var pauseButtonPressedHandler: ButtonPressedHandler? { get set }
 }
