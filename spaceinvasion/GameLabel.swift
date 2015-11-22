@@ -11,6 +11,7 @@ import SpriteKit
 class GameLabel : SKLabelNode {
     
     init(text: String) {
+        // TODO: Futura is not a supported font in tvOS. Find a new one or stick with default.
         super.init(fontNamed: "Futura")
         fontColor = SKColor.whiteColor()
         self.text = text

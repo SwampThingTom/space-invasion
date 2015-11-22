@@ -23,7 +23,7 @@
 		E24A36E81BF037D9008042E0 /* Invader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36E71BF037D9008042E0 /* Invader.swift */; };
 		E24A36EA1BF043F3008042E0 /* Invaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36E91BF043F3008042E0 /* Invaders.swift */; };
 		E24A36EC1BF05D21008042E0 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36EB1BF05D21008042E0 /* Random.swift */; };
-		E28D181F1BF2E9BC00C656C0 /* anthem.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D18191BF2E9BC00C656C0 /* anthem.wav */; };
+		E28D181F1BF2E9BC00C656C0 /* music.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D18191BF2E9BC00C656C0 /* music.wav */; };
 		E28D18201BF2E9BC00C656C0 /* inv_move_4.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D181A1BF2E9BC00C656C0 /* inv_move_4.wav */; };
 		E28D18211BF2E9BC00C656C0 /* ship_explode.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D181B1BF2E9BC00C656C0 /* ship_explode.wav */; };
 		E28D18221BF2E9BC00C656C0 /* ship_fire.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D181C1BF2E9BC00C656C0 /* ship_fire.wav */; };
@@ -40,6 +40,12 @@
 		E2A2CC941C0127D3008AA209 /* StandardGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A2CC931C0127D3008AA209 /* StandardGameController.swift */; };
 		E2A2CC961C020815008AA209 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A2CC951C020815008AA209 /* GameController.swift */; };
 		E2A2CC981C020C6E008AA209 /* ExtendedGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A2CC971C020C6E008AA209 /* ExtendedGameController.swift */; };
+		E2A2CCA81C022A01008AA209 /* Readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = E2A2CCA21C022A01008AA209 /* Readme.txt */; };
+		E2A2CCA91C022A01008AA209 /* vipersquad10.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E2A2CCA31C022A01008AA209 /* vipersquad10.jpg */; };
+		E2A2CCAA1C022A01008AA209 /* VIPESI__.TTF in Resources */ = {isa = PBXBuildFile; fileRef = E2A2CCA41C022A01008AA209 /* VIPESI__.TTF */; };
+		E2A2CCAB1C022A01008AA209 /* VIPESRG_.TTF in Resources */ = {isa = PBXBuildFile; fileRef = E2A2CCA51C022A01008AA209 /* VIPESRG_.TTF */; };
+		E2A2CCAC1C022A01008AA209 /* VIPESSI_.TTF in Resources */ = {isa = PBXBuildFile; fileRef = E2A2CCA61C022A01008AA209 /* VIPESSI_.TTF */; };
+		E2A2CCAD1C022A01008AA209 /* VIPESSRG.TTF in Resources */ = {isa = PBXBuildFile; fileRef = E2A2CCA71C022A01008AA209 /* VIPESSRG.TTF */; };
 		E2A521391BF7F4D100B7B914 /* GameLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A521381BF7F4D100B7B914 /* GameLabel.swift */; };
 		E2A5213C1BF81E0F00B7B914 /* end_game.wav in Resources */ = {isa = PBXBuildFile; fileRef = E2A5213A1BF81E0F00B7B914 /* end_game.wav */; };
 		E2A5213D1BF81E0F00B7B914 /* inv_explode.wav in Resources */ = {isa = PBXBuildFile; fileRef = E2A5213B1BF81E0F00B7B914 /* inv_explode.wav */; };
@@ -88,7 +94,7 @@
 		E24A36E71BF037D9008042E0 /* Invader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Invader.swift; path = Sprites/Invader.swift; sourceTree = "<group>"; };
 		E24A36E91BF043F3008042E0 /* Invaders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Invaders.swift; path = Sprites/Invaders.swift; sourceTree = "<group>"; };
 		E24A36EB1BF05D21008042E0 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Random.swift; path = Utilities/Random.swift; sourceTree = "<group>"; };
-		E28D18191BF2E9BC00C656C0 /* anthem.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = anthem.wav; sourceTree = "<group>"; };
+		E28D18191BF2E9BC00C656C0 /* music.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = music.wav; sourceTree = "<group>"; };
 		E28D181A1BF2E9BC00C656C0 /* inv_move_4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = inv_move_4.wav; sourceTree = "<group>"; };
 		E28D181B1BF2E9BC00C656C0 /* ship_explode.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ship_explode.wav; sourceTree = "<group>"; };
 		E28D181C1BF2E9BC00C656C0 /* ship_fire.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ship_fire.wav; sourceTree = "<group>"; };
@@ -105,6 +111,12 @@
 		E2A2CC931C0127D3008AA209 /* StandardGameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StandardGameController.swift; path = Controllers/StandardGameController.swift; sourceTree = "<group>"; };
 		E2A2CC951C020815008AA209 /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameController.swift; path = Controllers/GameController.swift; sourceTree = "<group>"; };
 		E2A2CC971C020C6E008AA209 /* ExtendedGameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExtendedGameController.swift; path = Controllers/ExtendedGameController.swift; sourceTree = "<group>"; };
+		E2A2CCA21C022A01008AA209 /* Readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.txt; sourceTree = "<group>"; };
+		E2A2CCA31C022A01008AA209 /* vipersquad10.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = vipersquad10.jpg; sourceTree = "<group>"; };
+		E2A2CCA41C022A01008AA209 /* VIPESI__.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = VIPESI__.TTF; sourceTree = "<group>"; };
+		E2A2CCA51C022A01008AA209 /* VIPESRG_.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = VIPESRG_.TTF; sourceTree = "<group>"; };
+		E2A2CCA61C022A01008AA209 /* VIPESSI_.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = VIPESSI_.TTF; sourceTree = "<group>"; };
+		E2A2CCA71C022A01008AA209 /* VIPESSRG.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = VIPESSRG.TTF; sourceTree = "<group>"; };
 		E2A521381BF7F4D100B7B914 /* GameLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLabel.swift; sourceTree = "<group>"; };
 		E2A5213A1BF81E0F00B7B914 /* end_game.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = end_game.wav; sourceTree = "<group>"; };
 		E2A5213B1BF81E0F00B7B914 /* inv_explode.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = inv_explode.wav; sourceTree = "<group>"; };
@@ -161,6 +173,7 @@
 		E24A36A71BEEA96E008042E0 /* spaceinvasion */ = {
 			isa = PBXGroup;
 			children = (
+				E2A2CC991C022663008AA209 /* Fonts */,
 				E28D18181BF2E9BC00C656C0 /* Audio */,
 				E2A2CC8A1C00AE7B008AA209 /* Controllers */,
 				E24A36E01BEFE82C008042E0 /* Utilities */,
@@ -224,7 +237,7 @@
 		E28D18181BF2E9BC00C656C0 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				E28D18191BF2E9BC00C656C0 /* anthem.wav */,
+				E28D18191BF2E9BC00C656C0 /* music.wav */,
 				E2A5213A1BF81E0F00B7B914 /* end_game.wav */,
 				E2A5213B1BF81E0F00B7B914 /* inv_explode.wav */,
 				E28D18251BF2E9F900C656C0 /* inv_move_1.wav */,
@@ -251,6 +264,27 @@
 				E2A2CC8F1C00B362008AA209 /* UIKitGameController.swift */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		E2A2CC991C022663008AA209 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				E2A2CCA11C022A01008AA209 /* viper_squadron */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		E2A2CCA11C022A01008AA209 /* viper_squadron */ = {
+			isa = PBXGroup;
+			children = (
+				E2A2CCA21C022A01008AA209 /* Readme.txt */,
+				E2A2CCA31C022A01008AA209 /* vipersquad10.jpg */,
+				E2A2CCA41C022A01008AA209 /* VIPESI__.TTF */,
+				E2A2CCA51C022A01008AA209 /* VIPESRG_.TTF */,
+				E2A2CCA61C022A01008AA209 /* VIPESSI_.TTF */,
+				E2A2CCA71C022A01008AA209 /* VIPESSRG.TTF */,
+			);
+			path = viper_squadron;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -361,16 +395,22 @@
 				E28D18221BF2E9BC00C656C0 /* ship_fire.wav in Resources */,
 				E24A36B41BEEA96E008042E0 /* Main.storyboard in Resources */,
 				E28D18291BF2E9F900C656C0 /* inv_move_2.wav in Resources */,
+				E2A2CCA81C022A01008AA209 /* Readme.txt in Resources */,
 				E24A36B61BEEA96E008042E0 /* Assets.xcassets in Resources */,
+				E2A2CCAC1C022A01008AA209 /* VIPESSI_.TTF in Resources */,
 				E24A36B11BEEA96E008042E0 /* Game.xcassets in Resources */,
+				E2A2CCAA1C022A01008AA209 /* VIPESI__.TTF in Resources */,
 				E2A5213D1BF81E0F00B7B914 /* inv_explode.wav in Resources */,
 				E28D18231BF2E9BC00C656C0 /* ufo.wav in Resources */,
 				E28D182A1BF2E9F900C656C0 /* inv_move_3.wav in Resources */,
-				E28D181F1BF2E9BC00C656C0 /* anthem.wav in Resources */,
+				E2A2CCA91C022A01008AA209 /* vipersquad10.jpg in Resources */,
+				E28D181F1BF2E9BC00C656C0 /* music.wav in Resources */,
 				E2A5213C1BF81E0F00B7B914 /* end_game.wav in Resources */,
+				E2A2CCAD1C022A01008AA209 /* VIPESSRG.TTF in Resources */,
 				E28D18241BF2E9BC00C656C0 /* ufo_explode.wav in Resources */,
 				E28D18201BF2E9BC00C656C0 /* inv_move_4.wav in Resources */,
 				E28D18281BF2E9F900C656C0 /* inv_move_1.wav in Resources */,
+				E2A2CCAB1C022A01008AA209 /* VIPESRG_.TTF in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
