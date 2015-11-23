@@ -14,7 +14,7 @@ class TitleScene: SKScene, GameControllersDelegate {
         super.init(size: size)
         scaleMode = .AspectFit
         
-        if true {
+        if Settings.debug {
             debugShowFonts()
         }
     }

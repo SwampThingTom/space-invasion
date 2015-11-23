@@ -2,6 +2,7 @@
   "images" : [
     {
       "idiom" : "tv",
+      "filename" : "SpaceInvasionAppIcon.png",
       "scale" : "1x"
     }
   ],
