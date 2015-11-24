@@ -25,6 +25,8 @@ struct ScreenConstants {
     let shipMaxX: CGFloat
     let shipY: CGFloat
     
+    let livesIndicatorY: CGFloat
+    
     let shipMissileMaxY: CGFloat
         
     private static let isRetro = true
@@ -52,6 +54,8 @@ struct ScreenConstants {
             shipY = invadersMinY - 28
             
             shipMissileMaxY = 705
+            
+            livesIndicatorY = shipY - 60
         }
         else {
             backgroundImageName = "Background"
@@ -73,6 +77,8 @@ struct ScreenConstants {
             shipY = invadersMinY - 28
             
             shipMissileMaxY = 705
+            
+            livesIndicatorY = shipY - 60
         }
     }
 }

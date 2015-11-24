@@ -19,7 +19,7 @@ class LifeIndicators : SKNode {
         var xOffset: CGFloat = 0
         for _ in 0 ..< maxLives-1 {
             let lifeIndicator = SKSpriteNode(imageNamed: "Ship")
-            lifeIndicator.position = CGPoint(x: xOffset, y: 0)
+            lifeIndicator.position = CGPoint(x: xOffset + lifeIndicator.size.width / 2, y: 0)
             lifeIndicators.append(lifeIndicator)
             xOffset += lifeIndicator.frame.width * 1.2
         }
@@ -30,8 +30,10 @@ class LifeIndicators : SKNode {
     }
     
     func showLives(numLives: Int) {
-        assert(numLives >= 0 && numLives < lifeIndicators.count)
         removeAllChildren()
+        if numLives < 1 {
+            return
+        }
         for i in 0 ..< numLives-1 {
             addChild(lifeIndicators[i])
         }

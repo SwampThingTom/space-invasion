@@ -28,6 +28,11 @@ class TitleScene: SKScene, GameControllersDelegate {
         addTitle()
         startMusic()
         GameControllers.controllers().delegate = self
+        
+        // TODO: Remove ... useful for quick debugging on simulator
+//        runAction(SKAction.sequence([
+//            SKAction.waitForDuration(2),
+//            SKAction.runBlock({ self.fireButtonPressed(GameControllers.controllers().connectedControllers.first!) })]))
     }
     
     private func addBackground() {

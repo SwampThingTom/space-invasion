@@ -17,6 +17,7 @@ class GameScene: SKScene, ScoreKeeping {
     private var scoreLabel: GameLabel?
     private var highScoreTextLabel: GameLabel?
     private var highScoreLabel: GameLabel?
+    private var livesIndicator: LifeIndicators?
     private var playArea: PlayArea?
     private var pausedOverlay: SKSpriteNode?
     private var gameOverOverlay: SKSpriteNode?
@@ -28,7 +29,11 @@ class GameScene: SKScene, ScoreKeeping {
     }
     
     private var score = 0
-    private var lives = 3
+    private var lives = 3 {
+        didSet {
+            livesIndicator?.showLives(lives)
+        }
+    }
     
     private var lastUpdateTime: CFTimeInterval = 0
     private var gamePaused = false
@@ -43,11 +48,10 @@ class GameScene: SKScene, ScoreKeeping {
         backgroundColor = SKColor.blackColor()
         addPlayArea()
         addLabels()
+        addLivesIndicator()
         addPhysics()
         addControls()
         createOverlays()
-        
-        // TODO: Add life indicators
     }
     
     private func addPlayArea() {
@@ -82,6 +86,15 @@ class GameScene: SKScene, ScoreKeeping {
         highScoreLabel = GameLabel(text: String(format: "%04d", self.highScore))
         highScoreLabel?.position = CGPoint(x: highScoreLabelX, y: textLine2Y)
         addChild(highScoreLabel!)
+    }
+    
+    private func addLivesIndicator() {
+        livesIndicator = LifeIndicators(maxLives: 3)
+        livesIndicator!.position = CGPoint(
+            x: ScreenConstants.values.invadersMinX,
+            y: ScreenConstants.values.livesIndicatorY)
+        addChild(livesIndicator!)
+        livesIndicator!.showLives(lives)
     }
     
     private func addPhysics() {
@@ -180,9 +193,6 @@ class GameScene: SKScene, ScoreKeeping {
             gameIsOver()
             return
         }
-        
-        // TODO: Update life indicators
-        
         enterLimbo()
     }
     
