@@ -30,7 +30,7 @@ enum InvaderBombType {
     }
 }
 
-class InvaderBomb: SKSpriteNode {
+class InvaderBomb: SKSpriteNode, Hittable {
     
     private var type: InvaderBombType = .Slow
     
@@ -62,5 +62,9 @@ class InvaderBomb: SKSpriteNode {
         if position.y < ScreenConstants.values.shipY {
             removeFromParent()
         }
+    }
+    
+    func didGetHit(by sprite: SKSpriteNode?) {
+        removeFromParent()
     }
 }

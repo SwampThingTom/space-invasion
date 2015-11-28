@@ -14,12 +14,19 @@ enum PhysicsCategory: UInt32 {
     case ShipMissile = 0x02
     case Invader = 0x04
     case InvaderMissile = 0x08
+    case Shield = 0x10
+    
+    case AnyMissile = 0x0A    // ShipMissile | InvaderMissile
 }
 
 protocol ScoreKeeping {
     func addToScore(score: Int)
     func shipDestroyed()
     func invadersDestroyed()
+}
+
+protocol Hittable {
+    func didGetHit(by sprite: SKSpriteNode?)
 }
 
 class PlayArea : SKNode, SKPhysicsContactDelegate {
@@ -36,8 +43,7 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     private var ship: Ship?
     private var shipMissile: ShipMissile?
     private var invaders: Invaders?
-    
-    // TODO: Implement shields
+    private var shields: [Shield]?
     
     // TODO: Implement UFOs
     
@@ -46,6 +52,7 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         addBackground()
         addShip()
         addInvaders()
+        addShields()
         
         if Settings.debug {
             addDebugViews()
@@ -76,6 +83,23 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         invaders = Invaders()
         invaders!.setupNextInvasionLevel()
         addChild(invaders!)
+    }
+    
+    private func addShields() {
+        let numShields = ScreenConstants.values.numShields
+        let shieldWidth = ScreenConstants.values.shieldWidth
+        let playableWidth = ScreenConstants.values.playableWidth
+        let shieldOffset = (playableWidth - shieldWidth * CGFloat(numShields)) / CGFloat(numShields + 1) + shieldWidth
+        
+        shields = [Shield]()
+        var shieldX = shieldOffset
+        for _ in 0 ..< ScreenConstants.values.numShields {
+            let shield = Shield()
+            shield.position = CGPoint(x: shieldX, y: ScreenConstants.values.shieldY)
+            shieldX += shieldOffset
+            shields?.append(shield)
+            addChild(shield)
+        }
     }
     
     private func addDebugViews() {
@@ -143,51 +167,63 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     // MARK: - Physics contact delegate
     
     func didBeginContact(contact: SKPhysicsContact) {
-        if let invader = contact.bodyA.node as? Invader {
-            let missile = contact.bodyB.node as! ShipMissile!
-            invaderWasHit(invader, byMissile: missile)
+        if let contactObjects: (shield: Shield, collider: SKSpriteNode?) = spriteThatMadeContact(contact) {
+            shieldWasHit(contactObjects.shield, by: contactObjects.collider!, at: contact.contactPoint)
         }
-        else if let ship = contact.bodyA.node as? Ship {
-            let bomb = contact.bodyB.node as! InvaderBomb!
-            shipWasHit(ship, byBomb: bomb)
+        else if let contactObjects: (invader: Invader, collider: SKSpriteNode?) = spriteThatMadeContact(contact) {
+            invaderWasHit(contactObjects.invader, by: contactObjects.collider!)
         }
-        else if let missile = contact.bodyA.node as? ShipMissile {
-            if let invader = contact.bodyB.node as? Invader {
-                invaderWasHit(invader, byMissile: missile)
-            }
-            else if let bomb = contact.bodyB.node as? InvaderBomb {
-                bombWasHit(bomb, byMissile: missile)
-            }
+        else if let contactObjects: (ship: Ship, collider: SKSpriteNode?) = spriteThatMadeContact(contact) {
+            shipWasHit(contactObjects.ship, by: contactObjects.collider!)
         }
-        else if let bomb = contact.bodyA.node as? InvaderBomb {
-            if let ship = contact.bodyB.node as? Ship {
-                shipWasHit(ship, byBomb: bomb)
-            }
-            else if let missile = contact.bodyB.node as? ShipMissile {
-                bombWasHit(bomb, byMissile: missile)
-            }
+        else if let hittableSpriteA = contact.bodyA.node as? Hittable, let hittableSpriteB = contact.bodyB.node as? Hittable {
+            hittableSpriteA.didGetHit(by: contact.bodyB.node as? SKSpriteNode)
+            hittableSpriteB.didGetHit(by: contact.bodyA.node as? SKSpriteNode)
         }
     }
     
-    private func invaderWasHit(invader: Invader!, byMissile missile: ShipMissile!) {
+    private func spriteThatMadeContact<T: SKSpriteNode>(contact: SKPhysicsContact) -> (T, SKSpriteNode?)? {
+        if let sprite = contact.bodyA.node as? T {
+            return (sprite, contact.bodyB.node as? SKSpriteNode)
+        }
+        if let sprite = contact.bodyB.node as? T {
+            return (sprite, contact.bodyA.node as? SKSpriteNode)
+        }
+        return nil
+    }
+    
+    private func shieldWasHit(shield: Shield, by sprite: SKSpriteNode, at point: CGPoint) {
+        if !shield.wasShieldHitBy(sprite, atPosition: point) {
+            return
+        }
+        
+        shield.didGetHit(by: sprite)
+        
+        if let hittableSprite = sprite as? Hittable {
+            hittableSprite.didGetHit(by: shield)
+        }
+    }
+    
+    private func invaderWasHit(invader: Invader, by sprite: SKSpriteNode) {
         invaders!.invaderWasHit(invader)
-        missile.remove()
         scoreKeeper?.addToScore(invader.score)
         
         if invaders!.destroyed {
             scoreKeeper?.invadersDestroyed()
         }
+        
+        if let hittableSprite = sprite as? Hittable {
+            hittableSprite.didGetHit(by: invader)
+        }
     }
     
-    private func shipWasHit(ship: Ship!, byBomb bomb: InvaderBomb!) {
-        ship!.shipWasHit()
-        bomb.removeFromParent()
+    private func shipWasHit(ship: Ship, by sprite: SKSpriteNode) {
+        ship.didGetHit(by: sprite)
         scoreKeeper?.shipDestroyed()
-    }
-    
-    private func bombWasHit(bomb: InvaderBomb!, byMissile missile: ShipMissile!) {
-        bomb.removeFromParent()
-        missile.remove()
+        
+        if let hittableSprite = sprite as? Hittable {
+            hittableSprite.didGetHit(by: ship)
+        }
     }
     
     // MARK: - Debug

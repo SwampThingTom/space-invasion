@@ -32,6 +32,7 @@
 		E28D18281BF2E9F900C656C0 /* inv_move_1.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D18251BF2E9F900C656C0 /* inv_move_1.wav */; };
 		E28D18291BF2E9F900C656C0 /* inv_move_2.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D18261BF2E9F900C656C0 /* inv_move_2.wav */; };
 		E28D182A1BF2E9F900C656C0 /* inv_move_3.wav in Resources */ = {isa = PBXBuildFile; fileRef = E28D18271BF2E9F900C656C0 /* inv_move_3.wav */; };
+		E29024601C08C31B00FAC179 /* Shield.swift in Sources */ = {isa = PBXBuildFile; fileRef = E290245F1C08C31B00FAC179 /* Shield.swift */; };
 		E2987A621BF8393F007B8302 /* LifeIndicators.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2987A611BF8393F007B8302 /* LifeIndicators.swift */; };
 		E2A2CC8C1C00AEDD008AA209 /* GameControlling.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A2CC8B1C00AEDD008AA209 /* GameControlling.swift */; };
 		E2A2CC8E1C00B28B008AA209 /* GameControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A2CC8D1C00B28B008AA209 /* GameControllers.swift */; };
@@ -104,6 +105,7 @@
 		E28D18251BF2E9F900C656C0 /* inv_move_1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = inv_move_1.wav; sourceTree = "<group>"; };
 		E28D18261BF2E9F900C656C0 /* inv_move_2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = inv_move_2.wav; sourceTree = "<group>"; };
 		E28D18271BF2E9F900C656C0 /* inv_move_3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = inv_move_3.wav; sourceTree = "<group>"; };
+		E290245F1C08C31B00FAC179 /* Shield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Shield.swift; path = Sprites/Shield.swift; sourceTree = "<group>"; };
 		E2987A611BF8393F007B8302 /* LifeIndicators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LifeIndicators.swift; path = Nodes/LifeIndicators.swift; sourceTree = "<group>"; };
 		E2A2CC8B1C00AEDD008AA209 /* GameControlling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameControlling.swift; path = Controllers/GameControlling.swift; sourceTree = "<group>"; };
 		E2A2CC8D1C00B28B008AA209 /* GameControllers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameControllers.swift; path = Controllers/GameControllers.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				E2DCEF6E1BFAC55800C94D80 /* InvaderBomb.swift */,
 				E24A36DE1BEFD0B3008042E0 /* Ship.swift */,
 				E24A36E51BEFF7C3008042E0 /* ShipMissile.swift */,
+				E290245F1C08C31B00FAC179 /* Shield.swift */,
 			);
 			name = Sprites;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				E24A36EA1BF043F3008042E0 /* Invaders.swift in Sources */,
 				E2A2CC921C00C7D4008AA209 /* MicroGameController.swift in Sources */,
 				E2A521391BF7F4D100B7B914 /* GameLabel.swift in Sources */,
+				E29024601C08C31B00FAC179 /* Shield.swift in Sources */,
 				E24A36E21BEFE86B008042E0 /* VectorMath.swift in Sources */,
 				E24A36A91BEEA96E008042E0 /* AppDelegate.swift in Sources */,
 				E229F3C51BF576EE007011A2 /* Settings.swift in Sources */,

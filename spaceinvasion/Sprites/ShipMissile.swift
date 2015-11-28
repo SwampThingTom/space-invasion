@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class ShipMissile: SKSpriteNode {
+class ShipMissile: SKSpriteNode, Hittable {
     
     private let missileFiredSound = SKAction.playSoundFileNamed("ship_fire", waitForCompletion: false)
     private let moveSpeed: CGFloat = 6 * 60
@@ -41,9 +41,8 @@ class ShipMissile: SKSpriteNode {
         runAction(missileFiredSound)
     }
     
-    func remove() {
-        active = false
-        removeFromParent()
+    func didGetHit(by sprite: SKSpriteNode?) {
+        remove()
     }
     
     func update(deltaTime: CGFloat) {
@@ -57,5 +56,10 @@ class ShipMissile: SKSpriteNode {
         if position.y > ScreenConstants.values.shipMissileMaxY {
             remove()
         }
+    }
+    
+    private func remove() {
+        active = false
+        removeFromParent()
     }
 }

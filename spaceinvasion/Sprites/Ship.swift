@@ -25,11 +25,11 @@ enum MoveDirection: CGFloat {
     }
 }
 
-class Ship: SKSpriteNode {
+class Ship: SKSpriteNode, Hittable {
     
     private let explosionSound = SKAction.playSoundFileNamed("ship_explode", waitForCompletion: false)
-    
     private let moveSpeed: CGFloat = 3.2 * 60
+    
     var moveDirection = MoveDirection.None
     var active = true
     
@@ -63,7 +63,7 @@ class Ship: SKSpriteNode {
         position.x = max(min(position.x + moveDelta, maxX), minX)
     }
     
-    func shipWasHit() {
+    func didGetHit(by sprite: SKSpriteNode?) {
         runAction(explosionSound)
         showShipExplosion()
     }

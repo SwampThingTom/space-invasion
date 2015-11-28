@@ -21,6 +21,10 @@ struct ScreenConstants {
     let invadersMaxY: CGFloat
     let invadersPerRow: Int
     
+    let shieldWidth: CGFloat
+    let shieldY: CGFloat
+    let numShields: Int
+    
     let shipMinX: CGFloat
     let shipMaxX: CGFloat
     let shipY: CGFloat
@@ -52,8 +56,11 @@ struct ScreenConstants {
             shipMinX = shipMargin
             shipMaxX = playableWidth - shipMargin
             shipY = invadersMinY - 28
-            
             shipMissileMaxY = 705
+            
+            shieldWidth = 68
+            shieldY = shipY + 72
+            numShields = 4
             
             livesIndicatorY = shipY - 60
         }
@@ -75,8 +82,11 @@ struct ScreenConstants {
             shipMinX = shipMargin
             shipMaxX = playableWidth - shipMargin
             shipY = invadersMinY - 28
-            
             shipMissileMaxY = 705
+            
+            shieldWidth = 68
+            shieldY = shipY + 72
+            numShields = 4
             
             livesIndicatorY = shipY - 60
         }
