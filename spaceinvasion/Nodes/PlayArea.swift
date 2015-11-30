@@ -11,22 +11,20 @@ import SpriteKit
 enum PhysicsCategory: UInt32 {
     case None = 0x00
     case Ship = 0x01
-    case ShipMissile = 0x02
-    case Invader = 0x04
-    case InvaderMissile = 0x08
-    case Shield = 0x10
+    case Invader = 0x02
+    case Ufo = 0x04
+    case Shield = 0x08
     
-    case AnyMissile = 0x0A    // ShipMissile | InvaderMissile
+    // Missiles range from 0x10 - 0x1F
+    case ShipMissile = 0x11
+    case InvaderMissile = 0x12
+    case AnyMissile = 0x1F
 }
 
 protocol ScoreKeeping {
     func addToScore(score: Int)
     func shipDestroyed()
     func invadersDestroyed()
-}
-
-protocol Hittable {
-    func didGetHit(by sprite: SKSpriteNode?)
 }
 
 class PlayArea : SKNode, SKPhysicsContactDelegate {
@@ -168,17 +166,17 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     
     func didBeginContact(contact: SKPhysicsContact) {
         if let contactObjects: (shield: Shield, collider: SKSpriteNode?) = spriteThatMadeContact(contact) {
-            shieldWasHit(contactObjects.shield, by: contactObjects.collider!, at: contact.contactPoint)
+            shieldWasHit(contactObjects.shield, by: contactObjects.collider!, atPosition: contact.contactPoint)
         }
         else if let contactObjects: (invader: Invader, collider: SKSpriteNode?) = spriteThatMadeContact(contact) {
-            invaderWasHit(contactObjects.invader, by: contactObjects.collider!)
+            invaderWasHit(contactObjects.invader, by: contactObjects.collider!, atPosition: contact.contactPoint)
         }
         else if let contactObjects: (ship: Ship, collider: SKSpriteNode?) = spriteThatMadeContact(contact) {
-            shipWasHit(contactObjects.ship, by: contactObjects.collider!)
+            shipWasHit(contactObjects.ship, by: contactObjects.collider!, atPosition: contact.contactPoint)
         }
         else if let hittableSpriteA = contact.bodyA.node as? Hittable, let hittableSpriteB = contact.bodyB.node as? Hittable {
-            hittableSpriteA.didGetHit(by: contact.bodyB.node as? SKSpriteNode)
-            hittableSpriteB.didGetHit(by: contact.bodyA.node as? SKSpriteNode)
+            hittableSpriteA.didGetHit(by: contact.bodyB.node as! SKSpriteNode, atPosition: contact.contactPoint)
+            hittableSpriteB.didGetHit(by: contact.bodyA.node as! SKSpriteNode, atPosition: contact.contactPoint)
         }
     }
     
@@ -192,19 +190,19 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         return nil
     }
     
-    private func shieldWasHit(shield: Shield, by sprite: SKSpriteNode, at point: CGPoint) {
-        if !shield.wasShieldHitBy(sprite, atPosition: point) {
+    private func shieldWasHit(shield: Shield, by sprite: SKSpriteNode, atPosition position: CGPoint) {
+        if !shield.wasHit(by: sprite, atPosition: position) {
             return
         }
         
-        shield.didGetHit(by: sprite)
+        shield.didGetHit(by: sprite, atPosition: position)
         
         if let hittableSprite = sprite as? Hittable {
-            hittableSprite.didGetHit(by: shield)
+            hittableSprite.didGetHit(by: shield, atPosition: position)
         }
     }
     
-    private func invaderWasHit(invader: Invader, by sprite: SKSpriteNode) {
+    private func invaderWasHit(invader: Invader, by sprite: SKSpriteNode, atPosition position: CGPoint) {
         invaders!.invaderWasHit(invader)
         scoreKeeper?.addToScore(invader.score)
         
@@ -213,16 +211,16 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         }
         
         if let hittableSprite = sprite as? Hittable {
-            hittableSprite.didGetHit(by: invader)
+            hittableSprite.didGetHit(by: invader, atPosition: position)
         }
     }
     
-    private func shipWasHit(ship: Ship, by sprite: SKSpriteNode) {
-        ship.didGetHit(by: sprite)
+    private func shipWasHit(ship: Ship, by sprite: SKSpriteNode, atPosition position: CGPoint) {
+        ship.didGetHit(by: sprite, atPosition: position)
         scoreKeeper?.shipDestroyed()
         
         if let hittableSprite = sprite as? Hittable {
-            hittableSprite.didGetHit(by: ship)
+            hittableSprite.didGetHit(by: ship, atPosition: position)
         }
     }
     

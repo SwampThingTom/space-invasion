@@ -54,6 +54,7 @@
 		E2C94FB41BF8D668000C94E8 /* PlayArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C94FB31BF8D668000C94E8 /* PlayArea.swift */; };
 		E2C94FB61BF8E9C2000C94E8 /* ScreenConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C94FB51BF8E9C2000C94E8 /* ScreenConstants.swift */; };
 		E2DCEF6F1BFAC55800C94D80 /* InvaderBomb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DCEF6E1BFAC55800C94D80 /* InvaderBomb.swift */; };
+		E2E562731C0BFD7600E22D64 /* HittableSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E562721C0BFD7600E22D64 /* HittableSprite.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +128,7 @@
 		E2C94FB31BF8D668000C94E8 /* PlayArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayArea.swift; path = Nodes/PlayArea.swift; sourceTree = "<group>"; };
 		E2C94FB51BF8E9C2000C94E8 /* ScreenConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenConstants.swift; sourceTree = "<group>"; };
 		E2DCEF6E1BFAC55800C94D80 /* InvaderBomb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvaderBomb.swift; path = Sprites/InvaderBomb.swift; sourceTree = "<group>"; };
+		E2E562721C0BFD7600E22D64 /* HittableSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HittableSprite.swift; path = Sprites/HittableSprite.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +249,7 @@
 		E24A36DD1BEFD049008042E0 /* Sprites */ = {
 			isa = PBXGroup;
 			children = (
+				E2E562721C0BFD7600E22D64 /* HittableSprite.swift */,
 				E24A36E71BF037D9008042E0 /* Invader.swift */,
 				E2DCEF6E1BFAC55800C94D80 /* InvaderBomb.swift */,
 				E24A36DE1BEFD0B3008042E0 /* Ship.swift */,
@@ -485,6 +488,7 @@
 				E24A36AF1BEEA96E008042E0 /* GameViewController.swift in Sources */,
 				E24A36DA1BEFAD9B008042E0 /* GameScene.swift in Sources */,
 				E2987A621BF8393F007B8302 /* LifeIndicators.swift in Sources */,
+				E2E562731C0BFD7600E22D64 /* HittableSprite.swift in Sources */,
 				E24A36EA1BF043F3008042E0 /* Invaders.swift in Sources */,
 				E2A2CC921C00C7D4008AA209 /* MicroGameController.swift in Sources */,
 				E2A521391BF7F4D100B7B914 /* GameLabel.swift in Sources */,

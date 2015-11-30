@@ -8,7 +8,9 @@
 
 import SpriteKit
 
-class Shield: SKSpriteNode, Hittable {
+class Shield: HittableSprite {
+    
+    var image: CGImageRef
     
     convenience init() {
         let texture = SKTexture(imageNamed: "Shield")
@@ -22,6 +24,7 @@ class Shield: SKSpriteNode, Hittable {
     }
     
     override required init(texture: SKTexture?, color: UIColor, size: CGSize) {
+        image = texture!.CGImage
         super.init(texture: texture, color: color, size: size)
     }
     
@@ -29,13 +32,13 @@ class Shield: SKSpriteNode, Hittable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func wasShieldHitBy(sprite: SKNode, atPosition position: CGPoint) -> Bool {
+    override func wasHit(by sprite: SKSpriteNode, atPosition position: CGPoint) -> Bool {
         
         // TODO: Implement determining whether shield was hit
         return true
     }
     
-    func didGetHit(by sprite: SKSpriteNode?) {
+    override func didGetHit(by sprite: SKSpriteNode, atPosition position: CGPoint) {
         // TODO: Implement shield getting hit
     }
 }
