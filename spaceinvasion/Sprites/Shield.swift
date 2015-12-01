@@ -10,6 +10,7 @@ import SpriteKit
 
 class Shield: HittableSprite {
     
+    let bombMask: CGImageRef
     var image: CGImageRef
     
     convenience init() {
@@ -25,6 +26,7 @@ class Shield: HittableSprite {
     
     override required init(texture: SKTexture?, color: UIColor, size: CGSize) {
         image = texture!.CGImage
+        bombMask = Shield.loadImage(named: "ShieldBombMask")
         super.init(texture: texture, color: color, size: size)
     }
     
@@ -33,12 +35,67 @@ class Shield: HittableSprite {
     }
     
     override func wasHit(by sprite: SKSpriteNode, atPosition position: CGPoint) -> Bool {
-        
         // TODO: Implement determining whether shield was hit
         return true
     }
     
     override func didGetHit(by sprite: SKSpriteNode, atPosition position: CGPoint) {
         // TODO: Implement shield getting hit
+        let imageSize = CGSize(width: CGImageGetWidth(image), height: CGImageGetHeight(image))
+        let mask = imageMaskWithImage(bombMask, size: imageSize, origin: CGPointZero)
+        let maskedImage = CGImageCreateWithMask(image, mask)
+        image = CGImageCreateCopy(maskedImage)!
+        self.texture = SKTexture(CGImage: image)
+    }
+    
+    private class func loadImage(named name: String) -> CGImageRef {
+        let image = UIImage(named: name)
+        return (image?.CGImage)!
+    }
+    
+    private func maskedImage(image: CGImageRef, mask: CGImageRef, maskOrigin: CGPoint) -> CGImageRef {
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let context = CGBitmapContextCreate(
+            nil,
+            CGImageGetWidth(image),
+            CGImageGetHeight(image),
+            8,
+            0,
+            colorSpace,
+            CGImageGetAlphaInfo(image).rawValue)
+        
+        let imageSize = CGSize(width: CGImageGetWidth(image), height: CGImageGetHeight(image))
+        let imageRect = CGRect(origin: CGPointZero, size: imageSize)
+        let imageMask = imageMaskWithImage(mask, size: imageSize, origin: maskOrigin)
+        CGContextClipToMask(context, imageRect, imageMask)
+        CGContextDrawImage(context, imageRect, image)
+        
+        return CGBitmapContextCreateImage(context)!
+    }
+    
+    private func imageMaskWithImage(image: CGImageRef, size: CGSize, origin: CGPoint) -> CGImageRef {
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let context = CGBitmapContextCreate(
+            nil,
+            Int(size.width),
+            Int(size.height),
+            8,
+            0,
+            colorSpace,
+            CGImageGetAlphaInfo(image).rawValue)
+        
+        let imageSize = CGSize(width: CGImageGetWidth(image), height: CGImageGetHeight(image))
+        CGContextDrawImage(context, CGRect(origin: origin, size: imageSize), image)
+        let fullImage = CGBitmapContextCreateImage(context)
+        
+        return CGImageMaskCreate(
+            CGImageGetWidth(fullImage),
+            CGImageGetHeight(fullImage),
+            CGImageGetBitsPerComponent(fullImage),
+            CGImageGetBitsPerPixel(fullImage),
+            CGImageGetBytesPerRow(fullImage),
+            CGImageGetDataProvider(fullImage),
+            nil,
+            false)!
     }
 }
