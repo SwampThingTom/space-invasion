@@ -41,10 +41,7 @@ class Shield: HittableSprite {
     
     override func didGetHit(by sprite: SKSpriteNode, atPosition position: CGPoint) {
         // TODO: Implement shield getting hit
-        let imageSize = CGSize(width: CGImageGetWidth(image), height: CGImageGetHeight(image))
-        let mask = imageMaskWithImage(bombMask, size: imageSize, origin: CGPointZero)
-        let maskedImage = CGImageCreateWithMask(image, mask)
-        image = CGImageCreateCopy(maskedImage)!
+        image = maskedImage(image, mask: bombMask, maskOrigin: CGPointZero)
         self.texture = SKTexture(CGImage: image)
     }
     
