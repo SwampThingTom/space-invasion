@@ -15,10 +15,10 @@ enum PhysicsCategory: UInt32 {
     case Ufo = 0x04
     case Shield = 0x08
     
-    // Missiles range from 0x10 - 0x1F
-    case ShipMissile = 0x11
-    case InvaderMissile = 0x12
-    case AnyMissile = 0x1F
+    // Missiles range from 0x10 - 0xF0
+    case ShipMissile = 0x10
+    case InvaderMissile = 0x20
+    case AnyMissile = 0xF0
 }
 
 protocol ScoreKeeping {
@@ -165,27 +165,27 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     // MARK: - Physics contact delegate
     
     func didBeginContact(contact: SKPhysicsContact) {
-        if let contactObjects: (shield: Shield, collider: SKSpriteNode?) = spriteThatMadeContact(contact) {
-            shieldWasHit(contactObjects.shield, by: contactObjects.collider!, atPosition: contact.contactPoint)
+        if let contactObjects: (shield: Shield, collider: SKSpriteNode) = spriteThatMadeContact(contact) {
+            shieldWasHit(contactObjects.shield, by: contactObjects.collider, atPosition: contact.contactPoint)
         }
-        else if let contactObjects: (invader: Invader, collider: SKSpriteNode?) = spriteThatMadeContact(contact) {
-            invaderWasHit(contactObjects.invader, by: contactObjects.collider!, atPosition: contact.contactPoint)
+        else if let contactObjects: (invader: Invader, collider: SKSpriteNode) = spriteThatMadeContact(contact) {
+            invaderWasHit(contactObjects.invader, by: contactObjects.collider, atPosition: contact.contactPoint)
         }
-        else if let contactObjects: (ship: Ship, collider: SKSpriteNode?) = spriteThatMadeContact(contact) {
-            shipWasHit(contactObjects.ship, by: contactObjects.collider!, atPosition: contact.contactPoint)
+        else if let contactObjects: (ship: Ship, collider: SKSpriteNode) = spriteThatMadeContact(contact) {
+            shipWasHit(contactObjects.ship, by: contactObjects.collider, atPosition: contact.contactPoint)
         }
-        else if let hittableSpriteA = contact.bodyA.node as? Hittable, let hittableSpriteB = contact.bodyB.node as? Hittable {
-            hittableSpriteA.didGetHit(by: contact.bodyB.node as! SKSpriteNode, atPosition: contact.contactPoint)
-            hittableSpriteB.didGetHit(by: contact.bodyA.node as! SKSpriteNode, atPosition: contact.contactPoint)
+        else if let hittableSpriteA = contact.bodyA.node as? HittableSprite, let hittableSpriteB = contact.bodyB.node as? HittableSprite {
+            hittableSpriteA.didGetHit(by: hittableSpriteB, atPosition: contact.contactPoint)
+            hittableSpriteB.didGetHit(by: hittableSpriteA, atPosition: contact.contactPoint)
         }
     }
     
-    private func spriteThatMadeContact<T: SKSpriteNode>(contact: SKPhysicsContact) -> (T, SKSpriteNode?)? {
-        if let sprite = contact.bodyA.node as? T {
-            return (sprite, contact.bodyB.node as? SKSpriteNode)
+    private func spriteThatMadeContact<T: SKSpriteNode>(contact: SKPhysicsContact) -> (T, SKSpriteNode)? {
+        if let sprite = contact.bodyA.node as? T, let collider = contact.bodyB.node as? SKSpriteNode {
+            return (sprite, collider)
         }
-        if let sprite = contact.bodyB.node as? T {
-            return (sprite, contact.bodyA.node as? SKSpriteNode)
+        if let sprite = contact.bodyB.node as? T, let collider = contact.bodyA.node as? SKSpriteNode {
+            return (sprite, collider)
         }
         return nil
     }

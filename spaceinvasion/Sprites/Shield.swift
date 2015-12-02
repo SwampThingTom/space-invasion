@@ -16,12 +16,7 @@ class Shield: HittableSprite {
     convenience init() {
         let texture = SKTexture(imageNamed: "Shield")
         self.init(texture: texture, color: SKColor.whiteColor(), size: texture.size())
-        self.physicsBody = SKPhysicsBody(rectangleOfSize: texture.size())
-        self.physicsBody?.dynamic = true
-        self.physicsBody?.usesPreciseCollisionDetection = true
-        self.physicsBody?.categoryBitMask = PhysicsCategory.Shield.rawValue
-        self.physicsBody?.collisionBitMask = PhysicsCategory.None.rawValue
-        self.physicsBody?.contactTestBitMask = PhysicsCategory.AnyMissile.rawValue
+        self.physicsBody = Shield.physicsBodyForTexture(texture)
     }
     
     override required init(texture: SKTexture?, color: UIColor, size: CGSize) {
@@ -35,14 +30,31 @@ class Shield: HittableSprite {
     }
     
     override func wasHit(by sprite: SKSpriteNode, atPosition position: CGPoint) -> Bool {
-        // TODO: Implement determining whether shield was hit
+        // TODO: Remove this once I've proven that physics body with texture provides pixel-perfect contact detection
         return true
     }
     
     override func didGetHit(by sprite: SKSpriteNode, atPosition position: CGPoint) {
-        // TODO: Implement shield getting hit
-        image = maskedImage(image, mask: bombMask, maskOrigin: CGPointZero)
+        let contactPosition = convertPoint(position, fromNode: scene!)
+        
+        //debugAddContactPosition(contactPosition)
+        //debugShowBombRectangle(sprite)
+        
+        let contactOffset = CGPoint(x: size.width / 2 - sprite.size.width, y: sprite.size.height)
+        let maskOrigin = contactPosition + contactOffset
+        image = maskedImage(image, mask: bombMask, maskOrigin: maskOrigin)
         self.texture = SKTexture(CGImage: image)
+        self.physicsBody = Shield.physicsBodyForTexture(self.texture!)
+    }
+    
+    private class func physicsBodyForTexture(texture: SKTexture) -> SKPhysicsBody {
+        let physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
+        physicsBody.dynamic = true
+        physicsBody.usesPreciseCollisionDetection = true
+        physicsBody.categoryBitMask = PhysicsCategory.Shield.rawValue
+        physicsBody.collisionBitMask = PhysicsCategory.None.rawValue
+        physicsBody.contactTestBitMask = PhysicsCategory.AnyMissile.rawValue
+        return physicsBody
     }
     
     private class func loadImage(named name: String) -> CGImageRef {
@@ -61,15 +73,19 @@ class Shield: HittableSprite {
     /// - Returns: A copy of the original image with the masked portion removed.
     
     private func maskedImage(image: CGImageRef, mask: CGImageRef, maskOrigin: CGPoint) -> CGImageRef {
+        // TODO: Not convinced that scale is actually neeeded here
+        let scale = UIScreen.mainScreen().scale
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let context = CGBitmapContextCreate(
             nil,
-            CGImageGetWidth(image),
-            CGImageGetHeight(image),
+            CGImageGetWidth(image) * Int(scale),
+            CGImageGetHeight(image) * Int(scale),
             8,
             0,
             colorSpace,
             CGImageGetAlphaInfo(image).rawValue)
+        
+        CGContextConcatCTM(context, CGAffineTransformMakeScale(scale, scale))
         
         let imageSize = CGSize(width: CGImageGetWidth(image), height: CGImageGetHeight(image))
         let imageRect = CGRect(origin: CGPointZero, size: imageSize)
@@ -112,5 +128,20 @@ class Shield: HittableSprite {
             CGImageGetDataProvider(fullImage),
             nil,
             false)!
+    }
+    
+    private func debugAddContactPosition(position: CGPoint) {
+        let contactSprite = SKSpriteNode(color: SKColor.redColor(), size: CGSizeMake(5, 5))
+        contactSprite.position = position
+        contactSprite.zPosition = 100
+        addChild(contactSprite)
+    }
+    
+    private func debugShowBombRectangle(bomb: SKSpriteNode) {
+        let bombRectangle = SKShapeNode(rectOfSize: bomb.size)
+        bombRectangle.strokeColor = SKColor.blueColor()
+        bombRectangle.position = bomb.position
+        bombRectangle.zPosition = 90
+        bomb.parent?.addChild(bombRectangle)
     }
 }

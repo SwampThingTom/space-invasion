@@ -30,9 +30,9 @@ class TitleScene: SKScene, GameControllersDelegate {
         GameControllers.controllers().delegate = self
         
         // TODO: Remove ... useful for quick debugging on simulator
-        runAction(SKAction.sequence([
-            SKAction.waitForDuration(2),
-            SKAction.runBlock({ self.fireButtonPressed(GameControllers.controllers().connectedControllers.first!) })]))
+//        runAction(SKAction.sequence([
+//            SKAction.waitForDuration(2),
+//            SKAction.runBlock({ self.fireButtonPressed(GameControllers.controllers().connectedControllers.first!) })]))
     }
     
     private func addBackground() {
