@@ -23,7 +23,7 @@ class ShipMissile: HittableSprite {
         self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.categoryBitMask = PhysicsCategory.ShipMissile.rawValue
         self.physicsBody?.collisionBitMask = PhysicsCategory.None.rawValue
-        let contactBitMask = PhysicsCategory.Invader.rawValue | PhysicsCategory.InvaderMissile.rawValue
+        let contactBitMask = PhysicsCategory.Invader.rawValue | PhysicsCategory.Shield.rawValue | PhysicsCategory.InvaderMissile.rawValue
         self.physicsBody?.contactTestBitMask = contactBitMask
     }
     
@@ -36,7 +36,8 @@ class ShipMissile: HittableSprite {
     }
     
     func fire(position: CGPoint) {
-        self.position = position
+        let offset = CGPoint(x: size.width / 2, y: 0)
+        self.position = position + offset
         active = true
         runAction(missileFiredSound)
     }

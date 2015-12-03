@@ -11,6 +11,7 @@ import SpriteKit
 class Shield: HittableSprite {
     
     let bombMask: CGImageRef
+    let missileMask: CGImageRef
     var image: CGImageRef
     
     convenience init() {
@@ -22,6 +23,7 @@ class Shield: HittableSprite {
     override required init(texture: SKTexture?, color: UIColor, size: CGSize) {
         image = texture!.CGImage
         bombMask = Shield.loadImage(named: "ShieldBombMask")
+        missileMask = Shield.loadImage(named: "ShieldMissileMask")
         super.init(texture: texture, color: color, size: size)
     }
     
@@ -35,16 +37,28 @@ class Shield: HittableSprite {
     }
     
     override func didGetHit(by sprite: SKSpriteNode, atPosition position: CGPoint) {
+        guard let mask = maskForSprite(sprite) else {
+            return
+        }
+        
         let contactPosition = convertPoint(position, fromNode: scene!)
-        
-        //debugAddContactPosition(contactPosition)
-        //debugShowBombRectangle(sprite)
-        
-        let contactOffset = CGPoint(x: size.width / 2 - sprite.size.width, y: sprite.size.height)
-        let maskOrigin = contactPosition + contactOffset
-        image = maskedImage(image, mask: bombMask, maskOrigin: maskOrigin)
+        let maskOrigin = contactPosition + mask.offset
+        image = maskedImage(image, mask: mask.image, maskOrigin: maskOrigin)
         self.texture = SKTexture(CGImage: image)
         self.physicsBody = Shield.physicsBodyForTexture(self.texture!)
+    }
+    
+    private func maskForSprite(sprite: SKSpriteNode) -> (image: CGImageRef, offset: CGPoint)? {
+        switch sprite {
+        case is InvaderBomb:
+            let contactOffset = CGPoint(x: size.width / 2 - sprite.size.width, y: sprite.size.height)
+            return (bombMask, contactOffset)
+        case is ShipMissile:
+            let contactOffset = CGPoint(x: size.width / 2 - 3 * sprite.size.width, y: 2 * sprite.size.height)
+            return (missileMask, contactOffset)
+        default:
+            return nil
+        }
     }
     
     private class func physicsBodyForTexture(texture: SKTexture) -> SKPhysicsBody {
@@ -53,6 +67,8 @@ class Shield: HittableSprite {
         physicsBody.usesPreciseCollisionDetection = true
         physicsBody.categoryBitMask = PhysicsCategory.Shield.rawValue
         physicsBody.collisionBitMask = PhysicsCategory.None.rawValue
+        
+        // TODO: Add contact mask for invaders
         physicsBody.contactTestBitMask = PhysicsCategory.AnyMissile.rawValue
         return physicsBody
     }
@@ -128,20 +144,5 @@ class Shield: HittableSprite {
             CGImageGetDataProvider(fullImage),
             nil,
             false)!
-    }
-    
-    private func debugAddContactPosition(position: CGPoint) {
-        let contactSprite = SKSpriteNode(color: SKColor.redColor(), size: CGSizeMake(5, 5))
-        contactSprite.position = position
-        contactSprite.zPosition = 100
-        addChild(contactSprite)
-    }
-    
-    private func debugShowBombRectangle(bomb: SKSpriteNode) {
-        let bombRectangle = SKShapeNode(rectOfSize: bomb.size)
-        bombRectangle.strokeColor = SKColor.blueColor()
-        bombRectangle.position = bomb.position
-        bombRectangle.zPosition = 90
-        bomb.parent?.addChild(bombRectangle)
     }
 }

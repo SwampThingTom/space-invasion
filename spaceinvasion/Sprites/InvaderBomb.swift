@@ -43,7 +43,7 @@ class InvaderBomb: HittableSprite {
         self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.categoryBitMask = PhysicsCategory.InvaderMissile.rawValue
         self.physicsBody?.collisionBitMask = PhysicsCategory.None.rawValue
-        let contactBitMask = PhysicsCategory.Ship.rawValue | PhysicsCategory.ShipMissile.rawValue
+        let contactBitMask = PhysicsCategory.Ship.rawValue | PhysicsCategory.Shield.rawValue | PhysicsCategory.ShipMissile.rawValue
         self.physicsBody?.contactTestBitMask = contactBitMask
     }
     

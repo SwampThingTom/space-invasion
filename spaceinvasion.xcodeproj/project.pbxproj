@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E2219B6A1C0FFD270037AA44 /* SKSpriteNode+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2219B691C0FFD270037AA44 /* SKSpriteNode+Debug.swift */; };
 		E229F3C51BF576EE007011A2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E229F3C41BF576EE007011A2 /* Settings.swift */; };
 		E24A36A91BEEA96E008042E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36A81BEEA96E008042E0 /* AppDelegate.swift */; };
 		E24A36AD1BEEA96E008042E0 /* TitleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36AC1BEEA96E008042E0 /* TitleScene.swift */; };
@@ -75,6 +76,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E2219B691C0FFD270037AA44 /* SKSpriteNode+Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SKSpriteNode+Debug.swift"; path = "Utilities/SKSpriteNode+Debug.swift"; sourceTree = "<group>"; };
 		E229F3C41BF576EE007011A2 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		E24A36A51BEEA96E008042E0 /* spaceinvasion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = spaceinvasion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E24A36A81BEEA96E008042E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 			children = (
 				E24A36EB1BF05D21008042E0 /* Random.swift */,
 				E24A36E11BEFE86B008042E0 /* VectorMath.swift */,
+				E2219B691C0FFD270037AA44 /* SKSpriteNode+Debug.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -475,6 +478,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2219B6A1C0FFD270037AA44 /* SKSpriteNode+Debug.swift in Sources */,
 				E2DCEF6F1BFAC55800C94D80 /* InvaderBomb.swift in Sources */,
 				E24A36E81BF037D9008042E0 /* Invader.swift in Sources */,
 				E2C94FB61BF8E9C2000C94E8 /* ScreenConstants.swift in Sources */,
