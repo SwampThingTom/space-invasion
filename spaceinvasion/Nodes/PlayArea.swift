@@ -86,11 +86,11 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     private func addShields() {
         let numShields = ScreenConstants.values.numShields
         let shieldWidth = ScreenConstants.values.shieldWidth
-        let playableWidth = ScreenConstants.values.playableWidth
-        let shieldOffset = (playableWidth - shieldWidth * CGFloat(numShields)) / CGFloat(numShields + 1) + shieldWidth
+        let shieldRegionWidth = ScreenConstants.values.shipMaxX - ScreenConstants.values.shipMinX
+        let shieldOffset = (shieldRegionWidth - shieldWidth * CGFloat(numShields)) / CGFloat(numShields + 1) + shieldWidth
         
         shields = [Shield]()
-        var shieldX = shieldOffset
+        var shieldX = ScreenConstants.values.shipMinX - shieldWidth / 2 + shieldOffset
         for _ in 0 ..< ScreenConstants.values.numShields {
             let shield = Shield()
             shield.position = CGPoint(x: shieldX, y: ScreenConstants.values.shieldY)
