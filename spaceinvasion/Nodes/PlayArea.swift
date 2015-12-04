@@ -176,18 +176,6 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         return nil
     }
     
-    private func shieldWasHit(shield: Shield, by sprite: SKSpriteNode, atPosition position: CGPoint) {
-        if !shield.wasHit(by: sprite, atPosition: position) {
-            return
-        }
-        
-        shield.didGetHit(by: sprite, atPosition: position)
-        
-        if let hittableSprite = sprite as? Hittable {
-            hittableSprite.didGetHit(by: shield, atPosition: position)
-        }
-    }
-    
     private func invaderWasHit(invader: Invader, by sprite: SKSpriteNode, atPosition position: CGPoint) {
         invaders!.invaderWasHit(invader)
         scoreKeeper?.addToScore(invader.score)
@@ -210,7 +198,15 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         }
     }
     
-    /// MARK: - Debug
+    private func shieldWasHit(shield: Shield, by sprite: SKSpriteNode, atPosition position: CGPoint) {
+        shield.didGetHit(by: sprite, atPosition: position)
+        
+        if let hittableSprite = sprite as? Hittable {
+            hittableSprite.didGetHit(by: shield, atPosition: position)
+        }
+    }
+    
+    // MARK: - Debug
         
     #if DEBUG_SHOW_PLAY_AREA_VIEWS
     private func addDebugViews() {

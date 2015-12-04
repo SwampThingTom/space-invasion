@@ -31,11 +31,6 @@ class Shield: HittableSprite {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func wasHit(by sprite: SKSpriteNode, atPosition position: CGPoint) -> Bool {
-        // TODO: Remove this once I've proven that physics body with texture provides pixel-perfect contact detection
-        return true
-    }
-    
     override func didGetHit(by sprite: SKSpriteNode, atPosition position: CGPoint) {
         guard let mask = maskForSprite(sprite) else {
             return
