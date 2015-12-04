@@ -51,8 +51,6 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         addInvaders()
         addShields()
         
-        // TODO: Preload textures
-        
         #if DEBUG_SHOW_PLAY_AREA_VIEWS
         addDebugViews()
         #endif

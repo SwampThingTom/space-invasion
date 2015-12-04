@@ -55,6 +55,7 @@ class GameScene: SKScene, ScoreKeeping {
         addLabels()
         addLivesIndicator()
         addPhysics()
+        preloadTextures()
     }
     
     private override init(size: CGSize) {
@@ -107,6 +108,30 @@ class GameScene: SKScene, ScoreKeeping {
     private func addPhysics() {
         self.physicsWorld.gravity = CGVectorMake(0, 0)
         self.physicsWorld.contactDelegate = playArea
+    }
+    
+    private func preloadTextures() {
+        gamePaused = true
+        let textures = [
+            SKTexture(imageNamed: "Bomb_1"),
+            SKTexture(imageNamed: "Bomb_2"),
+            SKTexture(imageNamed: "Invader_1_1"),
+            SKTexture(imageNamed: "Invader_1_2"),
+            SKTexture(imageNamed: "Invader_2_1"),
+            SKTexture(imageNamed: "Invader_2_2"),
+            SKTexture(imageNamed: "Invader_3_1"),
+            SKTexture(imageNamed: "Invader_3_2"),
+            SKTexture(imageNamed: "InvaderBoom"),
+            SKTexture(imageNamed: "Missile"),
+            SKTexture(imageNamed: "Shield"),
+            SKTexture(imageNamed: "ShieldBombMask"),
+            SKTexture(imageNamed: "ShieldMissileMask"),
+            SKTexture(imageNamed: "Ship"),
+            SKTexture(imageNamed: "ShipBoom")]
+        
+        SKTexture.preloadTextures(textures) {
+            self.gamePaused = false
+        }
     }
     
     private class func overlayWithImageNamed(imageNamed imageName: String, position: CGPoint) -> SKNode {
