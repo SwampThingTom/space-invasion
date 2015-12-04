@@ -26,9 +26,12 @@ extension SKNode {
     /// - Parameter rect: The origin and size of the rectangle to show in this node's coordinate space.
     
     func debugShowRect(rect: CGRect) {
-        let shape = SKShapeNode(rectOfSize: rect.size)
+        let shape = SKShapeNode()
+        let path = CGPathCreateMutable()
+        CGPathAddRect(path, nil, rect)
+        shape.path = path
         shape.strokeColor = SKColor.redColor()
-        shape.position = rect.origin
+        shape.lineWidth = 4.0
         shape.zPosition = 80
         addChild(shape)
     }
