@@ -211,8 +211,7 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     }
     
     /// MARK: - Debug
-    
-    
+        
     #if DEBUG_SHOW_PLAY_AREA_VIEWS
     private func addDebugViews() {
         debugShowRect(CGRect(
