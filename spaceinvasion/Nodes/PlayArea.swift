@@ -52,9 +52,9 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         addInvaders()
         addShields()
         
-        if Settings.debug {
-            addDebugViews()
-        }
+        #if DEBUG_SHOW_PLAY_AREA_VIEWS
+        addDebugViews()
+        #endif
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -98,20 +98,6 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
             shields?.append(shield)
             addChild(shield)
         }
-    }
-    
-    private func addDebugViews() {
-        debugAddRect(CGRect(
-            x: ScreenConstants.values.invadersMinX,
-            y: ScreenConstants.values.invadersMinY,
-            width: ScreenConstants.values.invadersMaxX - ScreenConstants.values.invadersMinX,
-            height: ScreenConstants.values.invadersMaxY - ScreenConstants.values.invadersMinY))
-        
-        debugAddRect(CGRect(
-            x: ScreenConstants.values.shipMinX,
-            y: ScreenConstants.values.shipY - ship!.size.height / 2,
-            width: ScreenConstants.values.playableWidth - 2 * ScreenConstants.values.shipMinX,
-            height: ship!.size.height))
     }
     
     // MARK: - Level setup
@@ -224,15 +210,22 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         }
     }
     
-    // MARK: - Debug
+    /// MARK: - Debug
     
-    private func debugAddRect(rect: CGRect) {
-        let shape = SKShapeNode()
-        let path = CGPathCreateMutable()
-        CGPathAddRect(path, nil, rect)
-        shape.path = path
-        shape.strokeColor = SKColor.redColor()
-        shape.lineWidth = 4.0
-        addChild(shape)
+    
+    #if DEBUG_SHOW_PLAY_AREA_VIEWS
+    private func addDebugViews() {
+        debugShowRect(CGRect(
+            x: ScreenConstants.values.invadersMinX,
+            y: ScreenConstants.values.invadersMinY,
+            width: ScreenConstants.values.invadersMaxX - ScreenConstants.values.invadersMinX,
+            height: ScreenConstants.values.invadersMaxY - ScreenConstants.values.invadersMinY))
+        
+        debugShowRect(CGRect(
+            x: ScreenConstants.values.shipMinX,
+            y: ScreenConstants.values.shipY - ship!.size.height / 2,
+            width: ScreenConstants.values.playableWidth - 2 * ScreenConstants.values.shipMinX,
+            height: ship!.size.height))
     }
+    #endif
 }
