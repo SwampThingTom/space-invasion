@@ -84,19 +84,15 @@ class Shield: HittableSprite {
     /// - Returns: A copy of the original image with the masked portion removed.
     
     private func maskedImage(image: CGImageRef, mask: CGImageRef, maskOrigin: CGPoint) -> CGImageRef {
-        // TODO: Not convinced that scale is actually neeeded here
-        let scale = UIScreen.mainScreen().scale
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let context = CGBitmapContextCreate(
             nil,
-            CGImageGetWidth(image) * Int(scale),
-            CGImageGetHeight(image) * Int(scale),
+            CGImageGetWidth(image),
+            CGImageGetHeight(image),
             8,
             0,
             colorSpace,
             CGImageGetAlphaInfo(image).rawValue)
-        
-        CGContextConcatCTM(context, CGAffineTransformMakeScale(scale, scale))
         
         let imageSize = CGSize(width: CGImageGetWidth(image), height: CGImageGetHeight(image))
         let imageRect = CGRect(origin: CGPointZero, size: imageSize)
