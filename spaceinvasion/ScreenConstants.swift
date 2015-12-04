@@ -10,85 +10,43 @@ import SpriteKit
 
 struct ScreenConstants {
     
-    let backgroundImageName: String
+    let backgroundImageName = "Background"
     
-    let playableWidth: CGFloat
-    let playableHeight: CGFloat
+    let playableWidth: CGFloat = 744
+    let playableHeight: CGFloat = 768
     
+    let invadersPerRow: Int = 11
     let invadersMinX: CGFloat
     let invadersMaxX: CGFloat
-    let invadersMinY: CGFloat
+    let invadersMinY: CGFloat = 148
     let invadersMaxY: CGFloat
-    let invadersPerRow: Int
     
-    let shieldWidth: CGFloat
+    let numShields: Int = 4
+    let shieldWidth: CGFloat = 68
     let shieldY: CGFloat
-    let numShields: Int
     
     let shipMinX: CGFloat
     let shipMaxX: CGFloat
     let shipY: CGFloat
     
     let livesIndicatorY: CGFloat
-    
-    let shipMissileMaxY: CGFloat
+    let shipMissileMaxY: CGFloat = 705
         
-    private static let isRetro = true
     static var values = ScreenConstants()
     
+    // TODO: Read from plist
     private init() {
-        // TODO: Read from plist
-        if (!ScreenConstants.isRetro) {
-            backgroundImageName = "Background"
-            
-            playableWidth = 976
-            playableHeight = 768
-            
-            let invadersMargin: CGFloat = 72
-            let invadersHeight: CGFloat = 432
-            invadersMinX = invadersMargin
-            invadersMaxX = playableWidth - invadersMargin
-            invadersMinY = 138
-            invadersMaxY = invadersMinY + invadersHeight
-            invadersPerRow = 15
-            
-            let shipMargin: CGFloat = 90
-            shipMinX = shipMargin
-            shipMaxX = playableWidth - shipMargin
-            shipY = invadersMinY - 28
-            shipMissileMaxY = 705
-            
-            shieldWidth = 68
-            shieldY = shipY + 72
-            numShields = 4
-            
-            livesIndicatorY = shipY - 60
-        }
-        else {
-            backgroundImageName = "Background"
-            
-            playableWidth = 744
-            playableHeight = 768
-            
-            let invadersXMargin: CGFloat = 72
-            let invadersHeight: CGFloat = 432
-            invadersMinX = invadersXMargin
-            invadersMaxX = playableWidth - invadersXMargin
-            invadersMinY = 148
-            invadersMaxY = invadersMinY + invadersHeight
-            invadersPerRow = 11
-            
-            let shipMargin: CGFloat = 90
-            shipMinX = shipMargin
-            shipMaxX = playableWidth - shipMargin
-            shipY = invadersMinY - 28
-            shipMissileMaxY = 705
-            
-            shieldWidth = 68
-            shieldY = shipY + 72
-            numShields = 4
-            
-            livesIndicatorY = shipY - 60
-        }
+        let invadersXMargin: CGFloat = 72
+        let invadersHeight: CGFloat = 432
+        invadersMinX = invadersXMargin
+        invadersMaxX = playableWidth - invadersXMargin
+        invadersMaxY = invadersMinY + invadersHeight
+        
+        let shipMargin: CGFloat = 90
+        shipMinX = shipMargin
+        shipMaxX = playableWidth - shipMargin
+        shipY = invadersMinY - 28
+        shieldY = shipY + 72
+        livesIndicatorY = shipY - 60
     }
 }

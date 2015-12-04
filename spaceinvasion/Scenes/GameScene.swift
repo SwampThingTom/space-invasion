@@ -10,17 +10,13 @@ import SpriteKit
 
 class GameScene: SKScene, ScoreKeeping {
     
-    var controller: GameControlling?
-    
-    // TODO: Consider creating these in init so we don't have to deal with optionals
-    private var scoreTextLabel: GameLabel?
-    private var scoreLabel: GameLabel?
-    private var highScoreTextLabel: GameLabel?
-    private var highScoreLabel: GameLabel?
-    private var livesIndicator: LifeIndicators?
-    private var playArea: PlayArea?
-    private var pausedOverlay: SKSpriteNode?
-    private var gameOverOverlay: SKSpriteNode?
+    private let controller: GameControlling
+    private let scoreLabel = GameLabel(text: "0000")
+    private let highScoreLabel = GameLabel(text: "0000")
+    private let livesIndicator = LifeIndicators(maxLives: 3)
+    private let playArea = PlayArea()
+    private let pausedOverlay: SKNode
+    private let gameOverOverlay: SKNode
     
     private var highScore: Int = NSUserDefaults.standardUserDefaults().integerForKey("HighScore") {
         didSet {
@@ -31,7 +27,7 @@ class GameScene: SKScene, ScoreKeeping {
     private var score = 0
     private var lives = 3 {
         didSet {
-            livesIndicator?.showLives(lives)
+            livesIndicator.showLives(lives)
         }
     }
     
@@ -42,81 +38,83 @@ class GameScene: SKScene, ScoreKeeping {
     private var limboEndTime: CFTimeInterval = 0
     private var inLimbo = false
     
-    // MARK: - View lifecycle
-    
-    override func didMoveToView(view: SKView) {
+    init(size: CGSize, controller: GameControlling) {
+        self.controller = controller
+        
+        let center = CGPoint(x: size.width / 2, y: size.height / 2)
+        pausedOverlay = GameScene.overlayWithImageNamed(imageNamed: "GamePaused", position: center)
+        gameOverOverlay = GameScene.overlayWithImageNamed(imageNamed: "GameOver", position: center)
+        
+        super.init(size: size)
         backgroundColor = SKColor.blackColor()
+        self.controller.menuButtonPressedHandler = menuButtonPressed
+        self.controller.pauseButtonPressedHandler = pauseButtonPressed
+        highScoreLabel.text = String(format: "%04d", self.highScore)
+        
         addPlayArea()
         addLabels()
         addLivesIndicator()
         addPhysics()
-        addControls()
-        createOverlays()
+    }
+    
+    private override init(size: CGSize) {
+        fatalError("use init(size:controller:) instead")
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func addPlayArea() {
-        playArea = PlayArea()
         let x = (size.width - ScreenConstants.values.playableWidth) / 2
         let y = (size.height - ScreenConstants.values.playableHeight) / 2
-        playArea?.position = CGPoint(x: x, y: y)
-        playArea?.controller = controller
-        playArea?.scoreKeeper = self
-        addChild(playArea!)
+        playArea.position = CGPoint(x: x, y: y)
+        playArea.controller = controller
+        playArea.scoreKeeper = self
+        addChild(playArea)
     }
     
     private func addLabels() {
-        scoreTextLabel = GameLabel(text: "Score")
-        scoreTextLabel?.horizontalAlignmentMode = .Left
+        let scoreTextLabel = GameLabel(text: "Score")
+        scoreTextLabel.horizontalAlignmentMode = .Left
         let textLabelX = ScreenConstants.values.invadersMinX
-        let textLine1Y = size.height - scoreTextLabel!.frame.height
-        scoreTextLabel?.position = CGPoint(x: textLabelX, y: textLine1Y)
-        addChild(scoreTextLabel!)
+        let textLine1Y = size.height - scoreTextLabel.frame.height
+        scoreTextLabel.position = CGPoint(x: textLabelX, y: textLine1Y)
+        addChild(scoreTextLabel)
         
-        scoreLabel = GameLabel(text: "0000")
-        let scoreLabelX = scoreTextLabel!.frame.minX + scoreTextLabel!.frame.width / 2
-        let textLine2Y = textLine1Y - scoreTextLabel!.frame.height * 1.5
-        scoreLabel?.position = CGPoint(x: scoreLabelX, y: textLine2Y)
-        addChild(scoreLabel!)
+        let scoreLabelX = scoreTextLabel.frame.minX + scoreTextLabel.frame.width / 2
+        let textLine2Y = textLine1Y - scoreTextLabel.frame.height * 1.5
+        scoreLabel.position = CGPoint(x: scoreLabelX, y: textLine2Y)
+        addChild(scoreLabel)
         
-        highScoreTextLabel = GameLabel(text: "High Score")
+        let highScoreTextLabel = GameLabel(text: "High Score")
         let highScoreLabelX = size.width / 2
-        highScoreTextLabel?.position = CGPoint(x: highScoreLabelX, y: textLine1Y)
-        addChild(highScoreTextLabel!)
+        highScoreTextLabel.position = CGPoint(x: highScoreLabelX, y: textLine1Y)
+        addChild(highScoreTextLabel)
         
-        highScoreLabel = GameLabel(text: String(format: "%04d", self.highScore))
-        highScoreLabel?.position = CGPoint(x: highScoreLabelX, y: textLine2Y)
-        addChild(highScoreLabel!)
+        highScoreLabel.position = CGPoint(x: highScoreLabelX, y: textLine2Y)
+        addChild(highScoreLabel)
     }
     
     private func addLivesIndicator() {
-        livesIndicator = LifeIndicators(maxLives: 3)
-        livesIndicator!.position = CGPoint(
+        livesIndicator.position = CGPoint(
             x: ScreenConstants.values.invadersMinX,
             y: ScreenConstants.values.livesIndicatorY)
-        addChild(livesIndicator!)
-        livesIndicator!.showLives(lives)
+        addChild(livesIndicator)
+        livesIndicator.showLives(lives)
     }
     
     private func addPhysics() {
         self.physicsWorld.gravity = CGVectorMake(0, 0)
-        self.physicsWorld.contactDelegate = playArea!
+        self.physicsWorld.contactDelegate = playArea
     }
     
-    private func addControls() {
-        controller?.menuButtonPressedHandler = menuButtonPressed
-        controller?.pauseButtonPressedHandler = pauseButtonPressed
-    }
-    
-    private func createOverlays() {
-        let pausedOverlayTexture = SKTexture(imageNamed: "GamePaused")
-        pausedOverlay = SKSpriteNode(texture: pausedOverlayTexture)
-        pausedOverlay?.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        pausedOverlay?.zPosition = 10
-        
-        let gameOverOverlayTexture = SKTexture(imageNamed: "GameOver")
-        gameOverOverlay = SKSpriteNode(texture: gameOverOverlayTexture)
-        gameOverOverlay?.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        gameOverOverlay?.zPosition = 10
+    private class func overlayWithImageNamed(imageNamed imageName: String, position: CGPoint) -> SKNode {
+        let texture = SKTexture(imageNamed: imageName)
+        let overlay = SKSpriteNode(texture: texture)
+        overlay.position = position
+        overlay.zPosition = 1000
+        return overlay
     }
     
     // MARK: - Game controls
@@ -129,11 +127,11 @@ class GameScene: SKScene, ScoreKeeping {
     func pauseButtonPressed(controller: GameControlling) {
         gamePaused = !gamePaused
         if gamePaused {
-            addChild(pausedOverlay!)
+            addChild(pausedOverlay)
         }
         else {
             lastUpdateTime = 0
-            pausedOverlay!.removeFromParent()
+            pausedOverlay.removeFromParent()
         }
     }
     
@@ -153,18 +151,18 @@ class GameScene: SKScene, ScoreKeeping {
             deltaTime = 1 / 60
         }
         lastUpdateTime = currentTime
-        playArea!.update(deltaTime)
+        playArea.update(deltaTime)
     }
     
     override func didFinishUpdate() {
-        if playArea!.invaded {
+        if playArea.invaded {
             gameIsOver()
         }
     }
     
     private func gameIsOver() {
         gameOver = true
-        addChild(gameOverOverlay!)
+        addChild(gameOverOverlay)
         runAction(SKAction.sequence([
             SKAction.waitForDuration(2),
             SKAction.runBlock() {
@@ -176,16 +174,16 @@ class GameScene: SKScene, ScoreKeeping {
     
     func addToScore(score: Int) {
         self.score += score
-        scoreLabel?.text = String(format: "%04d", self.score)
+        scoreLabel.text = String(format: "%04d", self.score)
         if self.score > highScore {
             highScore = self.score
-            highScoreLabel?.text = scoreLabel?.text
+            highScoreLabel.text = scoreLabel.text
         }
     }
     
     func invadersDestroyed() {
         // TODO: Probably need some sort of pause in here ...
-        playArea?.setupNextInvasionLevel()
+        playArea.setupNextInvasionLevel()
     }
     
     func shipDestroyed() {

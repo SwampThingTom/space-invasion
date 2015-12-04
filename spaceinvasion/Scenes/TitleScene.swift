@@ -63,8 +63,7 @@ class TitleScene: SKScene, GameControllersDelegate {
     // MARK: - GameControllerDelegate
     
     func fireButtonPressed(controller: GameControlling) {
-        let gameScene = GameScene(size: self.size)
-        gameScene.controller = controller
+        let gameScene = GameScene(size: self.size, controller: controller)
         gameScene.scaleMode = scaleMode
         let reveal = SKTransition.crossFadeWithDuration(1.5)
         view?.presentScene(gameScene, transition: reveal)

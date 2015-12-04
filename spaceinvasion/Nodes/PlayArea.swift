@@ -33,24 +33,25 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     var scoreKeeper: ScoreKeeping?
     
     var invaded: Bool {
-        return invaders!.haveInvaded
+        return invaders.haveInvaded
     }
     
-    // TODO: Consider creating these in init so we don't have to deal with optionals
-    private var background: SKSpriteNode?
-    private var ship: Ship?
-    private var shipMissile: ShipMissile?
-    private var invaders: Invaders?
-    private var shields: [Shield]?
+    private let invaders = Invaders()
+    private let shields: [Shield]
+    private let shipMissile = ShipMissile()
+    private let ship = Ship()
     
     // TODO: Implement UFOs
     
     override init() {
+        shields = PlayArea.createShields()
         super.init()
         addBackground()
         addShip()
         addInvaders()
         addShields()
+        
+        // TODO: Preload textures
         
         #if DEBUG_SHOW_PLAY_AREA_VIEWS
         addDebugViews()
@@ -62,64 +63,68 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     }
     
     private func addBackground() {
-        background = SKSpriteNode(imageNamed: ScreenConstants.values.backgroundImageName)
-        background?.position = CGPoint(
+        let background = SKSpriteNode(imageNamed: ScreenConstants.values.backgroundImageName)
+        background.position = CGPoint(
             x: ScreenConstants.values.playableWidth / 2,
             y: ScreenConstants.values.playableHeight / 2)
-        background!.zPosition = -1
-        addChild(background!)
+        background.zPosition = -1
+        addChild(background)
     }
     
     private func addShip() {
-        ship = Ship()
-        ship!.position = CGPoint(x: ScreenConstants.values.shipMinX, y: ScreenConstants.values.shipY)
-        addChild(ship!)
-        shipMissile = ShipMissile()
+        ship.position = CGPoint(x: ScreenConstants.values.shipMinX, y: ScreenConstants.values.shipY)
+        addChild(ship)
     }
     
     private func addInvaders() {
-        invaders = Invaders()
-        invaders!.setupNextInvasionLevel()
-        addChild(invaders!)
+        invaders.setupNextInvasionLevel()
+        addChild(invaders)
     }
     
     private func addShields() {
+        for shield in shields {
+            addChild(shield)
+        }
+    }
+    
+    private class func createShields() -> [Shield] {
         let numShields = ScreenConstants.values.numShields
         let shieldWidth = ScreenConstants.values.shieldWidth
         let shieldRegionWidth = ScreenConstants.values.shipMaxX - ScreenConstants.values.shipMinX
         let shieldOffset = (shieldRegionWidth - shieldWidth * CGFloat(numShields)) / CGFloat(numShields + 1) + shieldWidth
         
-        shields = [Shield]()
+        var shields = [Shield]()
         var shieldX = ScreenConstants.values.shipMinX - shieldWidth / 2 + shieldOffset
         for _ in 0 ..< ScreenConstants.values.numShields {
             let shield = Shield()
             shield.position = CGPoint(x: shieldX, y: ScreenConstants.values.shieldY)
+            shields.append(shield)
             shieldX += shieldOffset
-            shields?.append(shield)
-            addChild(shield)
         }
+        
+        return shields
     }
     
     // MARK: - Level setup
     
     func setupNextInvasionLevel() {
-        invaders!.setupNextInvasionLevel()
+        invaders.setupNextInvasionLevel()
     }
     
     // MARK: - Game loop
     
     func update(deltaTime: CGFloat) {
         updateControls()
-        ship?.update(deltaTime)
-        shipMissile?.update(deltaTime)
-        invaders?.update(deltaTime)
+        ship.update(deltaTime)
+        shipMissile.update(deltaTime)
+        invaders.update(deltaTime)
     }
     
     private func updateControls() {
         guard let controller = controller as GameControlling! else {
             return
         }
-        ship?.moveDirection = moveDirectionForController(controller)
+        ship.moveDirection = moveDirectionForController(controller)
         if controller.fireButtonIsPressed {
             fire()
         }
@@ -136,16 +141,16 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     }
     
     private func fire() {
-        if !ship!.active {
+        if !ship.active {
             return
         }
         
-        if shipMissile!.active {
+        if shipMissile.active {
             return
         }
         
-        shipMissile!.fire(ship!.position)
-        addChild(shipMissile!)
+        shipMissile.fire(ship.position)
+        addChild(shipMissile)
     }
     
     // MARK: - Physics contact delegate
@@ -177,10 +182,10 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     }
     
     private func invaderWasHit(invader: Invader, by sprite: SKSpriteNode, atPosition position: CGPoint) {
-        invaders!.invaderWasHit(invader)
+        invaders.invaderWasHit(invader)
         scoreKeeper?.addToScore(invader.score)
         
-        if invaders!.destroyed {
+        if invaders.destroyed {
             scoreKeeper?.invadersDestroyed()
         }
         
