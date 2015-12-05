@@ -219,28 +219,27 @@ class Invaders: SKNode {
     }
     
     private var leftColumn: Int {
-        return invaderSprites.reduce(ScreenConstants.values.invadersPerRow, combine: {
+        return invaderSprites.reduce(ScreenConstants.values.invadersPerRow) {
             (minColumn, sprite) in min(minColumn, sprite.column)
-        })
-        
+        }
     }
     
     private var rightColumn: Int {
-        return invaderSprites.reduce(0, combine: {
+        return invaderSprites.reduce(0) {
             (maxColumn, sprite) in max(maxColumn, sprite.column)
-        })
+        }
     }
     
     private var topRow: Int {
-        return invaderSprites.reduce(invaderRankForRow.count, combine: {
+        return invaderSprites.reduce(invaderRankForRow.count) {
             (minRow, sprite) in min(minRow, sprite.row)
-        })
+        }
     }
     
     private var bottomRow: Int {
-        return invaderSprites.reduce(0, combine: {
+        return invaderSprites.reduce(0) {
             (maxRow, sprite) in max(maxRow, sprite.row)
-        })
+        }
     }
     
     private func leftColumnXForPosition(position: CGPoint) -> CGFloat {

@@ -69,9 +69,7 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     }
     
     private func addShields() {
-        for shield in shields {
-            addChild(shield)
-        }
+        shields.forEach() { addChild($0) }
     }
     
     private func initializeInvaders() {
