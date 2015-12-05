@@ -130,6 +130,7 @@ class GameScene: SKScene, ScoreKeeping {
             SKTexture(imageNamed: "Shield"),
             SKTexture(imageNamed: "ShieldBombMask"),
             SKTexture(imageNamed: "ShieldMissileMask"),
+            SKTexture(imageNamed: "ShieldInvaderMask"),
             SKTexture(imageNamed: "Ship"),
             SKTexture(imageNamed: "ShipBoom")]
         
@@ -147,7 +148,7 @@ class GameScene: SKScene, ScoreKeeping {
         let texture = SKTexture(imageNamed: imageName)
         let overlay = SKSpriteNode(texture: texture)
         overlay.position = position
-        overlay.zPosition = 1000
+        overlay.zPosition = ScreenConstants.values.overlayZPosition
         return overlay
     }
     

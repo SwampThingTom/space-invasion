@@ -92,6 +92,10 @@ func / (point: CGPoint, scalar: CGFloat) -> CGPoint {
     return CGPoint(x: point.x / scalar, y: point.y / scalar)
 }
 
+func / (left: CGSize, scalar: CGFloat) -> CGSize {
+    return CGSize(width: left.width / scalar, height: left.width / scalar)
+}
+
 func /= (inout left: CGPoint, right: CGPoint) {
     left = left / right
 }

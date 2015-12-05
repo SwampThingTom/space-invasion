@@ -8,15 +8,32 @@
 
 import SpriteKit
 
+extension SKSpriteNode {
+    var bottomLeftPosition: CGPoint {
+        return CGPoint(x: -size.width, y: -size.height) * anchorPoint
+    }
+    var bottomRightPosition: CGPoint {
+        return CGPoint(x: size.width, y: -size.height) * anchorPoint
+    }
+    var topLeftPosition: CGPoint {
+        return CGPoint(x: -size.width, y: size.height) * anchorPoint
+    }
+    var topRightPosition: CGPoint {
+        return CGPoint(x: size.width, y: size.height) * anchorPoint
+    }
+}
+
 class Shield: HittableSprite {
     
     let bombMask: CGImageRef
     let missileMask: CGImageRef
+    let invaderMask: CGImageRef
     var image: CGImageRef
     
     convenience init() {
         let texture = SKTexture(imageNamed: "Shield")
         self.init(texture: texture, color: SKColor.whiteColor(), size: texture.size())
+        self.zPosition = ScreenConstants.values.shieldZPosition
         self.physicsBody = Shield.physicsBodyForTexture(texture)
     }
     
@@ -24,6 +41,7 @@ class Shield: HittableSprite {
         image = texture!.CGImage
         bombMask = Shield.loadImage(named: "ShieldBombMask")
         missileMask = Shield.loadImage(named: "ShieldMissileMask")
+        invaderMask = Shield.loadImage(named: "ShieldInvaderMask")
         super.init(texture: texture, color: color, size: size)
     }
     
@@ -32,25 +50,28 @@ class Shield: HittableSprite {
     }
     
     override func didGetHit(by sprite: SKSpriteNode, atPosition position: CGPoint) {
-        guard let mask = maskForSprite(sprite) else {
+        let contactPosition = convertPoint(position, fromNode: scene!)
+        guard let mask = maskForSprite(sprite, contactPosition: contactPosition) else {
             return
         }
         
-        let contactPosition = convertPoint(position, fromNode: scene!)
-        let maskOrigin = contactPosition + mask.offset
-        image = maskedImage(image, mask: mask.image, maskOrigin: maskOrigin)
+        image = maskedImage(image, mask: mask.image, maskOrigin: mask.origin)
         self.texture = SKTexture(CGImage: image)
         self.physicsBody = Shield.physicsBodyForTexture(self.texture!)
     }
     
-    private func maskForSprite(sprite: SKSpriteNode) -> (image: CGImageRef, offset: CGPoint)? {
+    private func maskForSprite(sprite: SKSpriteNode, contactPosition: CGPoint) -> (image: CGImageRef, origin: CGPoint)? {
         switch sprite {
         case is InvaderBomb:
             let contactOffset = CGPoint(x: size.width / 2 - sprite.size.width, y: sprite.size.height)
-            return (bombMask, contactOffset)
+            return (bombMask, contactPosition + contactOffset)
         case is ShipMissile:
             let contactOffset = CGPoint(x: size.width / 2 - 3 * sprite.size.width, y: 2 * sprite.size.height)
-            return (missileMask, contactOffset)
+            return (missileMask, contactPosition + contactOffset)
+        case is Invader:
+            let shieldOverlapPosition = convertPoint(sprite.bottomRightPosition, fromNode: sprite)
+            let contactOffset = CGPoint(x: size.width / 2 - sprite.size.width, y: sprite.size.height)
+            return (invaderMask, shieldOverlapPosition + contactOffset)
         default:
             return nil
         }
@@ -62,9 +83,7 @@ class Shield: HittableSprite {
         physicsBody.usesPreciseCollisionDetection = true
         physicsBody.categoryBitMask = PhysicsCategory.Shield.rawValue
         physicsBody.collisionBitMask = PhysicsCategory.None.rawValue
-        
-        // TODO: Add contact mask for invaders
-        physicsBody.contactTestBitMask = PhysicsCategory.AnyMissile.rawValue
+        physicsBody.contactTestBitMask = PhysicsCategory.AnyMissile.rawValue | PhysicsCategory.Invader.rawValue
         return physicsBody
     }
     
@@ -79,7 +98,7 @@ class Shield: HittableSprite {
     ///
     /// - Parameter image: The source image to be masked.
     /// - Parameter mask: The image to use as a mask. The masked rectangle will be the same size as this image.
-    /// - Parameter maskOrigin: The origin point of the masking rectangle.
+    /// - Parameter maskOrigin: The bottom right point of the masking rectangle.
     ///
     /// - Returns: A copy of the original image with the masked portion removed.
     
@@ -107,7 +126,7 @@ class Shield: HittableSprite {
     /// 
     /// - Parameter image: The image to use as the mask. It will be drawn at its own size at the `origin` point.
     /// - Parameter size: The size of the full image mask. This should be larger than `image`.
-    /// - Parameter origin: The origin point of the actual mask within the full image.
+    /// - Parameter origin: The bottom right point of the actual mask within the full image.
     ///
     /// - Returns: An image mask.
     

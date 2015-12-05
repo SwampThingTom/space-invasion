@@ -34,6 +34,7 @@ class Ship: HittableSprite {
     convenience init() {
         let texture = SKTexture(imageNamed: "Ship")
         self.init(texture: texture, color: SKColor.whiteColor(), size: texture.size())
+        self.zPosition = ScreenConstants.values.shipZPosition
         self.physicsBody = SKPhysicsBody(rectangleOfSize: texture.size())
         self.physicsBody?.dynamic = true
         self.physicsBody?.usesPreciseCollisionDetection = true

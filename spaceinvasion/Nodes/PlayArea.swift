@@ -64,7 +64,7 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         background.position = CGPoint(
             x: ScreenConstants.values.playableWidth / 2,
             y: ScreenConstants.values.playableHeight / 2)
-        background.zPosition = -1
+        background.zPosition = ScreenConstants.values.backgroundZPosition
         addChild(background)
     }
     
@@ -161,6 +161,7 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     // MARK: - Physics contact delegate
     
     func didBeginContact(contact: SKPhysicsContact) {
+        // TODO: Need to track when invaders remain in contact with shields... not just when they begin contact
         if let contactObjects: (shield: Shield, collider: SKSpriteNode) = spriteThatMadeContact(contact) {
             shieldWasHit(contactObjects.shield, by: contactObjects.collider, atPosition: contact.contactPoint)
         }

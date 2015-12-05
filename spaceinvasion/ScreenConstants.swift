@@ -31,6 +31,13 @@ struct ScreenConstants {
     
     let livesIndicatorY: CGFloat
     let shipMissileMaxY: CGFloat = 705
+    
+    let backgroundZPosition: CGFloat = -100
+    let overlayZPosition: CGFloat = 100
+    let shieldZPosition: CGFloat = 0
+    let invaderZPosition: CGFloat = 10
+    let shipZPosition: CGFloat = 10
+    let missileZPosition: CGFloat = 10
         
     static var values = ScreenConstants()
     

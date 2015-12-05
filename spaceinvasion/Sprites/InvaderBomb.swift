@@ -38,6 +38,7 @@ class InvaderBomb: HittableSprite {
         let texture = type.texture()
         self.init(texture: texture, color: SKColor.whiteColor(), size: texture.size())
         self.type = type
+        self.zPosition = ScreenConstants.values.missileZPosition
         self.physicsBody = SKPhysicsBody(rectangleOfSize: texture.size())
         self.physicsBody?.dynamic = true
         self.physicsBody?.usesPreciseCollisionDetection = true

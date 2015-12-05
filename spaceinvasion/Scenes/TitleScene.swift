@@ -41,7 +41,7 @@ class TitleScene: SKScene, GameControllersDelegate {
         backgroundColor = SKColor.purpleColor()
         let background = SKSpriteNode(imageNamed: "Title")
         background.position = CGPoint(x: size.width/2, y: size.height/2)
-        background.zPosition = -1
+        background.zPosition = ScreenConstants.values.backgroundZPosition
         addChild(background)
     }
     

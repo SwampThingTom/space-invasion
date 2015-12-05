@@ -16,6 +16,7 @@ class ShipMissile: HittableSprite {
     convenience init() {
         let texture = SKTexture(imageNamed: "Missile")
         self.init(texture: texture, color: SKColor.whiteColor(), size: texture.size())
+        self.zPosition = ScreenConstants.values.missileZPosition
         self.physicsBody = SKPhysicsBody(rectangleOfSize: texture.size())
         self.physicsBody?.dynamic = true
         self.physicsBody?.usesPreciseCollisionDetection = true
