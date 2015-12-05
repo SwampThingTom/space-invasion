@@ -12,8 +12,6 @@ class ShipMissile: HittableSprite {
     
     private let missileFiredSound = SKAction.playSoundFileNamed("ship_fire", waitForCompletion: false)
     private let moveSpeed: CGFloat = 6 * 60
-
-    private(set) var active = false
     
     convenience init() {
         let texture = SKTexture(imageNamed: "Missile")
@@ -38,12 +36,11 @@ class ShipMissile: HittableSprite {
     func fire(position: CGPoint) {
         let offset = CGPoint(x: size.width / 2, y: 0)
         self.position = position + offset
-        active = true
         runAction(missileFiredSound)
     }
     
     func update(deltaTime: CGFloat) {
-        if !active {
+        if parent == nil {
             return
         }
         
@@ -60,7 +57,6 @@ class ShipMissile: HittableSprite {
     }
     
     private func remove() {
-        active = false
         removeFromParent()
     }
 }

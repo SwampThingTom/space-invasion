@@ -47,9 +47,8 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         shields = PlayArea.createShields()
         super.init()
         addBackground()
-        addShip()
-        addInvaders()
         addShields()
+        initializeInvaders()
         
         #if DEBUG_SHOW_PLAY_AREA_VIEWS
         addDebugViews()
@@ -69,20 +68,14 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         addChild(background)
     }
     
-    private func addShip() {
-        ship.position = CGPoint(x: ScreenConstants.values.shipMinX, y: ScreenConstants.values.shipY)
-        addChild(ship)
-    }
-    
-    private func addInvaders() {
-        invaders.setupNextInvasionLevel()
-        addChild(invaders)
-    }
-    
     private func addShields() {
         for shield in shields {
             addChild(shield)
         }
+    }
+    
+    private func initializeInvaders() {
+        invaders.setupNextInvasionLevel()
     }
     
     private class func createShields() -> [Shield] {
@@ -104,6 +97,27 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     }
     
     // MARK: - Level setup
+    
+    func startGame() {
+        showInvaders()
+        prepareShip()
+    }
+    
+    private func showInvaders() {
+        addChild(invaders)
+    }
+    
+    private func prepareShip() {
+        runAction(SKAction.sequence([
+            SKAction.waitForDuration(2),
+            SKAction.runBlock() { self.showShip() }]))
+    }
+    
+    private func showShip() {
+        ship.position = CGPoint(x: ScreenConstants.values.shipMinX, y: ScreenConstants.values.shipY)
+        addChild(ship)
+        invaders.canDropBombs = true
+    }
     
     func setupNextInvasionLevel() {
         invaders.setupNextInvasionLevel()
@@ -139,14 +153,9 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     }
     
     private func fire() {
-        if !ship.active {
+        if ship.parent == nil || shipMissile.parent != nil {
             return
         }
-        
-        if shipMissile.active {
-            return
-        }
-        
         shipMissile.fire(ship.position)
         addChild(shipMissile)
     }
@@ -199,6 +208,18 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         if let hittableSprite = sprite as? Hittable {
             hittableSprite.didGetHit(by: ship, atPosition: position)
         }
+        
+        waitForShipExplosionToComplete()
+    }
+    
+    private func waitForShipExplosionToComplete() {
+        invaders.waitingForShipExplosion = true
+        runAction(SKAction.sequence([
+            SKAction.waitForDuration(3),
+            SKAction.runBlock() {
+                self.showShip()
+                self.invaders.waitingForShipExplosion = false
+            }]))
     }
     
     private func shieldWasHit(shield: Shield, by sprite: SKSpriteNode, atPosition position: CGPoint) {

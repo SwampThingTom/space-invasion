@@ -31,7 +31,6 @@ class Ship: HittableSprite {
     private let moveSpeed: CGFloat = 3.2 * 60
     
     var moveDirection = MoveDirection.None
-    var active = true
     
     convenience init() {
         let texture = SKTexture(imageNamed: "Ship")
@@ -53,7 +52,7 @@ class Ship: HittableSprite {
     }
     
     func update(deltaTime: CGFloat) {
-        if !active {
+        if self.parent == nil {
             return
         }
         
@@ -66,14 +65,28 @@ class Ship: HittableSprite {
     override func didGetHit(by sprite: SKSpriteNode, atPosition position: CGPoint) {
         runAction(explosionSound)
         showShipExplosion()
+        removeFromParent()
     }
     
     private func showShipExplosion() {
-        active = false
-        runAction(SKAction.sequence([
-            SKAction.setTexture(SKTexture(imageNamed: "ShipBoom")),
-            SKAction.waitForDuration(2),
-            SKAction.setTexture(SKTexture(imageNamed: "Ship")),
-            SKAction.runBlock() { self.active = true }]))
+        guard let parent = parent else {
+            return
+        }
+        
+        let shipExplosion = SKSpriteNode(imageNamed: "ShipBoom")
+        shipExplosion.position = position
+        parent.addChild(shipExplosion)
+        
+        let animationFrameDuration = 0.25
+        let totalAnimationDuration = 3.0
+        let numAnimationFrames = Int(totalAnimationDuration / animationFrameDuration)
+        
+        let animationAction = SKAction.sequence([
+            SKAction.waitForDuration(animationFrameDuration),
+            SKAction.runBlock() { shipExplosion.xScale *= -1 }])
+        
+        shipExplosion.runAction(SKAction.sequence([
+            SKAction.repeatAction(animationAction, count: numAnimationFrames),
+            SKAction.removeFromParent()]))
     }
 }

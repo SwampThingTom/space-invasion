@@ -89,9 +89,28 @@ class Invaders: SKNode {
         lastFrameTime = 0
         timeSinceLastFrame = 0
         moveSoundIndex = 0
+        canDropBombs = false
+    }
+    
+    var canDropBombs = false
+    
+    var waitingForShipExplosion = false {
+        didSet {
+            paused = waitingForShipExplosion
+            canDropBombs = !waitingForShipExplosion
+            
+            if waitingForShipExplosion {
+                invaderBombs.forEach() { $0.removeFromParent() }
+                invaderBombs.removeAll()
+            }
+        }
     }
     
     func update(deltaTime: CGFloat) {
+        if paused {
+            return
+        }
+        
         updateBombs(deltaTime)
         updateInvaders(deltaTime)
     }
@@ -124,9 +143,7 @@ class Invaders: SKNode {
     private func updateBombs(deltaTime: CGFloat) {
         // Remove inactive bombs before updating bomb positions.
         invaderBombs = invaderBombs.filter { $0.parent != nil }
-        for bomb in invaderBombs {
-            bomb.update(deltaTime)
-        }
+        invaderBombs.forEach() { $0.update(deltaTime) }
     }
     
     private func updateInvaders(deltaTime: CGFloat) {
@@ -140,7 +157,7 @@ class Invaders: SKNode {
         for invader in invaderSprites {
             // TODO: It would be more efficient to set the texture for each sprite and then change the textures here
             invader.animate()
-            if invaderDropsBomb(invader) {
+            if canDropBombs && invaderDropsBomb(invader) {
                 dropBomb(invader)
             }
         }

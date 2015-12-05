@@ -49,7 +49,7 @@ class GameScene: SKScene, ScoreKeeping {
         backgroundColor = SKColor.blackColor()
         self.controller.menuButtonPressedHandler = menuButtonPressed
         self.controller.pauseButtonPressedHandler = pauseButtonPressed
-        highScoreLabel.text = String(format: "%04d", self.highScore)
+        initializeHighScore()
         
         addPlayArea()
         addLabels()
@@ -64,6 +64,10 @@ class GameScene: SKScene, ScoreKeeping {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func initializeHighScore() {
+        highScoreLabel.text = String(format: "%04d", self.highScore)
     }
     
     private func addPlayArea() {
@@ -130,8 +134,13 @@ class GameScene: SKScene, ScoreKeeping {
             SKTexture(imageNamed: "ShipBoom")]
         
         SKTexture.preloadTextures(textures) {
-            self.gamePaused = false
+            self.startGame()
         }
+    }
+    
+    private func startGame() {
+        playArea.startGame()
+        self.gamePaused = false
     }
     
     private class func overlayWithImageNamed(imageNamed imageName: String, position: CGPoint) -> SKNode {
