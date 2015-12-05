@@ -27,7 +27,6 @@ enum MoveDirection: CGFloat {
 
 class Ship: HittableSprite {
     
-    private let explosionSound = SKAction.playSoundFileNamed("ship_explode", waitForCompletion: false)
     private let moveSpeed: CGFloat = 3.2 * 60
     
     var moveDirection = MoveDirection.None
@@ -63,12 +62,11 @@ class Ship: HittableSprite {
     }
     
     override func didGetHit(by sprite: SKSpriteNode, atPosition position: CGPoint) {
-        runAction(explosionSound)
-        showShipExplosion()
+        explodeShip()
         removeFromParent()
     }
     
-    private func showShipExplosion() {
+    private func explodeShip() {
         guard let parent = parent else {
             return
         }
@@ -86,6 +84,7 @@ class Ship: HittableSprite {
             SKAction.runBlock() { shipExplosion.xScale *= -1 }])
         
         shipExplosion.runAction(SKAction.sequence([
+            SKAction.playSoundFileNamed("ship_explode", waitForCompletion: false),
             SKAction.repeatAction(animationAction, count: numAnimationFrames),
             SKAction.removeFromParent()]))
     }
