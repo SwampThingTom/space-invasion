@@ -189,7 +189,7 @@ class GameScene: SKScene, ScoreKeeping {
     }
     
     override func didFinishUpdate() {
-        if playArea.invaded {
+        if !gameOver && playArea.invaded {
             gameIsOver()
         }
     }
@@ -199,9 +199,7 @@ class GameScene: SKScene, ScoreKeeping {
         addChild(gameOverOverlay)
         runAction(SKAction.sequence([
             SKAction.waitForDuration(2),
-            SKAction.runBlock() {
-                self.returnToMainMenu()
-            }]))
+            SKAction.runBlock() { self.returnToMainMenu() }]))
     }
     
     // MARK: - Score keeping
