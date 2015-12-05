@@ -38,7 +38,7 @@ class Invaders: SKNode {
     private var level = 0
     
     private var invaderSprites: [Invader]
-    private var invaderBombs: [InvaderBomb]
+    private var invaderBombs: [InvaderRank: InvaderBomb]
     private let horizontalspeed = CGPoint(x: 8, y: 0)
     private let descendSpeed = CGPoint(x: 0, y: -24)
     private var direction = MoveDirection.Right
@@ -50,7 +50,7 @@ class Invaders: SKNode {
     override init() {
         invaderCellSize = invaderSize + invaderPaddingSize
         invaderSprites = [Invader]()
-        invaderBombs = [InvaderBomb]()
+        invaderBombs = [InvaderRank: InvaderBomb]()
         super.init()
     }
 
@@ -100,7 +100,7 @@ class Invaders: SKNode {
             canDropBombs = !waitingForShipExplosion
             
             if waitingForShipExplosion {
-                invaderBombs.forEach() { $0.removeFromParent() }
+                invaderBombs.forEach() { $0.1.removeFromParent() }
                 invaderBombs.removeAll()
             }
         }
@@ -141,9 +141,13 @@ class Invaders: SKNode {
     }
     
     private func updateBombs(deltaTime: CGFloat) {
-        // Remove inactive bombs before updating bomb positions.
-        invaderBombs = invaderBombs.filter { $0.parent != nil }
-        invaderBombs.forEach() { $0.update(deltaTime) }
+        for (rank, bomb) in invaderBombs {
+            if bomb.parent == nil {
+                invaderBombs.removeValueForKey(rank)
+                return;
+            }
+            bomb.update(deltaTime)
+        }
     }
     
     private func updateInvaders(deltaTime: CGFloat) {
@@ -154,12 +158,11 @@ class Invaders: SKNode {
         
         position += self.moveVector()
         
-        for invader in invaderSprites {
-            // TODO: It would be more efficient to set the texture for each sprite and then change the textures here
-            invader.animate()
-            if canDropBombs && invaderDropsBomb(invader) {
-                dropBomb(invader)
-            }
+        // TODO: It would be more efficient to set the texture for each sprite and then change the textures here
+        invaderSprites.forEach() { $0.animate() }
+        
+        if canDropBombs {
+            dropBombs()
         }
         
         playInvaderMoveSound()
@@ -194,18 +197,28 @@ class Invaders: SKNode {
         return move
     }
     
-    private func invaderDropsBomb(invader: Invader) -> Bool {
-        if !invaderAtBottom(invader) {
-            return false
+    private func dropBombs() {
+        for rank in InvaderRank.allValues {
+            if invaderBombs[rank] == nil {
+                dropBombForInvaderRank(rank)
+            }
         }
-        return random() <= chanceOfDroppingBomb
+    }
+    
+    private func dropBombForInvaderRank(rank: InvaderRank) {
+        let invadersAtBottom = invaderSprites.filter() { $0.rank == rank && invaderAtBottom($0) }
+        if invadersAtBottom.count == 0 {
+            return
+        }
+        let invader = invadersAtBottom[random(invadersAtBottom.count)]
+        dropBomb(invader)
     }
     
     private func dropBomb(invader: Invader) {
         let bombType: InvaderBombType = random() < chanceOfFastBomb ? .Fast : .Slow
         let bomb = InvaderBomb(type: bombType)
         bomb.position = position + invader.position - CGPoint(x: 0, y: invaderSize.height)
-        invaderBombs.append(bomb)
+        invaderBombs[invader.rank] = bomb
         
         // adding to parent so that it moves independently of the Invaders
         parent?.addChild(bomb)

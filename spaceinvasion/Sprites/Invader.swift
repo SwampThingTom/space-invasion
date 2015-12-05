@@ -11,6 +11,8 @@ import SpriteKit
 enum InvaderRank {
     case Pawn, Captain, General
 
+    static let allValues = [Pawn, Captain, General]
+    
     func scoreValue() -> Int {
         switch self {
         case Pawn:
