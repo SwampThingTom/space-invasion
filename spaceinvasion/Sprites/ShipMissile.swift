@@ -22,7 +22,7 @@ class ShipMissile: HittableSprite {
         self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.categoryBitMask = PhysicsCategory.ShipMissile.rawValue
         self.physicsBody?.collisionBitMask = PhysicsCategory.None.rawValue
-        let contactBitMask = PhysicsCategory.Invader.rawValue | PhysicsCategory.Shield.rawValue | PhysicsCategory.InvaderMissile.rawValue
+        let contactBitMask = PhysicsCategory.Invader.rawValue | PhysicsCategory.Ufo.rawValue | PhysicsCategory.Shield.rawValue | PhysicsCategory.InvaderMissile.rawValue
         self.physicsBody?.contactTestBitMask = contactBitMask
     }
     

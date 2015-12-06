@@ -15,6 +15,10 @@ struct ScreenConstants {
     let playableWidth: CGFloat = 744
     let playableHeight: CGFloat = 768
     
+    let ufoMinX: CGFloat = 0
+    let ufoMaxX: CGFloat
+    let ufoY: CGFloat
+    
     let invadersPerRow: Int = 11
     let invadersMinX: CGFloat
     let invadersMaxX: CGFloat
@@ -32,17 +36,21 @@ struct ScreenConstants {
     let livesIndicatorY: CGFloat
     let shipMissileMaxY: CGFloat = 705
     
-    let backgroundZPosition: CGFloat = -100
     let overlayZPosition: CGFloat = 100
-    let shieldZPosition: CGFloat = 0
+    let ufoZPosition: CGFloat = 10
     let invaderZPosition: CGFloat = 10
     let shipZPosition: CGFloat = 10
     let missileZPosition: CGFloat = 10
-        
+    let shieldZPosition: CGFloat = 0
+    let backgroundZPosition: CGFloat = -100
+    
     static var values = ScreenConstants()
     
     // TODO: Read from plist
     private init() {
+        ufoMaxX = playableWidth
+        ufoY = shipMissileMaxY - 32
+        
         let invadersXMargin: CGFloat = 72
         let invadersHeight: CGFloat = 432
         invadersMinX = invadersXMargin

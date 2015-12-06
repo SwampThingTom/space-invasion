@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E216A1311C14A62E00977097 /* Ufo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E216A1301C14A62E00977097 /* Ufo.swift */; };
 		E2219B6A1C0FFD270037AA44 /* SKNode+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2219B691C0FFD270037AA44 /* SKNode+Debug.swift */; };
 		E229F3C51BF576EE007011A2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E229F3C41BF576EE007011A2 /* Settings.swift */; };
 		E2435B951C148EEB0009F2B0 /* SKSpriteNode+Positions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2435B941C148EEB0009F2B0 /* SKSpriteNode+Positions.swift */; };
@@ -77,6 +78,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E216A1301C14A62E00977097 /* Ufo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Ufo.swift; path = Sprites/Ufo.swift; sourceTree = "<group>"; };
 		E2219B691C0FFD270037AA44 /* SKNode+Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SKNode+Debug.swift"; path = "Utilities/SKNode+Debug.swift"; sourceTree = "<group>"; };
 		E229F3C41BF576EE007011A2 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		E2435B941C148EEB0009F2B0 /* SKSpriteNode+Positions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SKSpriteNode+Positions.swift"; path = "Utilities/SKSpriteNode+Positions.swift"; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				E24A36DE1BEFD0B3008042E0 /* Ship.swift */,
 				E24A36E51BEFF7C3008042E0 /* ShipMissile.swift */,
 				E290245F1C08C31B00FAC179 /* Shield.swift */,
+				E216A1301C14A62E00977097 /* Ufo.swift */,
 			);
 			name = Sprites;
 			sourceTree = "<group>";
@@ -499,6 +502,7 @@
 				E24A36EA1BF043F3008042E0 /* Invaders.swift in Sources */,
 				E2A2CC921C00C7D4008AA209 /* MicroGameController.swift in Sources */,
 				E2A521391BF7F4D100B7B914 /* GameLabel.swift in Sources */,
+				E216A1311C14A62E00977097 /* Ufo.swift in Sources */,
 				E2435B951C148EEB0009F2B0 /* SKSpriteNode+Positions.swift in Sources */,
 				E29024601C08C31B00FAC179 /* Shield.swift in Sources */,
 				E24A36E21BEFE86B008042E0 /* VectorMath.swift in Sources */,

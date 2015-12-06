@@ -36,14 +36,14 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         return invaders.haveInvaded
     }
     
+    private let ufo = Ufo()
+    private var ufoTimer: SKAction?
     private let invaders = Invaders()
     private let shields: [Shield]
     private let shipMissile = ShipMissile()
     private let ship = Ship()
     
     private var invaderShieldContacts = [(invader: Invader, shield: Shield)]()
-    
-    // TODO: Implement UFOs
     
     override init() {
         shields = PlayArea.createShields()
@@ -102,6 +102,7 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     func startGame() {
         showInvaders()
         prepareShip()
+        startUfoTimer()
     }
     
     private func showInvaders() {
@@ -120,6 +121,19 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         invaders.canDropBombs = true
     }
     
+    private func startUfoTimer() {
+        let timer = SKAction.sequence([
+            SKAction.waitForDuration(25),
+            SKAction.runBlock() { self.showUfo() }])
+        runAction(SKAction.repeatActionForever(timer))
+        ufoTimer = timer
+    }
+    
+    private func showUfo() {
+        ufo.start()
+        addChild(ufo)
+    }
+    
     func setupNextInvasionLevel() {
         invaders.setupNextInvasionLevel()
     }
@@ -128,6 +142,7 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     
     func update(deltaTime: CGFloat) {
         updateControls()
+        ufo.update(deltaTime)
         ship.update(deltaTime)
         shipMissile.update(deltaTime)
         invaders.update(deltaTime)
@@ -171,6 +186,9 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         else if let contactObjects: (invader: Invader, collider: SKSpriteNode) = spriteThatMadeContact(contact) {
             invaderWasHit(contactObjects.invader, by: contactObjects.collider, atPosition: contact.contactPoint)
         }
+        else if let contactObjects: (ufo: Ufo, collider: SKSpriteNode) = spriteThatMadeContact(contact) {
+            ufoWasHit(contactObjects.ufo, by: contactObjects.collider, atPosition: contact.contactPoint)
+        }
         else if let contactObjects: (ship: Ship, collider: SKSpriteNode) = spriteThatMadeContact(contact) {
             shipWasHit(contactObjects.ship, by: contactObjects.collider, atPosition: contact.contactPoint)
         }
@@ -206,6 +224,15 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         
         if let hittableSprite = sprite as? Hittable {
             hittableSprite.didGetHit(by: invader, atPosition: position)
+        }
+    }
+    
+    private func ufoWasHit(ufo: Ufo, by sprite: SKSpriteNode, atPosition position: CGPoint) {
+        ufo.didGetHit(by: sprite, atPosition: position)
+        scoreKeeper?.addToScore(ufo.score)
+        
+        if let hittableSprite = sprite as? Hittable {
+            hittableSprite.didGetHit(by: ufo, atPosition: position)
         }
     }
     
@@ -258,6 +285,12 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     #if DEBUG_SHOW_PLAY_AREA_VIEWS
     private func addDebugViews() {
         debugShowRect(CGRect(
+            x: ScreenConstants.values.ufoMinX,
+            y: ScreenConstants.values.ufoY - ufo.size.height / 2,
+            width: ScreenConstants.values.ufoMaxX - ScreenConstants.values.ufoMinX,
+            height: ufo.size.height))
+        
+        debugShowRect(CGRect(
             x: ScreenConstants.values.invadersMinX,
             y: ScreenConstants.values.invadersMinY,
             width: ScreenConstants.values.invadersMaxX - ScreenConstants.values.invadersMinX,
@@ -265,9 +298,9 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         
         debugShowRect(CGRect(
             x: ScreenConstants.values.shipMinX,
-            y: ScreenConstants.values.shipY - ship!.size.height / 2,
+            y: ScreenConstants.values.shipY - ship.size.height / 2,
             width: ScreenConstants.values.playableWidth - 2 * ScreenConstants.values.shipMinX,
-            height: ship!.size.height))
+            height: ship.size.height))
     }
     #endif
 }
