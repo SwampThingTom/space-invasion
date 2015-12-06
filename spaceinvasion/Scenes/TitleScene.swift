@@ -71,12 +71,8 @@ class TitleScene: SKScene, GameControllersDelegate {
         view?.presentScene(gameScene, transition: reveal)
     }
     
-    func menuButtonPressed(controller: GameControlling) {
-        // TODO: Implement game options menu
-    }
-    
     func pauseButtonPressed(controller: GameControlling) {
-        // do nothing
+        // TODO: Implement game options menu with 2 player support
     }
     
     private func debugShowFonts() {

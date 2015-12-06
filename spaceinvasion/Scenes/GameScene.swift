@@ -47,7 +47,6 @@ class GameScene: SKScene, ScoreKeeping {
         
         super.init(size: size)
         backgroundColor = SKColor.blackColor()
-        self.controller.menuButtonPressedHandler = menuButtonPressed
         self.controller.pauseButtonPressedHandler = pauseButtonPressed
         initializeHighScore()
         
@@ -153,11 +152,6 @@ class GameScene: SKScene, ScoreKeeping {
     }
     
     // MARK: - Game controls
-    
-    func menuButtonPressed(controller: GameControlling) {
-        // TODO: Prompt user before immediately going back
-        returnToMainMenu()
-    }
     
     func pauseButtonPressed(controller: GameControlling) {
         gamePaused = !gamePaused

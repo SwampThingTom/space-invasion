@@ -24,7 +24,6 @@ class GameController : GameControlling {
     // MARK: - GameControlling
     
     var fireButtonPressedHandler: ButtonPressedHandler?
-    var menuButtonPressedHandler: ButtonPressedHandler?
     var pauseButtonPressedHandler: ButtonPressedHandler?
     
     var leftButtonIsPressed: Bool {
@@ -39,10 +38,6 @@ class GameController : GameControlling {
         fatalError("leftButtonIsPressed must be implemented by subclass")
     }
     
-    var menuButtonIsPressed: Bool {
-        fatalError("leftButtonIsPressed must be implemented by subclass")
-    }
-    
     // MARK: - Protected methods
     
     func pauseButtonPressed(controller: GCController) {
@@ -52,12 +47,6 @@ class GameController : GameControlling {
     func buttonAPressed(button: GCControllerButtonInput, value: Float, pressed: Bool) {
         if pressed {
             fireButtonPressedHandler?(self)
-        }
-    }
-    
-    func buttonXPressed(button: GCControllerButtonInput, value: Float, pressed: Bool) {
-        if pressed {
-            menuButtonPressedHandler?(self)
         }
     }
 }

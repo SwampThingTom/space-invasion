@@ -22,9 +22,7 @@ protocol GameControlling {
     var leftButtonIsPressed: Bool { get }
     var rightButtonIsPressed: Bool { get }
     var fireButtonIsPressed: Bool { get }
-    var menuButtonIsPressed: Bool { get }
     
     var fireButtonPressedHandler: ButtonPressedHandler? { get set }
-    var menuButtonPressedHandler: ButtonPressedHandler? { get set }
     var pauseButtonPressedHandler: ButtonPressedHandler? { get set }
 }

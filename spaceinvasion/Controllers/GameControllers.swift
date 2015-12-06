@@ -14,7 +14,6 @@ import GameController
 
 protocol GameControllersDelegate {
     
-    func menuButtonPressed(controller: GameControlling)
     func pauseButtonPressed(controller: GameControlling)
     func fireButtonPressed(controller: GameControlling)
 }
@@ -80,13 +79,8 @@ class GameControllers {
     
     private func addController(var gameController: GameControlling) {
         connectedControllers.append(gameController)
-        gameController.menuButtonPressedHandler = menuButtonPressedOnController
         gameController.pauseButtonPressedHandler = pauseButtonPressedOnController
         gameController.fireButtonPressedHandler = fireButtonPressedOnController
-    }
-    
-    private func menuButtonPressedOnController(controller: GameControlling) {
-        delegate?.menuButtonPressed(controller)
     }
     
     private func pauseButtonPressedOnController(controller: GameControlling) {

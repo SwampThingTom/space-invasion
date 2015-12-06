@@ -19,7 +19,6 @@ class ExtendedGameController : GameController {
         gamepad = controller.extendedGamepad!
         super.init(controller: controller)
         gamepad.buttonA.pressedChangedHandler = buttonAPressed
-        gamepad.buttonX.pressedChangedHandler = buttonXPressed
     }
     
     // MARK: - GameControlling
@@ -34,9 +33,5 @@ class ExtendedGameController : GameController {
     
     override var fireButtonIsPressed: Bool {
         return gamepad.buttonA.pressed
-    }
-    
-    override var menuButtonIsPressed: Bool {
-        return gamepad.buttonX.pressed
     }
 }

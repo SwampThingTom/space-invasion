@@ -21,13 +21,11 @@ class UIKitGameController : GameControlling {
     var controller: GCController? = nil
     
     var fireButtonPressedHandler: ButtonPressedHandler?
-    var menuButtonPressedHandler: ButtonPressedHandler?
     var pauseButtonPressedHandler: ButtonPressedHandler?
     
     var leftButtonIsPressed = false
     var rightButtonIsPressed = false
     var fireButtonIsPressed = false
-    var menuButtonIsPressed = false
     
     // MARK: - Touch handling
     
@@ -89,10 +87,6 @@ class UIKitGameController : GameControlling {
     
     private func selectButtonPressed() {
         fireButtonPressedHandler?(self)
-    }
-    
-    private func menuButtonPressed() {
-        menuButtonPressedHandler?(self)
     }
     
     private func addGestureRecognizerForButton(button: UIPressType, action: Selector) {
