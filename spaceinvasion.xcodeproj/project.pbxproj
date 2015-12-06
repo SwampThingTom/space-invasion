@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E2219B6A1C0FFD270037AA44 /* SKNode+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2219B691C0FFD270037AA44 /* SKNode+Debug.swift */; };
 		E229F3C51BF576EE007011A2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E229F3C41BF576EE007011A2 /* Settings.swift */; };
+		E2435B951C148EEB0009F2B0 /* SKSpriteNode+Positions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2435B941C148EEB0009F2B0 /* SKSpriteNode+Positions.swift */; };
 		E24A36A91BEEA96E008042E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36A81BEEA96E008042E0 /* AppDelegate.swift */; };
 		E24A36AD1BEEA96E008042E0 /* TitleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36AC1BEEA96E008042E0 /* TitleScene.swift */; };
 		E24A36AF1BEEA96E008042E0 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24A36AE1BEEA96E008042E0 /* GameViewController.swift */; };
@@ -78,6 +79,7 @@
 /* Begin PBXFileReference section */
 		E2219B691C0FFD270037AA44 /* SKNode+Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SKNode+Debug.swift"; path = "Utilities/SKNode+Debug.swift"; sourceTree = "<group>"; };
 		E229F3C41BF576EE007011A2 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		E2435B941C148EEB0009F2B0 /* SKSpriteNode+Positions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "SKSpriteNode+Positions.swift"; path = "Utilities/SKSpriteNode+Positions.swift"; sourceTree = "<group>"; };
 		E24A36A51BEEA96E008042E0 /* spaceinvasion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = spaceinvasion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E24A36A81BEEA96E008042E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E24A36AC1BEEA96E008042E0 /* TitleScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TitleScene.swift; path = Scenes/TitleScene.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 				E24A36EB1BF05D21008042E0 /* Random.swift */,
 				E24A36E11BEFE86B008042E0 /* VectorMath.swift */,
 				E2219B691C0FFD270037AA44 /* SKNode+Debug.swift */,
+				E2435B941C148EEB0009F2B0 /* SKSpriteNode+Positions.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -496,6 +499,7 @@
 				E24A36EA1BF043F3008042E0 /* Invaders.swift in Sources */,
 				E2A2CC921C00C7D4008AA209 /* MicroGameController.swift in Sources */,
 				E2A521391BF7F4D100B7B914 /* GameLabel.swift in Sources */,
+				E2435B951C148EEB0009F2B0 /* SKSpriteNode+Positions.swift in Sources */,
 				E29024601C08C31B00FAC179 /* Shield.swift in Sources */,
 				E24A36E21BEFE86B008042E0 /* VectorMath.swift in Sources */,
 				E24A36A91BEEA96E008042E0 /* AppDelegate.swift in Sources */,

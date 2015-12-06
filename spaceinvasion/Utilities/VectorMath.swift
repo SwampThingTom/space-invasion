@@ -93,7 +93,7 @@ func / (point: CGPoint, scalar: CGFloat) -> CGPoint {
 }
 
 func / (left: CGSize, scalar: CGFloat) -> CGSize {
-    return CGSize(width: left.width / scalar, height: left.width / scalar)
+    return CGSize(width: left.width / scalar, height: left.height / scalar)
 }
 
 func /= (inout left: CGPoint, right: CGPoint) {

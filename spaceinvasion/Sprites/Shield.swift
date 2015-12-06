@@ -8,21 +8,6 @@
 
 import SpriteKit
 
-extension SKSpriteNode {
-    var bottomLeftPosition: CGPoint {
-        return CGPoint(x: -size.width, y: -size.height) * anchorPoint
-    }
-    var bottomRightPosition: CGPoint {
-        return CGPoint(x: size.width, y: -size.height) * anchorPoint
-    }
-    var topLeftPosition: CGPoint {
-        return CGPoint(x: -size.width, y: size.height) * anchorPoint
-    }
-    var topRightPosition: CGPoint {
-        return CGPoint(x: size.width, y: size.height) * anchorPoint
-    }
-}
-
 class Shield: HittableSprite {
     
     let bombMask: CGImageRef
@@ -60,18 +45,25 @@ class Shield: HittableSprite {
         self.physicsBody = Shield.physicsBodyForTexture(self.texture!)
     }
     
+    // TODO: Compute the mask origin generically so we don't have different calculations for each sprite.
     private func maskForSprite(sprite: SKSpriteNode, contactPosition: CGPoint) -> (image: CGImageRef, origin: CGPoint)? {
         switch sprite {
         case is InvaderBomb:
             let contactOffset = CGPoint(x: size.width / 2 - sprite.size.width, y: sprite.size.height)
             return (bombMask, contactPosition + contactOffset)
+        
         case is ShipMissile:
             let contactOffset = CGPoint(x: size.width / 2 - 3 * sprite.size.width, y: 2 * sprite.size.height)
             return (missileMask, contactPosition + contactOffset)
+        
         case is Invader:
-            let shieldOverlapPosition = convertPoint(sprite.bottomRightPosition, fromNode: sprite)
-            let contactOffset = CGPoint(x: size.width / 2 - sprite.size.width, y: sprite.size.height)
-            return (invaderMask, shieldOverlapPosition + contactOffset)
+            // Use sprite's height instead of mask's height in this case because we want the mask aligned 
+            // with the bottom of the invader.
+            let maskSize = CGSize(width: CGImageGetWidth(invaderMask), height: Int(sprite.size.height))
+            let spriteMaskOrigin = sprite.topRightPosition - (maskSize - sprite.size) / 2
+            let shieldMaskOrigin = convertPoint(spriteMaskOrigin, fromNode: sprite)
+            return (invaderMask, shieldMaskOrigin)
+        
         default:
             return nil
         }
@@ -98,7 +90,7 @@ class Shield: HittableSprite {
     ///
     /// - Parameter image: The source image to be masked.
     /// - Parameter mask: The image to use as a mask. The masked rectangle will be the same size as this image.
-    /// - Parameter maskOrigin: The bottom right point of the masking rectangle.
+    /// - Parameter maskOrigin: The top right point of the masking rectangle.
     ///
     /// - Returns: A copy of the original image with the masked portion removed.
     
@@ -126,7 +118,7 @@ class Shield: HittableSprite {
     /// 
     /// - Parameter image: The image to use as the mask. It will be drawn at its own size at the `origin` point.
     /// - Parameter size: The size of the full image mask. This should be larger than `image`.
-    /// - Parameter origin: The bottom right point of the actual mask within the full image.
+    /// - Parameter origin: The top right point of the actual mask within the full image.
     ///
     /// - Returns: An image mask.
     

@@ -41,6 +41,8 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     private let shipMissile = ShipMissile()
     private let ship = Ship()
     
+    private var invaderShieldContacts = [(invader: Invader, shield: Shield)]()
+    
     // TODO: Implement UFOs
     
     override init() {
@@ -73,6 +75,7 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     }
     
     private func initializeInvaders() {
+        invaderShieldContacts.removeAll()
         invaders.setupNextInvasionLevel()
     }
     
@@ -128,6 +131,7 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         ship.update(deltaTime)
         shipMissile.update(deltaTime)
         invaders.update(deltaTime)
+        updateInvaderShieldContacts()
     }
     
     private func updateControls() {
@@ -161,7 +165,6 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     // MARK: - Physics contact delegate
     
     func didBeginContact(contact: SKPhysicsContact) {
-        // TODO: Need to track when invaders remain in contact with shields... not just when they begin contact
         if let contactObjects: (shield: Shield, collider: SKSpriteNode) = spriteThatMadeContact(contact) {
             shieldWasHit(contactObjects.shield, by: contactObjects.collider, atPosition: contact.contactPoint)
         }
@@ -174,6 +177,12 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
         else if let hittableSpriteA = contact.bodyA.node as? HittableSprite, let hittableSpriteB = contact.bodyB.node as? HittableSprite {
             hittableSpriteA.didGetHit(by: hittableSpriteB, atPosition: contact.contactPoint)
             hittableSpriteB.didGetHit(by: hittableSpriteA, atPosition: contact.contactPoint)
+        }
+    }
+    
+    func didEndContact(contact: SKPhysicsContact) {
+        if let contactObjects: (shield: Shield, collider: SKSpriteNode) = spriteThatMadeContact(contact) {
+            invaderShieldContacts = invaderShieldContacts.filter() { $0.invader != contactObjects.collider }
         }
     }
     
@@ -224,8 +233,23 @@ class PlayArea : SKNode, SKPhysicsContactDelegate {
     private func shieldWasHit(shield: Shield, by sprite: SKSpriteNode, atPosition position: CGPoint) {
         shield.didGetHit(by: sprite, atPosition: position)
         
+        if let invader = sprite as? Invader {
+            invaderShieldContacts.append((invader, shield))
+        }
+        
         if let hittableSprite = sprite as? Hittable {
             hittableSprite.didGetHit(by: shield, atPosition: position)
+        }
+    }
+    
+    private func updateInvaderShieldContacts() {
+        guard let scene = scene else {
+            return
+        }
+        
+        for contact in invaderShieldContacts {
+            let contactPoint = scene.convertPoint(contact.invader.bottomRightPosition, fromNode: contact.invader)
+            contact.shield.didGetHit(by: contact.invader, atPosition: contactPoint)
         }
     }
     
