@@ -23,7 +23,7 @@ class Shield: HittableSprite {
     }
     
     override required init(texture: SKTexture?, color: UIColor, size: CGSize) {
-        image = texture!.CGImage
+        image = texture!.CGImage()
         bombMask = Shield.loadImage(named: "ShieldBombMask")
         missileMask = Shield.loadImage(named: "ShieldMissileMask")
         invaderMask = Shield.loadImage(named: "ShieldInvaderMask")
