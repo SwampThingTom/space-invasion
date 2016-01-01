@@ -13,7 +13,12 @@ class Ufo: HittableSprite {
     private let moveSpeed: CGFloat = 2.5 * 60
     private var moveDirection = MoveDirection.None
     
+    private let ufoSoundKey = "ufo"
+    private let ufoSound = SKAction.playSoundFileNamed("ufo", waitForCompletion: true)
+    private let ufoHitSound = SKAction.playSoundFileNamed("ufo_explode", waitForCompletion: false)
+    
     private(set) var score: Int = 0
+    private var scoreLabel: SKLabelNode?
     
     convenience init() {
         let texture = SKTexture(imageNamed: "Ufo")
@@ -36,10 +41,10 @@ class Ufo: HittableSprite {
     }
     
     func start() {
-        // TODO: play ufo sound while on screen
         moveDirection = random() < 0.5 ? .Left : .Right
         let x = moveDirection == .Left ? ScreenConstants.values.ufoMaxX : ScreenConstants.values.ufoMinX
         position = CGPoint(x: x, y: ScreenConstants.values.ufoY)
+        runAction(SKAction.repeatActionForever(ufoSound), withKey: ufoSoundKey)
     }
     
     func update(deltaTime: CGFloat) {
@@ -51,13 +56,36 @@ class Ufo: HittableSprite {
         position.x += moveDelta
         
         if position.x < ScreenConstants.values.ufoMinX || position.x > ScreenConstants.values.ufoMaxX {
-            removeFromParent()
+            removeUfo()
         }
     }
     
     override func didGetHit(by sprite: SKSpriteNode, atPosition position: CGPoint) {
-        // TODO: Play sound, show score value
+        // TODO: show score value
         determineScore()
+        showUfoScore()
+        removeUfo()
+    }
+    
+    private func showUfoScore() {
+        guard let scoreLabel = scoreLabel else {
+            return
+        }
+        
+        guard let parent = parent else {
+            return
+        }
+        
+        scoreLabel.position = position
+        parent.addChild(scoreLabel)
+        scoreLabel.runAction(SKAction.sequence([
+            ufoHitSound,
+            SKAction.waitForDuration(1.0),
+            SKAction.removeFromParent()]))
+    }
+    
+    private func removeUfo() {
+        removeActionForKey(ufoSoundKey)
         removeFromParent()
     }
     
@@ -67,12 +95,16 @@ class Ufo: HittableSprite {
         switch chance {
         case 0 ..< 0.05:       //  5%
             score = 300
+            scoreLabel = GameLabel(text: "300")
         case 0.05 ..< 0.25:    // 20%
             score = 150
+            scoreLabel = GameLabel(text: "150")
         case 0.2 ..< 0.75:     // 50%
             score = 100
+            scoreLabel = GameLabel(text: "100")
         default:               // 25%
             score = 50
+            scoreLabel = GameLabel(text: "50")
         }
     }
 }
